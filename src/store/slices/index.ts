@@ -17,14 +17,12 @@ const featurePersistConfig = {
   key: 'features',
   version: 1,
   storage,
-  whitelist: [],
 };
 
 const entityPersistConfig = {
   key: 'entities',
   version: 1,
   storage,
-  whitelist: [],
 };
 
 const rootReducer = combineReducers({

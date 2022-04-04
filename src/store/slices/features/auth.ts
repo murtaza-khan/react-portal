@@ -10,7 +10,7 @@ const INITIAL_STATE = {
   data: null,
 };
 
-export const authEntitySlice = createSlice({
+export const authFeatureSlice = createSlice({
   // A name, used in action types
   name: 'auth',
   // The initial state for the reducer
@@ -32,4 +32,4 @@ export const authEntitySlice = createSlice({
   },
 });
 
-export const authEntityReducer = authEntitySlice.reducer;
+export const authFeatureReducer = authFeatureSlice.reducer;

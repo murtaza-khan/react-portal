@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getIsLoggedIn } from '../store/selectors/entities/auth';
+import { getIsLoggedIn } from '../store/selectors/features/auth';
 import PublicRoutes from './public-routes';
 
 /*
