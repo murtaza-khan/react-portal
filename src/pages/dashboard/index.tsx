@@ -15,7 +15,7 @@ export const Dashboard: React.FC = () => {
       <button
         onClick={ handleLogout }
         className={ `bg-orange-orange1 text-white p-4 uppercase border w-full
-         text-white focus:outline-none focus:ring-2 focus:ring-violet-200 rounded` }
+         focus:outline-none focus:ring-2 focus:ring-violet-200 rounded` }
       >
         { 'sign out' }
       </button>

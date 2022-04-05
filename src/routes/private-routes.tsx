@@ -19,16 +19,20 @@ export function getAllowedRoutes(routes: TObject, role: string) {
 
 const PrivateRoutes = () => {
   let allowedRoutes = [];
+
   const isLoggedIn = useSelector(getIsLoggedIn);
   const userRole = useSelector(getUserRole);
   if (isLoggedIn) allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, userRole);
   else return <Redirect to='/' />;
 
+  // For Testing
+  // allowedRoutes = PrivateRoutesConfig;
+
   return (
     <Fragment>
       <MapAllowedRoutes
         routes={ allowedRoutes }
-        basePath='/app'
+        basePath='/coupon'
         isAddNotFound
       />
     </Fragment>

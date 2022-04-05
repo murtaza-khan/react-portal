@@ -25,6 +25,7 @@ function MapAllowedRoutes({routes, basePath, isAddNotFound} :
             { ...rest }
             key={ path }
             path={ `${match?.path}${path}` }
+            exact
           >
             <Component children={ children } />
           </Route>

@@ -6,7 +6,7 @@ import PrivateRoutes from './private-routes';
 export const Router: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <Route path='/app'>
+      <Route path='/coupon'>
         <PrivateRoutes />
       </Route>
       <Route path=''>

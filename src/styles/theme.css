@@ -88,7 +88,7 @@ h4,
 h5,
 span,
 p {
-	@apply text-black;
+	@apply text-black-black2;
 }
 
 input {

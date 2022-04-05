@@ -1,7 +1,7 @@
-import { Dashboard } from './dashboard';
-import { Profile } from './profile';
+import { AddCoupon } from './addCoupon';
+import { Coupon } from './coupon';
 
 export {
-  Dashboard,
-  Profile,
+  AddCoupon,
+  Coupon,
 };
