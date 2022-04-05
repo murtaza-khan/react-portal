@@ -1,5 +1,5 @@
 import { ROLES } from '../constants/roles';
-import { Dashboard, Profile } from '../pages';
+import { Coupon, AddCoupon } from '../pages';
 
 // TODO:
 /*
@@ -11,18 +11,20 @@ import { Dashboard, Profile } from '../pages';
 
 export default [
   {
-    component: Dashboard,
-    path: '/dashboard',
-    title: 'Dashboard',
+    component: Coupon,
+    path: '/',
+    title: 'Coupon',
     permission: [
       ROLES.SUPER_ADMIN,
       ROLES.ADMIN,
+      ROLES.MANAGER,
+      ROLES.CUSTOMER,
     ],
   },
   {
-    component: Profile,
-    path: '/profile',
-    title: 'Profile',
+    component: AddCoupon,
+    path: '/add',
+    title: 'Add Coupon',
     permission: [
       ROLES.SUPER_ADMIN,
       ROLES.ADMIN,

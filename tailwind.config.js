@@ -13,6 +13,7 @@ module.exports = {
         orange5: '#eb742a',
         orange6: '#e96730',
         orange7: '#fef7f5',
+        orange8: '#e6562e',
       },
       gray: {
         grey1: '#333333',
@@ -25,8 +26,15 @@ module.exports = {
         grey8: '#4f4f4f',
         grey9: '#181725',
         grey10: '#7c7c7c',
+        grey11: '#fafafa',
+        grey12: '#eaeaea',
+        grey13: '#e2e2e2',
       },
-      black: '#101022',
+      black: {
+        black1: '#292b2c',
+        black2: '#101022',
+        black3: '#404040',
+      },
       white: '#FFFFFF',
       success: '#63F0BF',
       successBg: '#EFFEF9',
@@ -51,5 +59,5 @@ module.exports = {
       backgroundColor: ['active'],
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
