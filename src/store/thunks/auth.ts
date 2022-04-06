@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthService } from '../../services/auth';
 import { getBaseUrl } from '../selectors/features/app';
+import { showAlert } from "../slices/features/alerts";
+import { AlertTypes } from "src/constants/alert-types";
+import { LocalStorageService } from "../../services/local-storage";
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -9,20 +12,28 @@ import { getBaseUrl } from '../selectors/features/app';
  */
 
 const authService = new AuthService();
+const localStorageService = new LocalStorageService();
 
 export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'auth/Login',
+  "auth/Login",
   async (_requestPayload: Record<string, string>, thunkAPI) => {
-  // Example of an API call to fetch the app-data
     const baseUrl = getBaseUrl(thunkAPI.getState());
-    const response = await authService.signIn(baseUrl, _requestPayload);
-    thunkAPI.fulfillWithValue({ payload: _requestPayload});
-    // const response = { data: null, error: { message: 'API failed with status 400' }}; // example response
-    // if (response.error) {
-    //   return thunkAPI.rejectWithValue({ ...response.error });
-    // }
+    const response = await authService.signIn(`${baseUrl}`, _requestPayload);
 
-    return response?.data;
+    if (response.error) {
+      thunkAPI.dispatch(
+        showAlert({ message: "Invalid credentials", type: AlertTypes.ERROR })
+      );
+      return thunkAPI.rejectWithValue({ ...response.data });
+    }
+
+    thunkAPI.dispatch(
+      showAlert({ message: "Logged in successfully", type: AlertTypes.SUCCESS })
+    );
+
+    localStorageService.persist("authToken", response?.data?.token);
+
+    return thunkAPI.fulfillWithValue(response.data);
   }
 );
 
