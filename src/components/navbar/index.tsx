@@ -4,7 +4,7 @@ import { FaBars, FaPowerOff } from 'react-icons/fa';
 
 export const NavBar: React.FC = () => {
   return (
-    <div className="navbar shadow-md bg-white justify-between lg:shadow-none">
+    <div className="navbar shadow-md bg-white justify-between lg:shadow-none fixed z-10">
       <div className="flex-start">
         <RetailoLogoHeader width={ 120 } className='lg:hidden'/>
       </div>

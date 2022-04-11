@@ -1,3 +1,4 @@
+import get from 'lodash.get';
 import { createSelector } from 'reselect';
 
 /**
@@ -8,4 +9,10 @@ import { createSelector } from 'reselect';
 
 const appFeatureSelector = (state: TReduxState) => state.entities.app;
 
-export const getAppData = createSelector(appFeatureSelector, app => app.data);
+export const getAppData = createSelector(appFeatureSelector, app => get(app, 'data', null));
+
+export const getAllCompanies = createSelector(getAppData, appData => get(appData, 'companies', []));
+
+export const getBusinessUnits = createSelector(getAppData, appData => get(appData, 'businessUnits', []));
+
+export const getAllLocations = createSelector(getAppData, appData => get(appData, 'locations', []));

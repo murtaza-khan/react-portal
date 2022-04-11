@@ -1,3 +1,4 @@
+import get from 'lodash.get';
 import { createSelector } from 'reselect';
 
 /**
@@ -8,13 +9,17 @@ import { createSelector } from 'reselect';
 
 const appFeatureSelector = (state: TReduxState) => state.features.app;
 
-export const getAppActiveScreen = createSelector(appFeatureSelector, app => app.activeScreen);
+export const getAppActiveScreen = createSelector(appFeatureSelector, app => get(app, 'activeScreen', ''));
 
-export const getAppLanguage = createSelector(appFeatureSelector, app => app.language);
+export const getAppLanguage = createSelector(appFeatureSelector, app => get(app, 'language', ''));
 
-export const getBaseUrl = createSelector(appFeatureSelector, app => app.baseUrl);
+export const getBaseUrl = createSelector(appFeatureSelector, app => get(app, 'baseUrl', ''));
 
-export const getAppValidationStates = createSelector(appFeatureSelector, app => app.validationStates);
+export const getSelectedLocationId = createSelector(appFeatureSelector, app => get(app, 'selectedLocationId', ''));
+
+export const getSearchValue = createSelector(appFeatureSelector, app => get(app, 'searchValue', ''));
+
+export const getAppValidationStates = createSelector(appFeatureSelector, app => get(app, 'validationStates', {}));
 
 export const getAppLoadingState =
-  createSelector(getAppValidationStates, validationStates => validationStates.isLoading);
+  createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));
