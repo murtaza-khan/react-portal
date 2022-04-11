@@ -10,6 +10,8 @@ const INITIAL_STATE = {
   language: LANGUAGE.ENGLISH,
   baseUrl: process.env.REACT_BASE_URL || '',
   activeScreen: ROUTES.LOGIN,
+  selectedLocationId: '',
+  searchValue: '',
   validationStates: {
     isLoading: false,
     error: null,
@@ -33,6 +35,12 @@ export const appFeatureSlice = createSlice({
     updateActiveScreen: (state, action) => {
       state.language = action.payload;
     },
+    updateSelectedLocationId: (state, action) => {
+      state.selectedLocationId = action.payload;
+    },
+    updateSearchValue: (state, action) => {
+      state.searchValue = action.payload;
+    },
   },
   // A "builder callback" function used to add more reducers
   extraReducers: builder => {
@@ -51,5 +59,5 @@ export const appFeatureSlice = createSlice({
   },
 });
 
-export const { changeLanguage, toggleLoading, updateActiveScreen } = appFeatureSlice.actions;
+export const { changeLanguage, toggleLoading, updateActiveScreen, updateSelectedLocationId, updateSearchValue } = appFeatureSlice.actions;
 export const appFeatureReducer = appFeatureSlice.reducer;

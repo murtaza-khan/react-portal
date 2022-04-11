@@ -29,11 +29,13 @@ module.exports = {
         grey11: '#fafafa',
         grey12: '#eaeaea',
         grey13: '#e2e2e2',
+        grey14: 'rgba(0, 0, 0, 0.15)',
       },
       black: {
         black1: '#292b2c',
         black2: '#101022',
         black3: '#404040',
+        black4: '#464a4c',
       },
       white: '#FFFFFF',
       success: '#63F0BF',
@@ -60,4 +62,7 @@ module.exports = {
     },
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: [],
+  },
 };

@@ -1,3 +1,4 @@
+import get from 'lodash.get';
 import { createSelector } from 'reselect';
 import { ROLES } from '../../../constants/roles';
 /**
@@ -8,13 +9,13 @@ import { ROLES } from '../../../constants/roles';
 
 const authEntitySelector = (state: TReduxState) => state.features.auth;
 
-export const getIsLoggedIn = createSelector(authEntitySelector, app => app.data);
+export const getIsLoggedIn = createSelector(authEntitySelector, state => get(state, 'data', null));
 
-export const getUserData = createSelector(getIsLoggedIn, (userLoggedIn: any) => userLoggedIn.user);
+export const getUserData = createSelector(getIsLoggedIn, userLoggedIn => get(userLoggedIn, 'user', null));
 
-export const getUserRoleData = createSelector(getUserData, (userData: any) => userData.role);
+export const getUserRoleData = createSelector(getUserData, userData => get(userData, 'role', null));
 
-export const getUserRoleName = createSelector(getUserRoleData, (userRoleData: any) => userRoleData.name);
+export const getUserRoleName = createSelector(getUserRoleData, userRoleData => get(userRoleData, 'name', ''));
 
 
 // Need to be Verified, may not work as expected

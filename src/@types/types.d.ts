@@ -52,3 +52,17 @@ interface ITodo {
   title: string;
   completed: string;
 }
+
+interface ICoupon {
+  number?: number;
+  id: number,
+  name: string;
+  businessUnit: string;
+  location: string;
+  status?: string;
+  disabled: boolean;
+  startDate: string;
+  endDate: string;
+  [key:string]: any;
+}
+

@@ -1,3 +1,4 @@
+/* eslint-disable padding-line-between-statements */
 import { HttpService } from '../http';
 import { prepareErrorResponse, prepareResponseObject } from '../http/response';
 import { RESPONSE_TYPES } from '../../constants/response-types';
@@ -10,6 +11,40 @@ export class AppService extends HttpService {
       const apiResponse = await this.post(`${baseAuthUrl}app`,
         undefined );
 
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  fetchAllCompanies = async (baseAuthUrl: string): Promise<any>  => {
+    try {
+      const apiResponse = await this.get(`${baseAuthUrl}/company/getAllCompanies`);
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  fetchBusinessUnits = async (baseAuthUrl: string, companyId: string): Promise<any>  => {
+    try {
+      const apiResponse = await this.get(`${baseAuthUrl}/businessUnit`,
+      {
+        company_id: companyId
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  fetchAllLocations = async (baseAuthUrl: string, companyId: string, businessUnitId: string): Promise<any>  => {
+    try {
+      const apiResponse = await this.get(`${baseAuthUrl}/location/getAllLocations`,
+      {
+        company_id: companyId,
+        business_unit_id: businessUnitId
+      });
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);

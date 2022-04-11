@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppService } from '../../services/app';
 import { getBaseUrl } from '../selectors/features/app';
+import { fetchCoupons } from 'src/store/thunks/coupon';
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -25,3 +26,48 @@ export const fetchAppData = createAsyncThunk<TObject, TObject, IActionOptions>(
     return response?.data;
   }
 );
+
+export const fetchAllCompanies = createAsyncThunk<TObject, TObject, IActionOptions>(
+  'app/fetchAllCompanies',
+  async (_:any, thunkAPI) => {
+    try {
+      const baseUrl = getBaseUrl(thunkAPI.getState());
+      const response = await appService.fetchAllCompanies(baseUrl);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+    }
+  }
+);
+
+export const fetchBusinessUnits = createAsyncThunk<TObject, TObject, IActionOptions>(
+  'app/fetchBusinessUnits',
+  async (companyId: string, thunkAPI) => {
+    try {
+      const baseUrl = getBaseUrl(thunkAPI.getState());
+      const response = await appService.fetchBusinessUnits(baseUrl, companyId);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+    }
+  }
+);
+
+export const fetchAllLocations = createAsyncThunk<TObject, TObject, IActionOptions>(
+  'app/fetchAllLocations',
+  async (_requestPayload: Record<string, string>, thunkAPI) => {
+    try {
+      const baseUrl = getBaseUrl(thunkAPI.getState());
+      const { companyId, businessUnitId } = _requestPayload;
+      const response = await appService.fetchAllLocations(baseUrl, companyId, businessUnitId);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+    }
+  }
+);
+
+export const fetchInitialData = () => async (dispatch:any):Promise<any> => {
+  dispatch(fetchAllCompanies({}));
+  dispatch(fetchCoupons({}));
+};

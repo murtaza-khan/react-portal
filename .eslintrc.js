@@ -9,12 +9,13 @@ module.exports = {
     // './node_modules/jslint-configs/config-react.js',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    "plugin:react-hooks/recommended"
   ],
   rules: {
     'react/prop-types': 0,
     'no-use-before-define': 0,
     '@typescript-eslint/no-use-before-define': 1,
-    'react-hooks/exhaustive-deps': 0,
+    'react-hooks/exhaustive-deps': 1,
     'keyword-spacing': [2, { before: true, after: true }],
     'no-nested-ternary': 1,
     'react/no-multi-comp': 0,
@@ -23,7 +24,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 0,
     'no-shadow': 0,
     '@typescript-eslint/no-shadow': 2,
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 1,
     '@typescript-eslint/no-useless-constructor': 'error',
     'padding-line-between-statements': [
       'error',

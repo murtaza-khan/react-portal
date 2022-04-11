@@ -17,6 +17,7 @@ const featurePersistConfig = {
   key: 'features',
   version: 1,
   storage,
+  blacklist:['app', 'coupon'] // I want to reset this slice data to INITIAL_STATE after refresh
 };
 
 const entityPersistConfig = {
