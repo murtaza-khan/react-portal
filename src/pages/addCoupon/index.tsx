@@ -326,7 +326,7 @@ export const AddCoupon: React.FC = () => {
                       <span className="input font-normal">Selected Customers</span>
                       {couponCustomer === "2" ? <div>
                         {/* <label htmlFor="my-modal" className="btn btn-primary mt-2 ml-7" onClick={handleCustomers}>Select Customers</label> */}
-                        <label htmlFor="my-modal" className="btn btn-primary mt-2 ml-7" >Select Customers</label>
+                        <label htmlFor="my-modal" className="btn btn-primary mt-2 ml-7">Select Customers</label>
                       </div> : null}
                     </div>
 
