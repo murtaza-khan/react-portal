@@ -15,7 +15,7 @@ const appService = new AppService();
 export const fetchAppData = createAsyncThunk<TObject, TObject, IActionOptions>(
   'app/fetchAppData',
   async (_requestPayload: Record<string, string>, thunkAPI) => {
-  // Example of an API call to fetch the app-data
+    // Example of an API call to fetch the app-data
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const response = await appService.fetchAppData(baseUrl);
 
@@ -30,7 +30,7 @@ export const fetchAppData = createAsyncThunk<TObject, TObject, IActionOptions>(
 
 export const fetchAllCompanies = createAsyncThunk<TObject, TObject, IActionOptions>(
   'app/fetchAllCompanies',
-  async (_:any, thunkAPI) => {
+  async (_: any, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const { data } = await appService.fetchAllCompanies(baseUrl);
@@ -71,7 +71,7 @@ export const fetchAllLocations = createAsyncThunk<TObject, TObject, IActionOptio
   }
 );
 
-export const fetchInitialData = () => async (dispatch:any):Promise<any> => {
+export const fetchInitialData = () => async (dispatch: any): Promise<any> => {
   dispatch(fetchAllCompanies({}));
   dispatch(fetchCoupons({}));
 };

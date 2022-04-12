@@ -15,6 +15,8 @@ export const getAppLanguage = createSelector(appFeatureSelector, app => get(app,
 
 export const getBaseUrl = createSelector(appFeatureSelector, app => get(app, 'baseUrl', ''));
 
+export const getSelectedBusinessUnitId = createSelector(appFeatureSelector, app => get(app, 'selectedBusinessUnitId', ''));
+
 export const getSelectedLocationId = createSelector(appFeatureSelector, app => get(app, 'selectedLocationId', ''));
 
 export const getSearchValue = createSelector(appFeatureSelector, app => get(app, 'searchValue', ''));
@@ -23,3 +25,12 @@ export const getAppValidationStates = createSelector(appFeatureSelector, app => 
 
 export const getAppLoadingState =
   createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));
+
+/**
+ * For local development
+ */
+
+// export const getBaseUrl = (thunkApi: any) => {
+//   thunkApi;
+//   return "https://dev.retailo.me"
+// };

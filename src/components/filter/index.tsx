@@ -6,7 +6,7 @@ import { getAllCompanies, getAllLocations, getBusinessUnits } from 'src/store/se
 import { getSearchValue, getSelectedLocationId } from 'src/store/selectors/features/app';
 import { getCouponsPage } from 'src/store/selectors/features/coupon';
 import { resetBusinessUnits, resetLocations } from 'src/store/slices/entities/app';
-import { updateSearchValue, updateSelectedLocationId } from 'src/store/slices/features/app';
+import { updateSelectedBusinessUnitId, updateSelectedLocationId, updateSearchValue } from 'src/store/slices/features/app';
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { fetchAllLocations, fetchBusinessUnits, fetchCoupons } from 'src/store/thunks';
 
@@ -28,6 +28,7 @@ export const Filter: React.FC = () => {
     if (!e.target.value) {
       dispatch(resetBusinessUnits());
       setSelectedBusinessUnitId('');
+      dispatch(updateSelectedBusinessUnitId(''));
     } else {
       dispatch(fetchBusinessUnits(e.target.value));
     }
@@ -46,6 +47,7 @@ export const Filter: React.FC = () => {
         companyId: selectedCompanyId,
         businessUnitId: e.target.value
       }));
+      dispatch(updateSelectedBusinessUnitId(e.target.value));
     }
     setSelectedBusinessUnitId(e.target.value)
   }, [dispatch, selectedBusinessUnitId, selectedCompanyId]);
@@ -92,7 +94,7 @@ export const Filter: React.FC = () => {
           value={typedSearch}
           onChange={e => setTypedSearch(e.target.value)}
           onBlur={handleSearchValueUpdation}
-          onKeyDown= {handleSearchEnter}
+          onKeyDown={handleSearchEnter}
           className="input bg-white text-black-light h-[38px] text-base border-[1px] border-solid border-neutral
           focus:outline-none focus:border-primary"
         />
@@ -117,7 +119,7 @@ export const Filter: React.FC = () => {
             onChange={handleCompanySelection}
           >
             <option value=''>All</option>
-            { companies.map(company => <option key={company.id} value={company.id}>{company.name}</option>)}
+            {companies.map(company => <option key={company.id} value={company.id}>{company.name}</option>)}
           </select>
         </div>
         <div className="form-control w-full md:w-1/5 mb-5 md:pr-3">
@@ -131,7 +133,7 @@ export const Filter: React.FC = () => {
             onChange={handleBusinessUnitSelection}
           >
             <option value=''>All</option>
-            { businessUnits.map(businessUnit => <option key={businessUnit.id} value={businessUnit.id}>{businessUnit.name}</option>)}
+            {businessUnits.map(businessUnit => <option key={businessUnit.id} value={businessUnit.id}>{businessUnit.name}</option>)}
           </select>
         </div>
         <div className="form-control w-full md:w-1/5 mb-5 md:pr-3">
@@ -145,7 +147,7 @@ export const Filter: React.FC = () => {
             onChange={handleLocationSelection}
           >
             <option value=''>All</option>
-            { locations.map(location => <option key={location.id} value={location.id}>{location.name}</option>)}
+            {locations.map(location => <option key={location.id} value={location.id}>{location.name}</option>)}
           </select>
         </div>
         <div className="form-control w-full md:w-2/5 mb-5 justify-end">
@@ -160,4 +162,5 @@ export const Filter: React.FC = () => {
         </div>
       </div>
     </>
-)};
+  )
+};

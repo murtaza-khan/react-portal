@@ -50,4 +50,17 @@ export class AppService extends HttpService {
       throw prepareErrorResponse(error);
     }
   };
+
+  fetchAllCustomers = async (baseAuthUrl: string, locationId: string): Promise<any>  => {
+    try {
+      const apiResponse = await this.get(`${baseAuthUrl}/user/customer/byLocation`,
+      {
+        locationId,
+        select: "id,name,phone"
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
 }
