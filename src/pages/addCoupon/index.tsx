@@ -14,6 +14,8 @@ import { fetchAllLocations, fetchBusinessUnits } from 'src/store/thunks/app';
 import { createCoupon } from 'src/store/thunks/coupon'
 import { fetchSkuIds } from 'src/store/thunks/sku'
 import { checkCreateApiData } from 'src/utils/coupon'
+import { Pagination } from 'src/components/pagination';
+import DataGrid from 'react-data-grid';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -269,6 +271,15 @@ export const AddCoupon: React.FC = () => {
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
               </div>
+
+
+
+
+
+
+
+
+
 
               <div className="dropdown">
                 <label className="label">
