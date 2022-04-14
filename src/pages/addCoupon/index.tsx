@@ -272,15 +272,6 @@ export const AddCoupon: React.FC = () => {
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
               </div>
 
-
-
-
-
-
-
-
-
-
               <div className="dropdown">
                 <label className="label">
                   <span className="label-text">Select Business Unit</span>
