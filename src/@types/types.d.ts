@@ -53,16 +53,41 @@ interface ITodo {
   completed: string;
 }
 
-interface ICoupon {
-  number?: number;
-  id: number,
+interface TableRow {
+  type: string;
+  number: number;
+}
+
+interface MasterRow extends TableRow {
+  id: number;
   name: string;
   businessUnit: string;
   location: string;
-  status?: string;
-  disabled: boolean;
+  status: string;
+  expanded: boolean;
+}
+
+interface DetailRow extends TableRow {
+  parentId: number;
+  parentNumber: number;
+}
+
+interface ICoupon {
+  name: string;
   startDate: string;
   endDate: string;
+  description: string;
+  language: string;
+  languageDescription: string;
+  discountType: string;
+  userType: string;
+  discountValue: string;
+  minCouponLimit: number;
+  maxDiscountValue: number;
+  maxUsagePerCustomer: number;
+  couponCustomerOption: string;
+  disabled: boolean;
+  hideOnWallet: boolean;
   [key:string]: any;
 }
 

@@ -2,7 +2,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCoupons } from 'src/store/thunks';
 
-const INITIAL_STATE = {
+interface IInitalState {
+  data: null | ICoupon[]
+}
+
+const INITIAL_STATE : IInitalState = {
   data: null,
 };
 

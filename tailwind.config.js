@@ -37,6 +37,9 @@ module.exports = {
         black3: '#404040',
         black4: '#464a4c',
       },
+      blue: {
+        skyblue: '#87CEFA',
+      },
       white: '#FFFFFF',
       success: '#63F0BF',
       successBg: '#EFFEF9',
@@ -63,6 +66,6 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: [],
+    themes: ["bumblebee"],
   },
 };

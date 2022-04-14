@@ -40,7 +40,8 @@ export const getCouponList = (state: TReduxState) => {
     const formattedEndDate = getFormattedDate(endDate);
     const status = getCouponStatus(disabled, formattedStartDate, formattedEndDate);
     return {
-      ...coupon,
+      type: 'MASTER',     // Used in datagrid
+      expanded: false,    // Used in datagrid
       number: rowCount,
       id,
       name,
@@ -51,3 +52,10 @@ export const getCouponList = (state: TReduxState) => {
   }) ?? []
   return updatedCouponList;
 };
+
+export const getCouponDetail = (state: TReduxState, id: number) => {
+  const couponData = getCouponData(state);
+  const couponDetail = couponData?.find((coupon: ICoupon) => coupon.id === id);
+  return couponDetail;
+};
+
