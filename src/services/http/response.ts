@@ -35,12 +35,12 @@ export const prepareResponseObject = (response: AxiosResponse<any> | any, status
       ...finalResponse,
       data: errorData,
       statusCode: response?.data?.error?.code || response?.status,
-      statusText: response?.data?.message,
+      statusText: response?.data?.message || 'Something Went Wrong!',
     };
   } else if (status === RESPONSE_TYPES.ERROR_REQUEST) {
     return {
       ...finalResponse,
-      statusText: response,
+      statusText: response || 'Something Went Wrong!',
     };
   }
 

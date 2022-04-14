@@ -14,7 +14,7 @@ export const Dashboard: React.FC = () => {
       <p data-cy='profile-text'>{ 'This is user Dashboard -- Admin Access Only' }</p>
       <button
         onClick={ handleLogout }
-        className={ `bg-orange-orange1 text-white p-4 uppercase border w-full
+        className={ `bg-orange-primary text-white p-4 uppercase border w-full
          focus:outline-none focus:ring-2 focus:ring-violet-200 rounded` }
       >
         { 'sign out' }

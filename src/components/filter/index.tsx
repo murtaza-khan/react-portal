@@ -93,8 +93,8 @@ export const Filter: React.FC = () => {
           onChange={e => setTypedSearch(e.target.value)}
           onBlur={handleSearchValueUpdation}
           onKeyDown= {handleSearchEnter}
-          className="input bg-white text-black-black4 h-[38px] text-base border-[1px] border-solid border-gray-grey14
-          focus:outline-none focus:border-orange-orange3"
+          className="input bg-white text-black-light h-[38px] text-base border-[1px] border-solid border-neutral
+          focus:outline-none focus:border-primary"
         />
         <GrFormClose
           className="absolute w-[40px] text-xl right-0 top-[9px] my-auto cursor-pointer"
@@ -108,12 +108,12 @@ export const Filter: React.FC = () => {
       <div className="flex flex-wrap">
         <div className="form-control w-full md:w-1/5 mb-5 md:pr-3">
           <label className="label">
-            <span className="label-text font-bold text-black-black2 text-xs">Select Company:</span>
+            <span className="label-text font-bold text-black-dark text-xs">Select Company:</span>
           </label>
           <select
             value={selectedCompanyId}
-            className="select select-bordered min-h-0 font-normal text-black-black4 h-[38px]
-            text-base border-[1px] border-solid border-gray-grey14"
+            className="select select-bordered min-h-0 font-normal text-black-light h-[38px]
+            text-base border-[1px] border-solid border-neutral"
             onChange={handleCompanySelection}
           >
             <option value=''>All</option>
@@ -122,12 +122,12 @@ export const Filter: React.FC = () => {
         </div>
         <div className="form-control w-full md:w-1/5 mb-5 md:pr-3">
           <label className="label">
-            <span className="label-text font-bold text-black-black2 text-xs">Select Business Unit:</span>
+            <span className="label-text font-bold text-black-dark text-xs">Select Business Unit:</span>
           </label>
           <select
             value={selectedBusinessUnitId}
-            className="select select-bordered min-h-0 font-normal text-black-black4 h-[38px]
-            text-base border-[1px] border-solid border-gray-grey14"
+            className="select select-bordered min-h-0 font-normal text-black-light h-[38px]
+            text-base border-[1px] border-solid border-neutral"
             onChange={handleBusinessUnitSelection}
           >
             <option value=''>All</option>
@@ -136,12 +136,12 @@ export const Filter: React.FC = () => {
         </div>
         <div className="form-control w-full md:w-1/5 mb-5 md:pr-3">
           <label className="label">
-            <span className="label-text font-bold text-black-black2 text-xs">Select Cell:</span>
+            <span className="label-text font-bold text-black-dark text-xs">Select Cell:</span>
           </label>
           <select
             value={selectedLocationId}
-            className="select select-bordered min-h-0 font-normal text-black-black4 h-[38px]
-            text-base border-[1px] border-solid border-gray-grey14"
+            className="select select-bordered min-h-0 font-normal text-black-light h-[38px]
+            text-base border-[1px] border-solid border-neutral"
             onChange={handleLocationSelection}
           >
             <option value=''>All</option>
@@ -151,8 +151,8 @@ export const Filter: React.FC = () => {
         <div className="form-control w-full md:w-2/5 mb-5 justify-end">
           <button
             type="button"
-            className="btn text-base px-8 bg-orange-orange4 border-orange-orange4 text-white min-h-0 h-[38px]
-            max-w-[85px] hover:bg-orange-orange3 hover:border-orange-orange3"
+            className="btn text-base px-8 bg-primary border-primary text-white min-h-0 h-[38px]
+            max-w-[85px] hover:bg-orange-dark hover:border-orange-dark"
             onClick={handleFetchCoupons}
           >
             Go

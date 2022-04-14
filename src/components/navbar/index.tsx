@@ -10,16 +10,16 @@ export const NavBar: React.FC = () => {
       </div>
       <div className="flex-end">
         <label htmlFor='my-drawer-2' className="btn btn-square btn-ghost lg:hidden">
-          <FaBars className="text-orange-orange3 text-2xl" />
+          <FaBars className="text-primary text-2xl" />
         </label>
         <div className="dropdown dropdown-end hidden lg:block">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
-            <div className="flex aspect-square w-10 rounded-full bg-orange-orange3 text-white	items-center justify-center">
+            <div className="flex aspect-square w-10 rounded-full bg-primary text-white	items-center justify-center">
               h
             </div>
           </label>
-          <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white text-black-black1 rounded-md w-52">
-            <li><a className="active:bg-orange-orange8"><FaPowerOff />Logout</a></li>
+          <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white text-black-light rounded-md w-52">
+            <li><a className="active:bg-primary"><FaPowerOff />Logout</a></li>
           </ul>
         </div>
       </div>

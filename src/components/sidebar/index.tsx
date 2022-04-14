@@ -94,26 +94,26 @@ export const SideBar: React.FC = () => {
   return (
     <div className="drawer-side">
       <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-      <ul className="menu overflow-y-auto w-[265px] bg-gray-grey11 text-base-content">
+      <ul className="menu overflow-y-auto w-[265px] bg-gray-gray1 text-base-content">
         {/* <!-- Sidebar content here --> */}
         <div className="my-5 mx-auto">
           <RetailoLogoSidebar width={ 130 } />
         </div>
         { PROFILE_SIDEBAR.map((item, index) => (
-          <li key={index} className="h-[41px] border-b border-solid	border-gray-grey12 justify-center">
+          <li key={index} className="h-[41px] border-b border-solid	border-gray-gray2 justify-center">
             { item.name === SIDEBAR_NAMES.COUPON ?
               <NavLink
                 key={index}
                 to={item.to}
-                className="px-10 py-0 h-full text-sm text-black-black3
-                hover:text-orange-orange8 active:text-orange-orange8 active:bg-gray-grey13"
-                activeClassName="text-orange-orange8 bg-gray-grey13"
+                className="px-10 py-0 h-full text-sm text-black-light
+                hover:text-primary active:text-primary active:bg-gray-gray3"
+                activeClassName="text-primary bg-gray-gray3"
               >
                 {item.icon}
                 {item.name}
               </NavLink> :
-              <a href={item.to} target="_blank" className="px-10 py-0 h-full text-sm text-black-black3
-              hover:text-orange-orange8 active:text-orange-orange8 active:bg-gray-grey13">
+              <a href={item.to} className="px-10 py-0 h-full text-sm text-black-light
+              hover:text-primary active:text-primary active:bg-gray-gray3">
                 {item.icon}
                 {item.name}
               </a>

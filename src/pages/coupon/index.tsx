@@ -48,14 +48,14 @@ export const Coupon: React.FC = () => {
           }
           <div className="px-10	pt-5 pb-10">
             <div className="flex mb-6 flex-wrap">
-              <div className="font-normal text-[28px] mr-5	text-black-black1">
+              <div className="font-normal text-[28px] mr-5	text-black-dark">
                 Coupon Management
               </div>
-              <FiRefreshCw className="text-orange-orange4 w-[40px] my-auto cursor-pointer" onClick={handleRefresh} />
+              <FiRefreshCw className="text-primary w-[40px] my-auto cursor-pointer" onClick={handleRefresh} />
               <button
                 onClick={ navigateToAddCoupon }
-                className="ml-5 px-[30px] leading-9	rounded-sm border-[1px] border-solid border-gray-grey14 text-orange-orange3
-                hover:bg-orange-orange3 hover:text-white hover:border-orange-orange3"
+                className="ml-5 px-[30px] leading-9	rounded-sm border-[1px] border-solid border-neutral text-primary
+                hover:bg-primary hover:text-white hover:border-primary"
               >
                 Create Coupon
               </button>

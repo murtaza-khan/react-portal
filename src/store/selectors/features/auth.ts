@@ -9,7 +9,7 @@ import { ROLES } from '../../../constants/roles';
 
 const authEntitySelector = (state: TReduxState) => state.features.auth;
 
-export const getIsLoggedIn = createSelector(authEntitySelector, state => get(state, 'data', null));
+export const getIsLoggedIn = createSelector(authEntitySelector, auth => get(auth, 'data', null));
 
 export const getUserData = createSelector(getIsLoggedIn, userLoggedIn => get(userLoggedIn, 'user', null));
 
