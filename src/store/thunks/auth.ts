@@ -18,7 +18,8 @@ const localStorageService = new LocalStorageService();
 export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
   "auth/Login",
   async (_requestPayload: Record<string, string>, thunkAPI) => {
-    const baseUrl = getBaseUrl(thunkAPI.getState());
+    // const baseUrl = getBaseUrl(thunkAPI.getState());
+    const baseUrl = "https://dev.retailo.me";
     const response = await authService.signIn(`${baseUrl}`, _requestPayload);
 
     if (response.error) {
