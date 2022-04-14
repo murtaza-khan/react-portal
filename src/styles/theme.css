@@ -131,3 +131,26 @@ button:disabled {
 .highlighted-view {
 	border: 2px solid #ffad77;
 }
+
+/* react-data-grid classes */
+.rdg .rdg-header-row {
+ background-color: rgba(230, 86, 46, 0.9);
+ color: #ffffff;
+}
+
+.rdg .rdg-row {
+  background-color: #ffffff;
+  color: #404040;
+}
+
+.rdg .rdg-header-row .rdg-cell {
+  text-align: center;
+  border: none;
+  box-shadow: none;
+}
+
+.rdg .rdg-row .rdg-cell {
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}

@@ -31,3 +31,16 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
     }
   }
 );
+
+export const updateCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
+  'coupon/updateCoupon',
+  async (_requestPayload: Record<string, string>, thunkAPI) => {
+    try {
+      const baseUrl = getBaseUrl(thunkAPI.getState());
+      const { data } = await couponService.updateCoupon(baseUrl, _requestPayload);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+    }
+  }
+);

@@ -1,6 +1,5 @@
 /* eslint-disable padding-line-between-statements */
 import React, { useEffect } from 'react';
-import DataGrid from 'react-data-grid';
 import { FiRefreshCw } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -9,10 +8,11 @@ import { Filter } from 'src/components/filter';
 import { NavBar } from 'src/components/navbar';
 import { Pagination } from 'src/components/pagination';
 import { SideBar } from 'src/components/sidebar';
-import { getCouponList } from 'src/store/selectors/entities/coupon';
+import { CustomDataGrid } from 'src/components/table/CustomDataGrid';
 import { getSearchValue, getSelectedLocationId } from 'src/store/selectors/features/app';
-import { getIsLoading } from 'src/store/selectors/features/coupon';
+import { getCouponsPage, getIsLoading } from 'src/store/selectors/features/coupon';
 import { updateSearchValue, updateSelectedLocationId } from 'src/store/slices/features/app';
+import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { fetchInitialData } from 'src/store/thunks/app';
 
 
@@ -22,27 +22,19 @@ export const Coupon: React.FC = () => {
   const isLoading = useSelector(getIsLoading);
   const selectedLocationId = useSelector(getSelectedLocationId);
   const searchValue = useSelector(getSearchValue);
-  const rows = useSelector(getCouponList);
+  const currentPage = useSelector(getCouponsPage);
 
   const navigateToAddCoupon = () => history.push('/coupon/add');
   const handleRefresh = () => {
     selectedLocationId && dispatch(updateSelectedLocationId(''));
     searchValue && dispatch(updateSearchValue(''));
+    currentPage !== 1 && dispatch(updateCurrentPage(1));
     dispatch(fetchInitialData());
   }
 
   useEffect(() => {
     handleRefresh();
   }, [])
-
-  const columns = [
-    { key: 'number', name: '#' },
-    { key: 'id', name: 'ID' },
-    { key: 'name', name: 'Name' },
-    { key: 'businessUnit', name: 'Business Unit' },
-    { key: 'location', name: 'Location' },
-    { key: 'status', name: 'Status' },
-  ];
 
   return (
     <>
@@ -71,11 +63,7 @@ export const Coupon: React.FC = () => {
             <Filter />
             { !isLoading &&
               <div>
-                <DataGrid
-                  className="h-full"
-                  columns={columns}
-                  rows={rows}
-                />
+                <CustomDataGrid />
                 <Pagination />
               </div>
             }

@@ -20,4 +20,17 @@ export class CouponService extends HttpService {
       throw prepareErrorResponse(error);
     }
   };
+  updateCoupon = async (baseAuthUrl: string, payload: Record<string, any>): Promise<any>  => {
+    const { id, description, disabled, hideOnWallet } = payload;
+    try {
+      const apiResponse = await this.put(`${baseAuthUrl}/coupons/${id}`, {
+        description,
+        disabled,
+        hideOnWallet,
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
 }
