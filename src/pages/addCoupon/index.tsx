@@ -54,8 +54,6 @@ export const AddCoupon: React.FC = () => {
   const blacklistFile = useRef<HTMLInputElement>(null);
 
 
-
-
   useEffect(() => {
     dispatch(fetchBusinessUnits(COMPANY.RETAILO));
   }, [dispatch]);
