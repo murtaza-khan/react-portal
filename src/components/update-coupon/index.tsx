@@ -51,46 +51,46 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
   return (
     <div className="px-3.5 py-5">
       <div className="flex flex-wrap">
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral bg rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Name</span>
+            <span className="label-text font-bold text-black-dark text-xs">Name</span>
           </label>
           <input
             type="text"
             value={name}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Start Date</span>
+            <span className="label-text font-bold text-black-dark text-xs">Start Date</span>
           </label>
           <input
             type="text"
             value={startDate}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">End Date</span>
+            <span className="label-text font-bold text-black-dark text-xs">End Date</span>
           </label>
           <input
             type="text"
             value={endDate}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">
+            <span className="label-text font-bold text-black-dark text-xs">
               Description
               <small> [Use "|" for line break and "|-" for bullet points]</small>
             </span>
@@ -98,115 +98,115 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <input
             type="text"
             value={couponDescription}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             onChange={(e) => setCouponDescription(e.target.value)}
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Languages</span>
+            <span className="label-text font-bold text-black-dark text-xs">Languages</span>
           </label>
           <input
             type="text"
             value={language}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Language Description</span>
+            <span className="label-text font-bold text-black-dark text-xs">Language Description</span>
           </label>
           <input
             type="text"
             value={languageDescription}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Coupon Type</span>
+            <span className="label-text font-bold text-black-dark text-xs">Coupon Type</span>
           </label>
           <input
             type="text"
             value={discountType}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Coupon User</span>
+            <span className="label-text font-bold text-black-dark text-xs">Coupon User</span>
           </label>
           <input
             type="text"
             value={userType}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Discount Value</span>
+            <span className="label-text font-bold text-black-dark text-xs">Discount Value</span>
           </label>
           <input
             type="text"
             value={discountValue}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Min Coupon Limit</span>
+            <span className="label-text font-bold text-black-dark text-xs">Min Coupon Limit</span>
           </label>
           <input
             type="text"
             value={minCouponLimit}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Max Discount Value</span>
+            <span className="label-text font-bold text-black-dark text-xs">Max Discount Value</span>
           </label>
           <input
             type="text"
             value={maxDiscountValue}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Coupon Max Usage</span>
+            <span className="label-text font-bold text-black-dark text-xs">Coupon Max Usage</span>
           </label>
           <input
             type="text"
             value={maxUsagePerCustomer}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
-        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-black4 h-[55px]
-          text-base border-[1px] border-solid border-gray-grey14 rounded-md">
+        <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
+          text-base border-[1px] border-solid border-neutral rounded-md">
           <label className="label p-0">
-            <span className="label-text font-bold text-black-black2 text-xs">Customer Eligibility</span>
+            <span className="label-text font-bold text-black-dark text-xs">Customer Eligibility</span>
           </label>
           <input
             type="text"
             value={couponCustomerOption}
-            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-grey2 selection:bg-blue-skyblue"
+            className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
         </div>
@@ -232,16 +232,16 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
       <div className="flex justify-end mt-6 w-[98%] h-[55px]">
         <button
           type="button"
-          className="btn mr-3 normal-case px-8 bg-white border-orange-orange4 text-orange-orange4 min-h-0 h-[38px]
-          hover:bg-white hover:border-orange-orange3"
+          className="btn mr-3 normal-case px-8 bg-white border-primary text-primary min-h-0 h-[38px]
+          hover:bg-white hover:border-primary"
           onClick={handleCancel}
         >
           Cancel
         </button>
         <button
           type="button"
-          className="btn normal-case px-8 bg-orange-orange4 border-orange-orange4 text-white min-h-0 h-[38px]
-          hover:bg-orange-orange3 hover:border-orange-orange3"
+          className="btn normal-case px-8 bg-primary border-primary text-white min-h-0 h-[38px]
+          hover:bg-orange-dark hover:border-orange-dark"
           onClick={handleUpdate}
         >
           Update Coupon

@@ -15,6 +15,9 @@ import {
   QueryClientProvider,
 } from 'react-query';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const { store, persistor } = reduxStore();
 
 const queryClient = new QueryClient();
@@ -31,6 +34,7 @@ export const App = () => (
             <I18nextProvider i18n={i18n}>
               <Suspense fallback='loading'>
                 <Router />
+                <ToastContainer theme='colored' newestOnTop />
               </Suspense>
             </I18nextProvider>
           </QueryClientProvider>

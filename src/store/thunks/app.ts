@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppService } from '../../services/app';
 import { getBaseUrl } from '../selectors/features/app';
 import { fetchCoupons } from 'src/store/thunks/coupon';
+import { toast } from 'react-toastify';
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -14,7 +15,7 @@ const appService = new AppService();
 export const fetchAppData = createAsyncThunk<TObject, TObject, IActionOptions>(
   'app/fetchAppData',
   async (_requestPayload: Record<string, string>, thunkAPI) => {
-  // Example of an API call to fetch the app-data
+    // Example of an API call to fetch the app-data
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const response = await appService.fetchAppData(baseUrl);
 
@@ -29,13 +30,14 @@ export const fetchAppData = createAsyncThunk<TObject, TObject, IActionOptions>(
 
 export const fetchAllCompanies = createAsyncThunk<TObject, TObject, IActionOptions>(
   'app/fetchAllCompanies',
-  async (_:any, thunkAPI) => {
+  async (_: any, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      const response = await appService.fetchAllCompanies(baseUrl);
-      return thunkAPI.fulfillWithValue(response.data);
-    } catch (err) {
-      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+      const { data } = await appService.fetchAllCompanies(baseUrl);
+      return thunkAPI.fulfillWithValue(data);
+    } catch ({ statusText }) {
+      toast.error(`${statusText}`);
+      return thunkAPI.rejectWithValue(statusText);
     }
   }
 );
@@ -45,10 +47,11 @@ export const fetchBusinessUnits = createAsyncThunk<TObject, TObject, IActionOpti
   async (companyId: string, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      const response = await appService.fetchBusinessUnits(baseUrl, companyId);
-      return thunkAPI.fulfillWithValue(response.data);
-    } catch (err) {
-      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+      const { data } = await appService.fetchBusinessUnits(baseUrl, companyId);
+      return thunkAPI.fulfillWithValue(data);
+    } catch ({ statusText }) {
+      toast.error(`${statusText}`);
+      return thunkAPI.rejectWithValue(statusText);
     }
   }
 );
@@ -59,15 +62,16 @@ export const fetchAllLocations = createAsyncThunk<TObject, TObject, IActionOptio
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const { companyId, businessUnitId } = _requestPayload;
-      const response = await appService.fetchAllLocations(baseUrl, companyId, businessUnitId);
-      return thunkAPI.fulfillWithValue(response.data);
-    } catch (err) {
-      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+      const { data } = await appService.fetchAllLocations(baseUrl, companyId, businessUnitId);
+      return thunkAPI.fulfillWithValue(data);
+    } catch ({ statusText }) {
+      toast.error(`${statusText}`);
+      return thunkAPI.rejectWithValue(statusText);
     }
   }
 );
 
-export const fetchInitialData = () => async (dispatch:any):Promise<any> => {
+export const fetchInitialData = () => async (dispatch: any): Promise<any> => {
   dispatch(fetchAllCompanies({}));
   dispatch(fetchCoupons({}));
 };

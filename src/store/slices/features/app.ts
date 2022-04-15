@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   baseUrl: process.env.REACT_BASE_URL || '',
   activeScreen: ROUTES.LOGIN,
   selectedLocationId: '',
+  selectedBusinessUnitId: '',
   searchValue: '',
   validationStates: {
     isLoading: false,
@@ -34,6 +35,9 @@ export const appFeatureSlice = createSlice({
     },
     updateActiveScreen: (state, action) => {
       state.language = action.payload;
+    },
+    updateSelectedBusinessUnitId: (state, action) => {
+      state.selectedBusinessUnitId = action.payload;
     },
     updateSelectedLocationId: (state, action) => {
       state.selectedLocationId = action.payload;
@@ -59,5 +63,5 @@ export const appFeatureSlice = createSlice({
   },
 });
 
-export const { changeLanguage, toggleLoading, updateActiveScreen, updateSelectedLocationId, updateSearchValue } = appFeatureSlice.actions;
+export const { changeLanguage, toggleLoading, updateActiveScreen, updateSelectedBusinessUnitId, updateSelectedLocationId, updateSearchValue } = appFeatureSlice.actions;
 export const appFeatureReducer = appFeatureSlice.reducer;

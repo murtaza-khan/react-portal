@@ -90,7 +90,7 @@ h4,
 h5,
 span,
 p {
-	@apply text-black-black2;
+	@apply text-black-dark;
 }
 
 input {
@@ -108,18 +108,18 @@ input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
 	@apply border;
-	@apply border-gray-grey3;
+	@apply border-gray-gray4;
 	-webkit-text-fill-color: inherit;
 	-webkit-box-shadow: 0 0 0px 1000px rgb(250, 250, 251) inset;
 	transition: background-color 1000s ease-in-out 0s;
 }
 
 button:hover {
-	@apply border-orange-orange1;
+	@apply border-orange-primary;
 }
 
 button:disabled {
-	@apply bg-gray-grey3;
+	@apply bg-gray-gray4;
 }
 
 .app-wrapper {
@@ -153,4 +153,8 @@ button:disabled {
   text-align: center;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: none;
+}
+.react-datepicker__day--selected {
+	background-color: #E0A82E;
 }

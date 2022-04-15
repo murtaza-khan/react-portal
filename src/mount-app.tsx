@@ -30,5 +30,3 @@ const mount = (element: Element | Document | DocumentFragment | null) => ReactDO
     mount(devRoot);
   }
 // }
-
-export { mount };

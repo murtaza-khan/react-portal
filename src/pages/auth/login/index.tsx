@@ -16,7 +16,7 @@ function Login() {
     height: 400,
     width: 600
   };
-  
+
   return (
     <div className='flex h-screen'>
       <div className='m-auto'>
@@ -34,8 +34,8 @@ function Login() {
               <input
                 onChange={e => setUserName(e.target.value)}
                 placeholder='Email'
-                className='p-4 yt-input w-full border border-2 placeholder-opacity-25 border-orange-orange7
-                focus:outline-none focus:ring-2 focus:ring-orange-orange2 rounded-md w-96'
+                className='p-4 yt-input focus:shadow-none border placeholder-opacity-25 border-primary
+                focus:outline-none rounded-md w-96'
                 name='username'
                 type='username'
               />
@@ -50,8 +50,8 @@ function Login() {
               <input
                 onChange={e => setPassword(e.target.value)}
                 placeholder='Password'
-                className='p-4 yt-input w-full border border-2 placeholder-opacity-25 border-orange-orange7
-                focus:outline-none focus:ring-2 focus:ring-orange-orange2 rounded-md w-96'
+                className='p-4 yt-input focus:shadow-none border placeholder-opacity-25 border-primary
+                focus:outline-none rounded-md w-96'
                 name='password'
                 type='password'
               />
@@ -61,8 +61,8 @@ function Login() {
           <div className='h-1/4 mt-4 grid place-content-center'>
             <button
               onClick={handleLogin}
-              className='bg-orange-orange1 text-white p-4 uppercase border w-full text-white focus:outline-none
-              focus:ring-2 focus:ring-violet-200 rounded w-36'
+              className='bg-white border-neutral text-primary p-4 uppercase border focus:outline-none focus:ring-2
+              focus:ring-violet-200 rounded w-36 hover:bg-primary hover:text-white'
             >
               Log in
             </button>
