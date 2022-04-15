@@ -64,7 +64,7 @@ export const CustomerList: React.FC = () => {
         formatter({ row }) {
           return (
             <input
-              onClick={() => onCheckClicked(row.id)}
+              onChange={() => onCheckClicked(row.id)}
               type="checkbox"
               checked={row.checked}
               className="checkbox"

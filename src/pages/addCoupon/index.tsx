@@ -441,16 +441,16 @@ export const AddCoupon: React.FC = () => {
                   </div>
                 </div>
                 {selectedCustomers.length ? (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col pb-8">
                     {selectedCustomers.map((sc) => (
-                      <div className="indicator p-1 m-2">
+                      <div className="">
+                        <span className="badge badge-secondary rounded-none">{`${sc.name} ${sc.phone}`}</span>
                         <button
                           onClick={() => removeCustomer(sc.id)}
-                          className="indicator-item badge btn btn-xs p-1"
+                          className="badge btn btn-xs btn-primary rounded-none"
                         >
                           x
                         </button>
-                        <span className="badge badge-primary">{`${sc.name} ${sc.phone}`}</span>
                       </div>
                     ))}
                   </div>
