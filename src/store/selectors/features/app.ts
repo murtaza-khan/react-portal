@@ -29,6 +29,7 @@ export const getCustomerPerPage = createSelector(appFeatureSelector, app => get(
 export const getCustomerTotalCount = createSelector(appFeatureSelector, app => get(app, 'customer.totalCount', 0));
 
 export const getCustomerPage = createSelector(appFeatureSelector, app => get(app, 'customer.page', 1));
+export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));
 
 export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));
 
