@@ -16,7 +16,6 @@ interface IAppData {
   businessUnits?: IResponse[];
   locations?: IResponse[];
   customers?: IResponse[];
-  totalCustomers?: number;
 }
 interface IInitialState {
   data: IAppData | null;
@@ -82,15 +81,13 @@ export const appEntitySlice = createSlice({
     });
 
     builder.addCase(fetchCustomersByLocation.fulfilled, (state, action) => {
-      const { customers, totalCount } = action.payload;
+      const { customers } = action.payload;
       if (!state.data) {
         state.data = {
           customers: [],
-          totalCustomers: 0,
         }
       }
       state.data.customers = customers;
-      state.data.totalCustomers = totalCount;
     });
   },
 });

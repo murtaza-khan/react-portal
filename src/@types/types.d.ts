@@ -72,6 +72,21 @@ interface DetailRow extends TableRow {
   parentNumber: number;
 }
 
+interface ICustomerRow {
+  name: string;
+  phone: string;
+  number: number;
+  id: number;
+  checked: boolean;
+}
+
+interface ICustomer {
+  name: string;
+  phone: string;
+  id: number;
+  [key:string]: any;
+}
+
 interface ICoupon {
   name: string;
   startDate: string;

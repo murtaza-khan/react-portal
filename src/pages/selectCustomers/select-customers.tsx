@@ -7,6 +7,7 @@ import {} from "src/store/selectors/entities/app";
 import { updateCustomerCurrentPage } from "src/store/slices/features/app";
 import { getIsCustomerLoading } from "src/store/selectors/features/app";
 import { Pagination } from "./pagination";
+import { CustomerList } from './customer-list';
 
 const customStyles = {
   content: {
@@ -65,13 +66,9 @@ export const SelectCustomers: React.FC<Props> = ({
             ) : null}
             <p className="text-xl font-semibold">Select Customers</p>
             <div>
-              <input
-                className="input input-bordered w-full max-w-xxs mt-4"
-                type="text"
-                placeholder="Search by Name or Phone"
-              />
+              <CustomerList />
             </div>
-            <div className="modal-action">
+            <div className="modal-action justify-center">
               <button onClick={closeModal} className="btn btn-primary">
                 Update Coupon Customers
               </button>

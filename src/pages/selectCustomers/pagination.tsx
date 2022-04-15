@@ -38,7 +38,7 @@ export const Pagination: React.FC<Props> = ({ companyId }) => {
         breakLabel="..."
         previousLabel="<< Previous"
         nextLabel="Next >>"
-        className="flex w-50 mt-8 mb-10 overflow-auto"
+        className="flex justify-center w-50 mt-8 mb-10 overflow-auto"
         pageClassName="py-1.5 px-2.5 text-sm rounded-md"
         pageLinkClassName="py-1.5 px-2.5 text-sm rounded-md"
         breakClassName="py-1.5 px-2.5 text-sm rounded-md"

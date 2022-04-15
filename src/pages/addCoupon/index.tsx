@@ -17,10 +17,11 @@ import { checkCreateApiData } from 'src/utils/coupon'
 import { Pagination } from 'src/components/pagination';
 import DataGrid from 'react-data-grid';
 import { SelectCustomers } from '../selectCustomers';
+import { setSelectedCustomers } from "src/store/slices/features/app";
+import { getSelectedCustomers } from "src/store/selectors/features/app";
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 
 export const AddCoupon: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,9 @@ export const AddCoupon: React.FC = () => {
   const [disabled, setDisabled] = useState(false);
   const [hideOnWallet, setHideOnWallet] = useState(false);
   const [couponProductIds, setCouponProductIds] = useState<Array<number>>([]);
+  const [showSelectCustomers, setShowSelectCustomers] = useState(false);
+  const [showCustomerDialog, setShowCustomerDialog] = useState(false);
+  const selectedCustomers = useSelector(getSelectedCustomers);
   const businessUnits = useSelector(getBusinessUnits);
   const locations = useSelector(getAllLocations);
   const couponProducts = useSelector(getSkuIds);
@@ -49,7 +53,8 @@ export const AddCoupon: React.FC = () => {
   const whitelistFile = useRef<HTMLInputElement>(null);
   const blacklistFile = useRef<HTMLInputElement>(null);
 
-  const [showSelectCustomers, setShowSelectCustomers] = useState(false);
+
+
 
   useEffect(() => {
     dispatch(fetchBusinessUnits(COMPANY.RETAILO));
@@ -131,6 +136,16 @@ export const AddCoupon: React.FC = () => {
     return undefined;
   };
 
+  const removeCustomer = (id: number) => {
+    const selectedIndex = selectedCustomers.findIndex((cust) => cust.id === id);
+
+    if (selectedIndex >= 0) {
+      const updatedSelectedCustomers = [...selectedCustomers];
+      updatedSelectedCustomers.splice(selectedIndex, 1);
+      dispatch(setSelectedCustomers(updatedSelectedCustomers));
+    }
+  };
+
   const handleCreate = () => {
     const apiData = {
       name,
@@ -203,7 +218,10 @@ export const AddCoupon: React.FC = () => {
                   <span className="label-text ">Start Date</span>
                 </label>
                 <div className="input input-bordered w-full grid content-center">
-                  <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} />
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date: Date) => setStartDate(date)}
+                  />
                 </div>
               </div>
 
@@ -212,7 +230,10 @@ export const AddCoupon: React.FC = () => {
                   <span className="label-text">End Date</span>
                 </label>
                 <div className="input input-bordered w-full grid content-center">
-                  <DatePicker selected={endDate} onChange={(date: Date) => setEndDate(date)} />
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date: Date) => setEndDate(date)}
+                  />
                 </div>
               </div>
 
@@ -258,7 +279,9 @@ export const AddCoupon: React.FC = () => {
 
               <div>
                 <label className="label">
-                  <span className="label-text ">Coupon Min Discount Limit *</span>
+                  <span className="label-text ">
+                    Coupon Min Discount Limit *
+                  </span>
                 </label>
                 <input type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Minimum Discount Limit" className="input input-bordered w-full"
@@ -267,7 +290,9 @@ export const AddCoupon: React.FC = () => {
 
               <div>
                 <label className="label">
-                  <span className="label-text ">Coupon Max Discount Value *</span>
+                  <span className="label-text ">
+                    Coupon Max Discount Value *
+                  </span>
                 </label>
                 <input type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
@@ -283,8 +308,12 @@ export const AddCoupon: React.FC = () => {
                   className="select select-bordered w-full font-normal"
                   onChange={handleBusinessUnitSelection}
                 >
-                  <option value='' disabled></option>
-                  {businessUnits.map(businessUnit => <option key={businessUnit.id} value={businessUnit.id}>{businessUnit.name}</option>)}
+                  <option value="" disabled></option>
+                  {businessUnits.map((businessUnit) => (
+                    <option key={businessUnit.id} value={businessUnit.id}>
+                      {businessUnit.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -411,6 +440,21 @@ export const AddCoupon: React.FC = () => {
                     </div>
                   </div>
                 </div>
+                {selectedCustomers.length ? (
+                  <div className="flex flex-col">
+                    {selectedCustomers.map((sc) => (
+                      <div className="indicator p-1 m-2">
+                        <button
+                          onClick={() => removeCustomer(sc.id)}
+                          className="indicator-item badge btn btn-xs p-1"
+                        >
+                          x
+                        </button>
+                        <span className="badge badge-primary">{`${sc.name} ${sc.phone}`}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
               </div>
 
               <div className="mt-6">
@@ -422,7 +466,9 @@ export const AddCoupon: React.FC = () => {
                   <input type="checkbox" className={`ml-4 toggle toggle-primary ${disabled ? "focus:bg-base-300" : "focus:bg-primary"} bg-base-300`} checked={disabled === false} onChange={() => setDisabled(!disabled)} />
                   <p className="input font-normal leading-6">Enable</p>
                 </div>
-                <p className="input font-semibold h-8">Hide/Show on Coupon Wallet</p>
+                <p className="input font-semibold h-8">
+                  Hide/Show on Coupon Wallet
+                </p>
                 <div className="flex flex-row">
                   <div className="w-16">
                     <p className="input font-normal pr-0 leading-6">Hide</p>
@@ -440,5 +486,5 @@ export const AddCoupon: React.FC = () => {
       </div>
       {showSelectCustomers ? <SelectCustomers companyId={COMPANY.RETAILO} isOpen={showSelectCustomers} closeModal={() => setShowSelectCustomers(false)} /> : null}
     </>
-  )
+  );
 };
