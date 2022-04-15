@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAppData, fetchAllCompanies, fetchBusinessUnits, fetchAllLocations } from 'src/store/thunks/app';
+import { fetchAppData, fetchAllCompanies, fetchBusinessUnits, fetchAllLocations, fetchCustomersByLocation } from 'src/store/thunks/app';
 
 /**
  * An example of creating entity slices, reducers and INITIAL_STATE.
@@ -15,6 +15,8 @@ interface IAppData {
   companies?: IResponse[];
   businessUnits?: IResponse[];
   locations?: IResponse[];
+  customers?: IResponse[];
+  totalCustomers?: number;
 }
 interface IInitialState {
   data: IAppData | null;
@@ -39,6 +41,9 @@ export const appEntitySlice = createSlice({
     },
     resetLocations: state => {
       if (state.data) state.data.locations = undefined;
+    },
+    resetCustomers: state => {
+      if (state.data) state.data.customers = undefined;
     },
   },
   // A "builder callback" function used to add more reducers
@@ -74,6 +79,18 @@ export const appEntitySlice = createSlice({
         }
       }
       state.data.locations = locations;
+    });
+
+    builder.addCase(fetchCustomersByLocation.fulfilled, (state, action) => {
+      const { customers, totalCount } = action.payload;
+      if (!state.data) {
+        state.data = {
+          customers: [],
+          totalCustomers: 0,
+        }
+      }
+      state.data.customers = customers;
+      state.data.totalCustomers = totalCount;
     });
   },
 });

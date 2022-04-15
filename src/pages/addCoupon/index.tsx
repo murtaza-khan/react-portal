@@ -16,6 +16,7 @@ import { fetchSkuIds } from 'src/store/thunks/sku'
 import { checkCreateApiData } from 'src/utils/coupon'
 import { Pagination } from 'src/components/pagination';
 import DataGrid from 'react-data-grid';
+import { SelectCustomers } from '../selectCustomers';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -48,6 +49,7 @@ export const AddCoupon: React.FC = () => {
   const whitelistFile = useRef<HTMLInputElement>(null);
   const blacklistFile = useRef<HTMLInputElement>(null);
 
+  const [showSelectCustomers, setShowSelectCustomers] = useState(false);
 
   useEffect(() => {
     dispatch(fetchBusinessUnits(COMPANY.RETAILO));
@@ -327,8 +329,8 @@ export const AddCoupon: React.FC = () => {
                       />
                       <span className="input font-normal">Selected Customers</span>
                       {couponCustomer === "2" ? <div>
-                        {/* <label htmlFor="my-modal" className="btn btn-primary mt-2 ml-7" onClick={handleCustomers}>Select Customers</label> */}
-                        <label htmlFor="my-modal" className="btn btn-primary mt-2 ml-7">Select Customers</label>
+                        <button className="btn btn-primary mt-2 ml-7"
+                          onClick={() => setShowSelectCustomers(true)}>Select Customers</button>
                       </div> : null}
                     </div>
 
@@ -436,27 +438,7 @@ export const AddCoupon: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <input type="checkbox" id="my-modal" className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box">
-          <p className="text-xl font-semibold">Select Customers</p>
-          <div>
-            <input className="input input-bordered w-full max-w-xxs mt-4" type="text" placeholder="Search by Name or Phone" />
-          </div>
-          {/* <div>
-            <DataGrid
-              className="h-full"
-              columns={columns}
-              rows={rows}
-            />
-            <Pagination />
-          </div> */}
-          <div className="modal-action">
-            <label htmlFor="my-modal" className="btn btn-primary">Update Coupon Customers</label>
-          </div>
-        </div>
-      </div>
+      {showSelectCustomers ? <SelectCustomers companyId={COMPANY.RETAILO} isOpen={showSelectCustomers} closeModal={() => setShowSelectCustomers(false)} /> : null}
     </>
   )
 };

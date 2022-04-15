@@ -7,12 +7,16 @@ import { createSelector } from 'reselect';
  * Implementation of memoized selectors using reselect to get particular data out of store.
  */
 
-const appEntitySelector = (state: TReduxState) => state.entities.app;
+const appEntitiesSelector = (state: TReduxState) => state.entities.app;
 
-export const getAppData = createSelector(appEntitySelector, app => get(app, 'data', null));
+export const getAppData = createSelector(appEntitiesSelector, app => get(app, 'data', null));
 
 export const getAllCompanies = createSelector(getAppData, appData => get(appData, 'companies', []));
 
 export const getBusinessUnits = createSelector(getAppData, appData => get(appData, 'businessUnits', []));
 
 export const getAllLocations = createSelector(getAppData, appData => get(appData, 'locations', []));
+
+export const getCustomersByLocation = createSelector(getAppData, appData => get(appData, 'customers', []));
+
+export const getCustomersTotalCount = createSelector(getAppData, appData => get(appData, 'totalCustomers', 0));
