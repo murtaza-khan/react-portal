@@ -13,8 +13,7 @@ export const getAppActiveScreen = createSelector(appFeatureSelector, app => get(
 
 export const getAppLanguage = createSelector(appFeatureSelector, app => get(app, 'language', ''));
 
-export const getBaseUrl = createSelector(appFeatureSelector, _app => 'https://dev.retailo.me');
-// get(app, 'baseUrl', ''));
+export const getBaseUrl = createSelector(appFeatureSelector, app => get(app, 'baseUrl', ''));
 
 export const getSelectedBusinessUnitId = createSelector(appFeatureSelector, app => get(app, 'selectedBusinessUnitId', ''));
 
@@ -29,6 +28,7 @@ export const getCustomerPerPage = createSelector(appFeatureSelector, app => get(
 export const getCustomerTotalCount = createSelector(appFeatureSelector, app => get(app, 'customer.totalCount', 0));
 
 export const getCustomerPage = createSelector(appFeatureSelector, app => get(app, 'customer.page', 1));
+
 export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));
 
 export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));

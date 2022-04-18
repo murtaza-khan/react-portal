@@ -13,8 +13,7 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));
-      // const baseUrl = getBaseUrl(thunkAPI.getState());
-      const baseUrl = "https://dev.retailo.me";
+      const baseUrl = getBaseUrl(thunkAPI.getState());
       const page = getCouponsPage(thunkAPI.getState());
       const perPage = getCouponPerPage(thunkAPI.getState());
       const search = getSearchValue(thunkAPI.getState());
