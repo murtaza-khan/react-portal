@@ -21,7 +21,16 @@ export const getSelectedLocationId = createSelector(appFeatureSelector, app => g
 
 export const getSearchValue = createSelector(appFeatureSelector, app => get(app, 'searchValue', ''));
 
+export const getIsCustomerLoading = createSelector(appFeatureSelector, app => get(app, 'customer.status', '') === 'pending');
+
+export const getCustomerPerPage = createSelector(appFeatureSelector, app => get(app, 'customer.perPage', 20));
+
+export const getCustomerTotalCount = createSelector(appFeatureSelector, app => get(app, 'customer.totalCount', 0));
+
+export const getCustomerPage = createSelector(appFeatureSelector, app => get(app, 'customer.page', 1));
+
+export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));
+
 export const getAppValidationStates = createSelector(appFeatureSelector, app => get(app, 'validationStates', {}));
 
-export const getAppLoadingState =
-  createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));
+export const getAppLoadingState = createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));

@@ -5,7 +5,7 @@ import { RESPONSE_TYPES } from '../../constants/response-types';
 
 export class CouponService extends HttpService {
   fetchCoupons = async (baseAuthUrl: string, queryParams: Record<string, any>): Promise<any> => {
-    const { page, perPage, search, businessUnitId,locationId } = queryParams;
+    const { page, perPage, search, businessUnitId, locationId } = queryParams;
     const apiData: Record<string, any> = { page, perPage };
     if (search) {
       apiData.search = search;
