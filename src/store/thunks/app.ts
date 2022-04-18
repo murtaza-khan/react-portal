@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppService } from '../../services/app';
+import { getBaseUrl } from '../selectors/features/app';
 import { getCustomerPage, getCustomerPerPage } from '../selectors/features/app';
 import { fetchCoupons } from 'src/store/thunks/coupon';
 import { toast } from 'react-toastify';
@@ -75,10 +76,9 @@ export const fetchCustomersByLocation = createAsyncThunk<TObject, TObject, IActi
   'app/fetchCustomersByLocation',
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     try {
-      // const baseUrl = getBaseUrl(thunkAPI.getState());
+      const baseUrl = getBaseUrl(thunkAPI.getState());
       const pageNo = getCustomerPage(thunkAPI.getState());
       const perPage = getCustomerPerPage(thunkAPI.getState());
-      const baseUrl = "https://dev.retailo.me";
       const { companyId } = _requestPayload;
       const response = await appService.fetchAllCustomers(baseUrl, {companyId, perPage, pageNo});
       return thunkAPI.fulfillWithValue(response.data);
