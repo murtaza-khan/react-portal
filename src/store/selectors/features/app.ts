@@ -25,12 +25,3 @@ export const getAppValidationStates = createSelector(appFeatureSelector, app => 
 
 export const getAppLoadingState =
   createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));
-
-/**
- * For local development
- */
-
-// export const getBaseUrl = (thunkApi: any) => {
-//   thunkApi;
-//   return "https://dev.retailo.me"
-// };

@@ -8,7 +8,7 @@ import { ROUTES } from '../../../constants/navigation-routes';
 
 const INITIAL_STATE = {
   language: LANGUAGE.ENGLISH,
-  baseUrl: process.env.REACT_BASE_URL || '',
+  baseUrl: process.env.REACT_APP_BASE_URL || '',
   activeScreen: ROUTES.LOGIN,
   selectedLocationId: '',
   selectedBusinessUnitId: '',
