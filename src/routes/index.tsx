@@ -5,7 +5,7 @@ import PrivateRoutes from './private-routes';
 import { HealthCheck } from "../pages";
 
 export const Router: React.FC = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/couponportal">
     <Switch>
       <Route exact path="/health">
         <HealthCheck />
