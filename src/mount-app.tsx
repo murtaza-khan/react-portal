@@ -1,13 +1,10 @@
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/tracing';
-import { App } from './app';
-// import { BUILD_ENV } from './constants/build-env';
+import React from "react";
+import ReactDOM from "react-dom";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+import { App } from "./app";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../package.json');
-
+const packageJson = require("../package.json");
 
 const { version } = packageJson;
 Sentry.init({
@@ -21,12 +18,13 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-const mount = (element: Element | Document | DocumentFragment | null) => ReactDOM.render(<App/>, element);
+const mount = (element: Element | Document | DocumentFragment | null) =>
+  ReactDOM.render(<App />, element);
 
-// if (process.env.REACT_APP_ENV === BUILD_ENV.DEVELOPMENT) {
-  const devRoot = document.querySelector('#root');
+const root = document.querySelector("#root");
 
-  if (devRoot) {
-    mount(devRoot);
-  }
-// }
+if (root) {
+  mount(root);
+}
+
+export { mount };
