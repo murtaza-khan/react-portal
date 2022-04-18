@@ -1,5 +1,5 @@
 #NODE BUILDER (STAGE-0) RUN TO BUILD THE PROD READY CODE
-FROM node:16.13.1-alpine as builder
+FROM node:14.18.3 as builder
 ARG PUBLIC_URL=/couponportal
 ENV PUBLIC_URL=${PUBLIC_URL}
 RUN mkdir -p /opt/web/portal
