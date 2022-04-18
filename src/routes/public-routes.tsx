@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from '../pages/auth/login';
-import { Welcome } from '../components/welcome';
+// import { Welcome } from '../components/welcome';
 import { Todos } from 'src/pages/Todos';
 import { CreateTodo } from 'src/pages/createTodo';
 
@@ -14,10 +14,10 @@ const PublicRoutes = () => (<Fragment>
       <CreateTodo />
     </Route>
     <Route path='/todos' exact>
-      <Todos/>
+      <Todos />
     </Route>
     <Route path='/' exact>
-      <Welcome/>
+      <Login />
     </Route>
   </Switch>
 </Fragment>);

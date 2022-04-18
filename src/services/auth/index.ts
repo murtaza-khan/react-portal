@@ -9,10 +9,6 @@ export class AuthService extends HttpService {
   signOut = async (/* _baseAuthUrl: string */): Promise<any> => {
     try {
       localStorageService.remove('user');
-      // const apiResponse = await this.post(`${baseAuthUrl}sign-out`,
-      //   undefined );
-
-      // return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
     }

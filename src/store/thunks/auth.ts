@@ -42,15 +42,8 @@ export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
 export const logout = createAsyncThunk<TObject, TObject, IActionOptions>(
   'auth/Logout',
   async (_requestPayload: Record<string, string>, thunkAPI) => {
-  // Example of an API call to fetch the app-data
-    // const baseUrl = getBaseUrl(thunkAPI.getState());
     const response = await authService.signOut();
     thunkAPI.fulfillWithValue({ payload: _requestPayload});
-    // const response = { data: null, error: { message: 'API failed with status 400' }}; // example response
-    // if (response.error) {
-    //   return thunkAPI.rejectWithValue({ ...response.error });
-    // }
-
     return response?.data;
   }
 );
