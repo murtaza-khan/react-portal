@@ -14,8 +14,6 @@ import { fetchAllLocations, fetchBusinessUnits } from 'src/store/thunks/app';
 import { createCoupon } from 'src/store/thunks/coupon'
 import { fetchSkuIds } from 'src/store/thunks/sku'
 import { checkCreateApiData } from 'src/utils/coupon'
-import { Pagination } from 'src/components/pagination';
-import DataGrid from 'react-data-grid';
 import { SelectCustomers } from '../selectCustomers';
 import { setSelectedCustomers } from "src/store/slices/features/app";
 import { getSelectedCustomers } from "src/store/selectors/features/app";
@@ -56,7 +54,8 @@ export const AddCoupon: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchBusinessUnits(COMPANY.RETAILO));
-  }, [dispatch]);
+    dispatch(setSelectedCustomers([]));
+  }, []);
 
   const handleBusinessUnitSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     if (businessUnitId === e.target.value) return;
