@@ -31,10 +31,6 @@ export const getCustomerPage = createSelector(appFeatureSelector, app => get(app
 
 export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));
 
-export const getSelectedCustomers = createSelector(appFeatureSelector, app => get(app, 'selectedCustomers', []));
-
-
 export const getAppValidationStates = createSelector(appFeatureSelector, app => get(app, 'validationStates', {}));
 
-export const getAppLoadingState =
-  createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));
+export const getAppLoadingState = createSelector(getAppValidationStates, validationStates => get(validationStates, 'isLoading', false));

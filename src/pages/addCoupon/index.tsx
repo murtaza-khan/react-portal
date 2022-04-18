@@ -41,7 +41,6 @@ export const AddCoupon: React.FC = () => {
   const [hideOnWallet, setHideOnWallet] = useState(false);
   const [couponProductIds, setCouponProductIds] = useState<Array<number>>([]);
   const [showSelectCustomers, setShowSelectCustomers] = useState(false);
-  const [showCustomerDialog, setShowCustomerDialog] = useState(false);
   const selectedCustomers = useSelector(getSelectedCustomers);
   const businessUnits = useSelector(getBusinessUnits);
   const locations = useSelector(getAllLocations);
@@ -159,7 +158,7 @@ export const AddCoupon: React.FC = () => {
       disabled,
       hideOnWallet,
       couponCustomerOptionId: +couponCustomer,
-      // couponCustomerIds,
+      couponCustomerIds: selectedCustomers.map(customer => customer.id),
       productsListType: +couponSku,
       couponProductIds,
       businessUnitId,
