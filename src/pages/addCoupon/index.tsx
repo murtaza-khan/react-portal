@@ -28,13 +28,13 @@ export const AddCoupon: React.FC = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [discountValue, setDiscountValue] = useState<number | null>(null);
-  const [maxUsagePerCustomer, setMaxUsagePerCustomer] = useState<number | null>(null);
+  const [maxUsagePerCustomer, setMaxUsagePerCustomer] = useState<number>(0);
   const [discountTypeId, setDiscountTypeId] = useState(1);
   const [userTypeId, setUserTypeId] = useState("[8]");
-  const [minCouponLimit, setMinCouponLimit] = useState<number | null>(null);
-  const [maxDiscountValue, setMaxDiscountValue] = useState<number | null>(null);
+  const [minCouponLimit, setMinCouponLimit] = useState<number>(0);
+  const [maxDiscountValue, setMaxDiscountValue] = useState<number>(0);
   const [businessUnitId, setBusinessUnitId] = useState('');
-  const [locationId, setLocationId] = useState('');
+  const [locationId, setLocationId] = useState<number | string>('');
   const [couponCustomer, setCouponCustomer] = useState("1");
   const [couponSku, setCouponSku] = useState("0");
   const [disabled, setDisabled] = useState(false);
@@ -50,11 +50,16 @@ export const AddCoupon: React.FC = () => {
   const whitelistFile = useRef<HTMLInputElement>(null);
   const blacklistFile = useRef<HTMLInputElement>(null);
 
-
   useEffect(() => {
     dispatch(fetchBusinessUnits(COMPANY.RETAILO));
     dispatch(setSelectedCustomers([]));
   }, []);
+
+  useEffect(() => {
+    if (locations.length && businessUnitId) {
+      setLocationId(locations[0].id)
+    }
+  }, [locations])
 
   const handleBusinessUnitSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     if (businessUnitId === e.target.value) return;
@@ -80,6 +85,14 @@ export const AddCoupon: React.FC = () => {
 
     if (file.current.name === "sku") {
       setCouponProductIds([]);
+    }
+  }
+
+  const handleSelectCustomer = () => {
+    if (!locationId) {
+      toast.error('Please select location for coupon first');
+    } else {
+      setShowSelectCustomers(true)
     }
   }
 
@@ -165,12 +178,16 @@ export const AddCoupon: React.FC = () => {
       companyId: COMPANY.RETAILO
     }
 
-    const success = checkCreateApiData(apiData);
+    const validate = checkCreateApiData(apiData);
 
-    if (success) {
-      dispatch(createCoupon(apiData));
+    if (validate.ok) {
+      if (couponCustomer === '2' && !selectedCustomers.length) {
+        toast.error('Select atleas one customer for coupon')
+      } else {
+        dispatch(createCoupon(apiData));
+      }
     } else {
-      toast.error(success);
+      toast.error(validate.error);  
     }
   }
 
@@ -228,6 +245,7 @@ export const AddCoupon: React.FC = () => {
                 <div className="input input-bordered w-full grid content-center">
                   <DatePicker
                     selected={endDate}
+                    minDate={startDate}
                     onChange={(date: Date) => setEndDate(date)}
                   />
                 </div>
@@ -237,7 +255,7 @@ export const AddCoupon: React.FC = () => {
                 <label className="label">
                   <span className="label-text ">Discount Value *</span>
                 </label>
-                <input type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                <input type="number" min={1} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Discount Amount" className="input input-bordered w-full"
                   onChange={(e) => setDiscountValue(+e.target.value)} />
               </div>
@@ -246,7 +264,7 @@ export const AddCoupon: React.FC = () => {
                 <label className="label">
                   <span className="label-text ">Coupon Max Usage *</span>
                 </label>
-                <input type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                <input value={maxUsagePerCustomer} type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Max Limit of Coupon Usage" className="input input-bordered w-full"
                   onChange={(e) => setMaxUsagePerCustomer(+e.target.value)} />
               </div>
@@ -279,7 +297,7 @@ export const AddCoupon: React.FC = () => {
                     Coupon Min Discount Limit *
                   </span>
                 </label>
-                <input type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                <input type="number" value={minCouponLimit} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Minimum Discount Limit" className="input input-bordered w-full"
                   onChange={(e) => setMinCouponLimit(+e.target.value)} />
               </div>
@@ -290,7 +308,7 @@ export const AddCoupon: React.FC = () => {
                     Coupon Max Discount Value *
                   </span>
                 </label>
-                <input type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                <input type="number" value={maxDiscountValue} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
               </div>
@@ -319,6 +337,7 @@ export const AddCoupon: React.FC = () => {
                 </label>
                 <select
                   value={locationId}
+                  disabled={!businessUnitId}
                   className="select select-bordered w-full font-normal"
                   onChange={handleLocationSelection}
                 >
@@ -355,7 +374,7 @@ export const AddCoupon: React.FC = () => {
                       <span className="input font-normal">Selected Customers</span>
                       {couponCustomer === "2" ? <div>
                         <button className="btn btn-primary mt-2 ml-7"
-                          onClick={() => setShowSelectCustomers(true)}>Select Customers</button>
+                          onClick={handleSelectCustomer}>Select Customers</button>
                       </div> : null}
                     </div>
 
