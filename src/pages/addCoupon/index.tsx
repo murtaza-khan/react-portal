@@ -181,7 +181,11 @@ export const AddCoupon: React.FC = () => {
     const validate = checkCreateApiData(apiData);
 
     if (validate.ok) {
-      dispatch(createCoupon(apiData));
+      if (couponCustomer === '2' && !selectedCustomers.length) {
+        toast.error('Select atleas one customer for coupon')
+      } else {
+        dispatch(createCoupon(apiData));
+      }
     } else {
       toast.error(validate.error);  
     }
@@ -229,9 +233,7 @@ export const AddCoupon: React.FC = () => {
                 <div className="input input-bordered w-full grid content-center">
                   <DatePicker
                     selected={startDate}
-                    onChange={(date: Date) => {
-                      setStartDate(date)
-                    }}
+                    onChange={(date: Date) => setStartDate(date)}
                   />
                 </div>
               </div>

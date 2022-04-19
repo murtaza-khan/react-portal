@@ -3,6 +3,17 @@ export const checkCreateApiData = (apiData: any) => {
     return { ok: false, error: 'Coupon Name required'}
   }
 
+  if ( apiData.endDate && apiData.startDate) {
+    const startDate = new Date(apiData.startDate).getTime()
+    const endDate = new Date(apiData.endDate).getTime()
+
+    if ( endDate < startDate) {
+      return { ok: false, error: 'End Date must not be before start date'}
+    }
+  } else {
+    return { ok: false, error: 'Start & End Dates are required'}
+  }
+  
   if (!apiData.discountValue || apiData.discountValue < 0) {
     return { ok: false, error: 'Coupon Discount Value required'}
   }
