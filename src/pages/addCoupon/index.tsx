@@ -8,11 +8,13 @@ import { COMPANY } from 'src/constants/company-ids';
 import { COUPON_TYPES, COUPON_USERS } from 'src/constants/coupons';
 import { getBusinessUnits, getAllLocations } from 'src/store/selectors/entities/app';
 import { getSkuIds } from 'src/store/selectors/entities/sku';
+import { getCustomerIds } from 'src/store/selectors/entities/customer';
 import { getIsLoading } from 'src/store/selectors/features/coupon';
 import { resetLocations } from 'src/store/slices/entities/app';
 import { fetchAllLocations, fetchBusinessUnits } from 'src/store/thunks/app';
 import { createCoupon } from 'src/store/thunks/coupon'
 import { fetchSkuIds } from 'src/store/thunks/sku'
+import { fetchCustomerIds } from 'src/store/thunks/customer'
 import { checkCreateApiData } from 'src/utils/coupon'
 import { SelectCustomers } from '../selectCustomers';
 import { setSelectedCustomers } from "src/store/slices/features/app";
@@ -20,6 +22,7 @@ import { getSelectedCustomers } from "src/store/selectors/features/app";
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { GrPhoneVertical } from "react-icons/gr";
 
 export const AddCoupon: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,11 +43,13 @@ export const AddCoupon: React.FC = () => {
   const [disabled, setDisabled] = useState(false);
   const [hideOnWallet, setHideOnWallet] = useState(false);
   const [couponProductIds, setCouponProductIds] = useState<Array<number>>([]);
+  const [couponCustomerIds, setCouponCustomerIds] = useState<Array<number>>([]);
   const [showSelectCustomers, setShowSelectCustomers] = useState(false);
   const selectedCustomers = useSelector(getSelectedCustomers);
   const businessUnits = useSelector(getBusinessUnits);
   const locations = useSelector(getAllLocations);
   const couponProducts = useSelector(getSkuIds);
+  const couponCustomers = useSelector(getCustomerIds);
   const isLoading = useSelector(getIsLoading);
   const customerFile = useRef<HTMLInputElement>(null);
   const whitelistFile = useRef<HTMLInputElement>(null);
@@ -80,7 +85,7 @@ export const AddCoupon: React.FC = () => {
     file.current.value = "";
 
     if (file.current.name === "customer") {
-      // couponCustomerIds = [];
+      setCouponCustomerIds([]);
     }
 
     if (file.current.name === "sku") {
@@ -125,7 +130,13 @@ export const AddCoupon: React.FC = () => {
             .slice(1);
 
           if (type === "customer") {
-            console.log('');
+            dispatch(fetchCustomerIds({
+              select: "id",
+              phone: csvArray.toString()
+            }));
+
+            const customerIds = couponCustomers?.map((customer: any) => customer?.id);
+            setCouponCustomerIds(customerIds!)
           } else if (type === "sku") {
             const skuString = csvArray.toString();
             const sku = '["' + skuString.replaceAll(',', '","') + '"]'
@@ -155,6 +166,20 @@ export const AddCoupon: React.FC = () => {
     }
   };
 
+  const selectCustomerIds = () => {
+    let customerIds: number[] = [];
+
+    if (couponCustomer === "2") {
+      customerIds = selectedCustomers.map(customer => customer.id);
+    }
+
+    if (couponCustomer === "3") {
+      customerIds = couponCustomerIds;
+    }
+
+    return customerIds;
+  }
+
   const handleCreate = () => {
     const apiData = {
       name,
@@ -171,7 +196,7 @@ export const AddCoupon: React.FC = () => {
       disabled,
       hideOnWallet,
       couponCustomerOptionId: +couponCustomer,
-      couponCustomerIds: selectedCustomers.map(customer => customer.id),
+      couponCustomerIds: selectCustomerIds(),
       productsListType: +couponSku,
       couponProductIds,
       businessUnitId,
@@ -187,7 +212,7 @@ export const AddCoupon: React.FC = () => {
         dispatch(createCoupon(apiData));
       }
     } else {
-      toast.error(validate.error);  
+      toast.error(validate.error);
     }
   }
 
