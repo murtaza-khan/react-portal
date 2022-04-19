@@ -9,9 +9,13 @@ import { ROLES } from '../../../constants/roles';
 
 const authEntitySelector = (state: TReduxState) => state.features.auth;
 
-export const getIsLoggedIn = createSelector(authEntitySelector, auth => get(auth, 'data', null));
+export const getData = createSelector(authEntitySelector, (app) => get(app, 'data', null))
 
-export const getUserData = createSelector(getIsLoggedIn, userLoggedIn => get(userLoggedIn, 'user', null));
+export const getAuthToken = createSelector(getData, (data) => get(data, 'token', ''))
+
+export const getIsLoggedIn = createSelector(getAuthToken, (authToken) => authToken.length > 0);
+
+export const getUserData = createSelector(getData, userLoggedIn => get(userLoggedIn, 'user', null));
 
 export const getUserRoleData = createSelector(getUserData, userData => get(userData, 'role', null));
 
@@ -19,6 +23,6 @@ export const getUserRoleName = createSelector(getUserRoleData, userRoleData => g
 
 
 // Need to be Verified, may not work as expected
-export const getIsAdmin = createSelector(getIsLoggedIn, (data: any) => data && data?.role === ROLES.ADMIN);
+export const getIsAdmin = createSelector(getData, (data: any) => data && data?.role === ROLES.ADMIN);
 
-export const getIsCustomer = createSelector(getIsLoggedIn, (data: any) => data && data?.role === ROLES.CUSTOMER);
+export const getIsCustomer = createSelector(getData, (data: any) => data && data?.role === ROLES.CUSTOMER);

@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
   let allowedRoutes = [];
 
   const isLoggedIn = useSelector(getIsLoggedIn);
-  const userRole = useSelector(getUserRoleName);
+  const userRole = useSelector(getUserRoleName) || 'ADMIN';
   if (isLoggedIn) allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, userRole);
   else return <Redirect to='/' />;
 
