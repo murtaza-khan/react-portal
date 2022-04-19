@@ -24,7 +24,7 @@ export class HttpService {
       // return headers;
     }
 
-    const token = await localStorageService.fetch("authToken");
+    const token = await localStorageService.fetch("token");
     if (token && typeof token === "string" && !headers.Authorization)
       headers.Authorization = token;
 

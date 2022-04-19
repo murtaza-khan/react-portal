@@ -6,7 +6,14 @@ import { login, logout } from '../../thunks';
  * An example of creating entity slices, reducers and INITIAL_STATE.
  */
 
-const INITIAL_STATE = {
+interface ITokenData {
+  token: string;
+}
+interface IInitialState {
+  data: ITokenData | null;
+}
+
+const INITIAL_STATE: IInitialState = {
   data: null,
 };
 
@@ -19,6 +26,15 @@ export const authFeatureSlice = createSlice({
   reducers: {
     resetAppData: state => {
       state.data = null;
+    },
+    setAuthToken: (state, action) => {
+      if (!state.data) {
+        state.data = {
+          token: ''
+        };
+      }
+
+      state.data.token = action.payload;
     },
   },
   // A "builder callback" function used to add more reducers
@@ -33,3 +49,4 @@ export const authFeatureSlice = createSlice({
 });
 
 export const authFeatureReducer = authFeatureSlice.reducer;
+export const { setAuthToken } = authFeatureSlice.actions;

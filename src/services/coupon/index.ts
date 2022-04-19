@@ -23,6 +23,7 @@ export class CouponService extends HttpService {
       throw prepareErrorResponse(error);
     }
   };
+
   updateCoupon = async (baseAuthUrl: string, payload: Record<string, any>): Promise<any> => {
     const { id, description, disabled, hideOnWallet } = payload;
     try {
@@ -31,6 +32,7 @@ export class CouponService extends HttpService {
         disabled,
         hideOnWallet,
       });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
     }
