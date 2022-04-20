@@ -18,7 +18,8 @@ interface IAppFeature {
     page: number | string,
     perPage: number | string,
     totalCount: number | string,
-    status: string, // can be 'idle', 'pending', 'succeeded', 'failed'
+    status: string, // can be 'idle', 'pending', 'succeeded', 'failed',
+    filter: string,
   },
   validationStates: {
     isLoading: boolean,
@@ -38,7 +39,8 @@ const INITIAL_STATE: IAppFeature = {
     page: 1,
     perPage: 20,
     totalCount: 0,
-    status: "idle", // can be 'idle', 'pending', 'succeeded', 'failed'
+    status: "idle", // can be 'idle', 'pending', 'succeeded', 'failed',
+    filter: '',
   },
   validationStates: {
     isLoading: false,
@@ -64,6 +66,9 @@ export const appFeatureSlice = createSlice({
     },
     updateCustomerCurrentPage: (state, action) => {
       state.customer.page = action.payload;
+    },
+    updateCustomerfilter: (state, action) => {
+      state.customer.filter = action.payload;
     },
     setSelectedCustomers: (state, action) => {
       state.selectedCustomers = action.payload;
@@ -121,5 +126,6 @@ export const {
   updateSelectedBusinessUnitId,
   updateSelectedLocationId,
   updateSearchValue,
+  updateCustomerfilter,
 } = appFeatureSlice.actions;
 export const appFeatureReducer = appFeatureSlice.reducer;

@@ -30,6 +30,7 @@ export const AddCoupon: React.FC = () => {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [initialDate, setInitialDate] = useState(new Date());
   const [discountValue, setDiscountValue] = useState<number | null>(null);
   const [maxUsagePerCustomer, setMaxUsagePerCustomer] = useState<number>(0);
   const [discountTypeId, setDiscountTypeId] = useState(1);
@@ -207,7 +208,7 @@ export const AddCoupon: React.FC = () => {
 
     if (validate.ok) {
       if (couponCustomer === '2' && !selectedCustomers.length) {
-        toast.error('Select atleas one customer for coupon')
+        toast.error('Select atleast one customer for coupon')
       } else {
         dispatch(createCoupon(apiData));
       }
@@ -258,6 +259,7 @@ export const AddCoupon: React.FC = () => {
                 <div className="input input-bordered w-full grid content-center">
                   <DatePicker
                     selected={startDate}
+                    minDate={initialDate}
                     onChange={(date: Date) => setStartDate(date)}
                   />
                 </div>
@@ -275,25 +277,6 @@ export const AddCoupon: React.FC = () => {
                   />
                 </div>
               </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text ">Discount Value *</span>
-                </label>
-                <input type="number" min={1} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                  placeholder="Enter Discount Amount" className="input input-bordered w-full"
-                  onChange={(e) => setDiscountValue(+e.target.value)} />
-              </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text ">Coupon Max Usage *</span>
-                </label>
-                <input value={maxUsagePerCustomer} type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                  placeholder="Enter Max Limit of Coupon Usage" className="input input-bordered w-full"
-                  onChange={(e) => setMaxUsagePerCustomer(+e.target.value)} />
-              </div>
-
               <div className="dropdown">
                 <label className="label">
                   <span className="label-text">Select Coupon Type</span>
@@ -314,6 +297,40 @@ export const AddCoupon: React.FC = () => {
                     <option value={user.name} key={user.id} onChange={() => setUserTypeId(user.value)}>{user.name}</option>
                   )};
                 </select>
+              </div>
+              <div>
+                <label className="label">
+                  <span className="label-text ">Discount Value *</span>
+                </label>
+                <input type="number" min={1} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                  placeholder="Enter Discount Amount" className="input input-bordered w-full"
+                  onChange={(e) => setDiscountValue(+e.target.value)} />
+              </div>
+              <div className="dropdown">
+                <label className="label">
+                  <span className="label-text">Select Business Unit</span>
+                </label>
+                <select
+                  value={businessUnitId}
+                  className="select select-bordered w-full font-normal"
+                  onChange={handleBusinessUnitSelection}
+                >
+                  <option value="" disabled></option>
+                  {businessUnits.map((businessUnit) => (
+                    <option key={businessUnit.id} value={businessUnit.id}>
+                      {businessUnit.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label className="label">
+                  <span className="label-text ">Coupon Max Usage *</span>
+                </label>
+                <input value={maxUsagePerCustomer} min={0} type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+                  placeholder="Enter Max Limit of Coupon Usage" className="input input-bordered w-full"
+                  onChange={(e) => setMaxUsagePerCustomer(+e.target.value)} />
               </div>
 
               <div>
@@ -337,25 +354,6 @@ export const AddCoupon: React.FC = () => {
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
               </div>
-
-              <div className="dropdown">
-                <label className="label">
-                  <span className="label-text">Select Business Unit</span>
-                </label>
-                <select
-                  value={businessUnitId}
-                  className="select select-bordered w-full font-normal"
-                  onChange={handleBusinessUnitSelection}
-                >
-                  <option value="" disabled></option>
-                  {businessUnits.map((businessUnit) => (
-                    <option key={businessUnit.id} value={businessUnit.id}>
-                      {businessUnit.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
               <div className="dropdown">
                 <label className="label">
                   <span className="label-text">Select Location</span>

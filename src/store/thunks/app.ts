@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppService } from '../../services/app';
 import { getBaseUrl } from '../selectors/features/app';
-import { getCustomerPage, getCustomerPerPage } from '../selectors/features/app';
+import { getCustomerPage, getCustomerPerPage, getCustomerFilter } from '../selectors/features/app';
 import { fetchCoupons } from 'src/store/thunks/coupon';
 import { toast } from 'react-toastify';
 
@@ -79,8 +79,17 @@ export const fetchCustomersByLocation = createAsyncThunk<TObject, TObject, IActi
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const pageNo = getCustomerPage(thunkAPI.getState());
       const perPage = getCustomerPerPage(thunkAPI.getState());
+      const searchValue = getCustomerFilter(thunkAPI.getState());
       const { companyId } = _requestPayload;
-      const response = await appService.fetchAllCustomers(baseUrl, {companyId, perPage, pageNo});
+      
+      const payload = {
+        companyId,
+        perPage,
+        pageNo,
+        ...(searchValue && {searchValue, searchOnAttributes: 'name,phone'})
+      };
+
+      const response = await appService.fetchAllCustomers(baseUrl, payload);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
       return thunkAPI.rejectWithValue('Opps there seems to be an error')

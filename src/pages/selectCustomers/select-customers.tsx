@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ImCross } from "react-icons/im";
 import Modal from "react-modal";
 import BeatLoader from "react-spinners/BeatLoader";
 import { fetchCustomersByLocation } from "src/store/thunks";
-import {} from "src/store/selectors/entities/app";
-import { updateCustomerCurrentPage } from "src/store/slices/features/app";
+import {
+  updateCustomerCurrentPage,
+  updateCustomerfilter,
+} from "src/store/slices/features/app";
 import { getIsCustomerLoading } from "src/store/selectors/features/app";
 import { Pagination } from "./pagination";
-import { CustomerList } from './customer-list';
+import { CustomerList } from "./customer-list";
 
 const customStyles = {
   content: {
@@ -44,8 +47,10 @@ export const SelectCustomers: React.FC<Props> = ({
 }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsCustomerLoading);
+  
   useEffect(() => {
     dispatch(updateCustomerCurrentPage(1));
+    dispatch(updateCustomerfilter(""));
     dispatch(fetchCustomersByLocation({ companyId }));
   }, [dispatch]);
 
@@ -64,15 +69,14 @@ export const SelectCustomers: React.FC<Props> = ({
                 <BeatLoader />
               </div>
             ) : null}
-            <p className="text-xl font-semibold">Select Customers</p>
-            <div>
-              <CustomerList />
+            <div className="flex justify-between">
+              <p className="text-xl font-semibold">Select Customers</p>
+              <ImCross
+                className="w-[40px] text-xl my-auto cursor-pointer"
+                onClick={closeModal}
+              />
             </div>
-            <div className="modal-action justify-center">
-              <button onClick={closeModal} className="btn btn-primary">
-                Update Coupon Customers
-              </button>
-            </div>
+            <CustomerList onClose={closeModal} />
             <Pagination companyId={companyId} />
           </div>
         </Modal>
