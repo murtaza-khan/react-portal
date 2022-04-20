@@ -5,6 +5,7 @@ import { getBaseUrl, getSearchValue, getSelectedLocationId, getSelectedBusinessU
 import { getCouponPerPage, getCouponsPage } from '../selectors/features/coupon';
 import { setIsLoading, setTotalCount } from '../slices/features/coupon';
 import { toast } from 'react-toastify';
+import history from 'src/utils/history';
 
 const couponService = new CouponService();
 
@@ -43,6 +44,8 @@ export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const { data } = await couponService.createCoupon(baseUrl, apiData);
       thunkAPI.dispatch(setIsLoading(false));
+      toast.success('Coupon created successfully');
+      history.push('/couponportal');
       return thunkAPI.fulfillWithValue(data);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
@@ -57,8 +60,8 @@ export const updateCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      const { statusText } = await couponService.updateCoupon(baseUrl, _requestPayload);
-      toast.success(statusText);
+      const response = await couponService.updateCoupon(baseUrl, _requestPayload);
+      toast.success('Coupon updated successfully');
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
     }

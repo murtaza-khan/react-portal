@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import Auth from './Auth';
 import PrivateRoutes from './private-routes';
 import { HealthCheck } from "../pages";
 import { useDispatch } from "react-redux";
 import { setAuthToken } from "../store/slices/features/auth";
 import { LocalStorageService } from '../services/local-storage';
+import history from "src/utils/history";
 
-export const Router: React.FC = () => {
+export const RouterComponent: React.FC = () => {
   const localStorageService = new LocalStorageService();
   const authToken = window.location?.href?.split("token=")[1];
 
@@ -21,7 +22,7 @@ export const Router: React.FC = () => {
   }, [authToken]);
 
   return (
-    <BrowserRouter basename="/couponportal">
+    <Router history={history}>
       <Switch>
         <Route exact path="/health">
           <HealthCheck />
@@ -33,6 +34,6 @@ export const Router: React.FC = () => {
           <Auth />
         </Route>
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 };

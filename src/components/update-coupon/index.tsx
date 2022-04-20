@@ -8,6 +8,7 @@ import { updateSearchValue, updateSelectedLocationId } from 'src/store/slices/fe
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { updateCoupon } from 'src/store/thunks';
 import { fetchInitialData } from 'src/store/thunks/app';
+import { getFormattedDate } from 'src/utils/common';
 
 interface UpdateCouponProps {
   row: DetailRow;
@@ -70,7 +71,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           </label>
           <input
             type="text"
-            value={startDate}
+            value={getFormattedDate(startDate || '')}
             className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
@@ -82,7 +83,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           </label>
           <input
             type="text"
-            value={endDate}
+            value={getFormattedDate(endDate || '')}
             className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />

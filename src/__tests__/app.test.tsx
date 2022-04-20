@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Router } from '../routes';
+import { RouterComponent } from '../routes';
 
 describe('App Screen', () => {
   beforeAll(() => {
-    render(<Router />);
+    render(<RouterComponent />);
   });
   test('contains text in welcome screen', () => {
     expect(screen.getByText('Lets start building a beautiful application.')).toBeInTheDocument();
