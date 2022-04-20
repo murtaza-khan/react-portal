@@ -92,7 +92,7 @@ export const CustomDataGrid: React.FC = () => {
       rows={rows}
       headerRowHeight={45}
       rowHeight={(args) => (args.type === 'ROW' && args.row.type === 'DETAIL' ? 550 : 45)}
-      className="h-full border-none"
+      className="h-full border-none bg-white"
       enableVirtualization={false}
     />
   );

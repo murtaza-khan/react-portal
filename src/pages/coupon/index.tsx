@@ -9,9 +9,9 @@ import { NavBar } from 'src/components/navbar';
 import { Pagination } from 'src/components/pagination';
 import { SideBar } from 'src/components/sidebar';
 import { CustomDataGrid } from 'src/components/table/CustomDataGrid';
-import { getSearchValue, getSelectedLocationId } from 'src/store/selectors/features/app';
+import { getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from 'src/store/selectors/features/app';
 import { getCouponsPage, getIsLoading } from 'src/store/selectors/features/coupon';
-import { updateSearchValue, updateSelectedLocationId } from 'src/store/slices/features/app';
+import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from 'src/store/slices/features/app';
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { fetchInitialData } from 'src/store/thunks/app';
 
@@ -20,12 +20,16 @@ export const Coupon: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector(getIsLoading);
+  const selectedCompanyId = useSelector(getSelectedCompanyId);
+  const selectedBusinessUnitId = useSelector(getSelectedBusinessUnitId);
   const selectedLocationId = useSelector(getSelectedLocationId);
   const searchValue = useSelector(getSearchValue);
   const currentPage = useSelector(getCouponsPage);
 
   const navigateToAddCoupon = () => history.push('/coupon/add');
   const handleRefresh = () => {
+    selectedCompanyId && dispatch(updateSelectedCompanyId(''));
+    selectedBusinessUnitId && dispatch(updateSelectedBusinessUnitId(''));
     selectedLocationId && dispatch(updateSelectedLocationId(''));
     searchValue && dispatch(updateSearchValue(''));
     currentPage !== 1 && dispatch(updateCurrentPage(1));
