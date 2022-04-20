@@ -2,12 +2,13 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCouponDetail } from 'src/store/selectors/entities/coupon';
-import { getSearchValue, getSelectedLocationId } from 'src/store/selectors/features/app';
+import { getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from 'src/store/selectors/features/app';
 import { getCouponsPage } from 'src/store/selectors/features/coupon';
-import { updateSearchValue, updateSelectedLocationId } from 'src/store/slices/features/app';
+import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from 'src/store/slices/features/app';
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { updateCoupon } from 'src/store/thunks';
 import { fetchInitialData } from 'src/store/thunks/app';
+import { getFormattedDate } from 'src/utils/common';
 
 interface UpdateCouponProps {
   row: DetailRow;
@@ -28,6 +29,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
   const [disable, setDisable] = useState(disabled);
   const [hide, setHide] = useState(hideOnWallet);
 
+  const selectedCompanyId = useSelector(getSelectedCompanyId);
+  const selectedBusinessUnitId = useSelector(getSelectedBusinessUnitId);
   const selectedLocationId = useSelector(getSelectedLocationId);
   const searchValue = useSelector(getSearchValue);
   const currentPage = useSelector(getCouponsPage);
@@ -36,11 +39,12 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
     onCancel(parentId);
   }
   const handleRefresh = useCallback(() => {
-    selectedLocationId && dispatch(updateSelectedLocationId(''));
-    searchValue && dispatch(updateSearchValue(''));
+    selectedCompanyId && dispatch(updateSelectedCompanyId(''));
+    selectedBusinessUnitId && dispatch(updateSelectedBusinessUnitId(''));
+    selectedLocationId && dispatch(updateSelectedLocationId(''));    searchValue && dispatch(updateSearchValue(''));
     currentPage !== 1 && dispatch(updateCurrentPage(1));
     dispatch(fetchInitialData());
-  }, [currentPage, dispatch, searchValue, selectedLocationId]);
+  }, [currentPage, dispatch, searchValue, selectedBusinessUnitId, selectedCompanyId, selectedLocationId]);
 
   const handleUpdate = useCallback(async() => {
     await dispatch(updateCoupon({id: parentId, description: couponDescription, disabled: disable, hideOnWallet: hide}))
@@ -70,7 +74,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           </label>
           <input
             type="text"
-            value={startDate}
+            value={getFormattedDate(startDate || '')}
             className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />
@@ -82,7 +86,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           </label>
           <input
             type="text"
-            value={endDate}
+            value={getFormattedDate(endDate || '')}
             className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             disabled
           />

@@ -40,7 +40,7 @@ export const Pagination: React.FC<Props> = ({ companyId }) => {
       {pageCount > 1 ? (
         <ReactPaginate
           onPageChange={handlePageChange}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={3}
           pageCount={pageCount}
           forcePage={page - 1}
           breakLabel="..."
@@ -55,8 +55,8 @@ export const Pagination: React.FC<Props> = ({ companyId }) => {
           previousLinkClassName="py-1.5 px-2.5 text-sm rounded-md"
           nextClassName="py-1.5 px-2.5 text-sm rounded-md"
           nextLinkClassName="py-1.5 px-2.5 text-sm rounded-md"
-          activeLinkClassName="text-white bg-orange-orange3"
-          disabledLinkClassName="text-gray-grey3"
+          activeLinkClassName="text-white bg-primary"
+          disabledLinkClassName="text-neutral"
         />
       ) : null}
     </>

@@ -55,19 +55,23 @@ export const appEntitySlice = createSlice({
       const { companies } = action.payload;
       if (!state.data) {
         state.data = {
-          companies: []
+          companies: [],
         }
       }
       state.data.companies = companies;
+      state.data.businessUnits = undefined;
+      state.data.locations = undefined;
+
     });
 
     builder.addCase(fetchBusinessUnits.fulfilled, (state, action) => {
       if (!state.data) {
         state.data = {
-          businessUnits: []
+          businessUnits: [],
         }
       }
       state.data.businessUnits = action.payload;
+      state.data.locations = undefined;
     });
 
     builder.addCase(fetchAllLocations.fulfilled, (state, action) => {

@@ -3,10 +3,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { GrFormClose } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCompanies, getAllLocations, getBusinessUnits } from 'src/store/selectors/entities/app';
-import { getSearchValue, getSelectedLocationId } from 'src/store/selectors/features/app';
+import { getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from 'src/store/selectors/features/app';
 import { getCouponsPage } from 'src/store/selectors/features/coupon';
 import { resetBusinessUnits, resetLocations } from 'src/store/slices/entities/app';
-import { updateSelectedBusinessUnitId, updateSelectedLocationId, updateSearchValue } from 'src/store/slices/features/app';
+import { updateSelectedBusinessUnitId, updateSelectedLocationId, updateSearchValue, updateSelectedCompanyId } from 'src/store/slices/features/app';
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { fetchAllLocations, fetchBusinessUnits, fetchCoupons } from 'src/store/thunks';
 
@@ -15,8 +15,8 @@ export const Filter: React.FC = () => {
   const companies = useSelector(getAllCompanies);
   const businessUnits = useSelector(getBusinessUnits);
   const locations = useSelector(getAllLocations);
-  const [selectedCompanyId, setSelectedCompanyId] = useState('');
-  const [selectedBusinessUnitId, setSelectedBusinessUnitId] = useState('');
+  const selectedCompanyId = useSelector(getSelectedCompanyId);
+  const selectedBusinessUnitId = useSelector(getSelectedBusinessUnitId);
   const selectedLocationId = useSelector(getSelectedLocationId);
   const page = useSelector(getCouponsPage);
 
@@ -27,12 +27,11 @@ export const Filter: React.FC = () => {
     if (selectedCompanyId === e.target.value) return;
     if (!e.target.value) {
       dispatch(resetBusinessUnits());
-      setSelectedBusinessUnitId('');
       dispatch(updateSelectedBusinessUnitId(''));
     } else {
       dispatch(fetchBusinessUnits(e.target.value));
     }
-    setSelectedCompanyId(e.target.value);
+    dispatch(updateSelectedCompanyId(e.target.value));
     dispatch(resetLocations());
     dispatch(updateSelectedLocationId(''));
   }, [dispatch, selectedCompanyId]);
@@ -47,9 +46,8 @@ export const Filter: React.FC = () => {
         companyId: selectedCompanyId,
         businessUnitId: e.target.value
       }));
-      dispatch(updateSelectedBusinessUnitId(e.target.value));
     }
-    setSelectedBusinessUnitId(e.target.value)
+    dispatch(updateSelectedBusinessUnitId(e.target.value));
   }, [dispatch, selectedBusinessUnitId, selectedCompanyId]);
 
   const handleLocationSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -75,12 +73,10 @@ export const Filter: React.FC = () => {
   }, [dispatch, searchValue, typedSearch]);
 
   useEffect(() => {
-    // Resetting local states as per the change in our 'searchValue' variable,
+    // Resetting local state as per the change in our 'searchValue' variable,
     // after Refresh icon is clicked (present in Coupon Component)
     if (!searchValue && typedSearch) {
       setTypedSearch('');
-      setSelectedCompanyId('');
-      setSelectedBusinessUnitId('');
     }
   }, [searchValue]);
 

@@ -15,6 +15,8 @@ export const getAppLanguage = createSelector(appFeatureSelector, app => get(app,
 
 export const getBaseUrl = createSelector(appFeatureSelector, app => get(app, 'baseUrl', ''));
 
+export const getSelectedCompanyId = createSelector(appFeatureSelector, app => get(app, 'selectedCompanyId', ''));
+
 export const getSelectedBusinessUnitId = createSelector(appFeatureSelector, app => get(app, 'selectedBusinessUnitId', ''));
 
 export const getSelectedLocationId = createSelector(appFeatureSelector, app => get(app, 'selectedLocationId', ''));

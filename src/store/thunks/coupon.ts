@@ -1,10 +1,11 @@
 /* eslint-disable padding-line-between-statements */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CouponService } from '../../services/coupon';
-import { getBaseUrl, getSearchValue, getSelectedLocationId, getSelectedBusinessUnitId } from '../selectors/features/app';
+import { getBaseUrl, getSearchValue, getSelectedLocationId, getSelectedBusinessUnitId, getSelectedCompanyId } from '../selectors/features/app';
 import { getCouponPerPage, getCouponsPage } from '../selectors/features/coupon';
 import { setIsLoading, setTotalCount } from '../slices/features/coupon';
 import { toast } from 'react-toastify';
+import history from 'src/utils/history';
 
 const couponService = new CouponService();
 
@@ -17,10 +18,11 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
       const page = getCouponsPage(thunkAPI.getState());
       const perPage = getCouponPerPage(thunkAPI.getState());
       const search = getSearchValue(thunkAPI.getState());
+      const companyId = getSelectedCompanyId(thunkAPI.getState());
       const businessUnitId = getSelectedBusinessUnitId(thunkAPI.getState());
       const locationId = getSelectedLocationId(thunkAPI.getState());
       const apiData = {
-        perPage, page, search, businessUnitId, locationId,
+        perPage, page, search, companyId, businessUnitId, locationId,
       };
       const { data } = await couponService.fetchCoupons(baseUrl, apiData);
       const { totalCount } = data;
@@ -43,6 +45,8 @@ export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const { data } = await couponService.createCoupon(baseUrl, apiData);
       thunkAPI.dispatch(setIsLoading(false));
+      toast.success('Coupon created successfully');
+      history.push('/couponportal');
       return thunkAPI.fulfillWithValue(data);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
@@ -57,8 +61,8 @@ export const updateCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      const { statusText } = await couponService.updateCoupon(baseUrl, _requestPayload);
-      toast.success(statusText);
+      const response = await couponService.updateCoupon(baseUrl, _requestPayload);
+      toast.success('Coupon updated successfully');
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
     }

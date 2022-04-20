@@ -10,8 +10,9 @@ interface IAppFeature {
   language: string,
   baseUrl: string,
   activeScreen: string,
-  selectedLocationId: string,
+  selectedCompanyId: string,
   selectedBusinessUnitId: string,
+  selectedLocationId: string,
   searchValue: string,
   selectedCustomers: ICustomerRow[],
   customer: {
@@ -31,8 +32,9 @@ const INITIAL_STATE: IAppFeature = {
   language: LANGUAGE.ENGLISH,
   baseUrl: process.env.REACT_APP_BASE_URL || '',
   activeScreen: ROUTES.LOGIN,
-  selectedLocationId: "",
+  selectedCompanyId: "",
   selectedBusinessUnitId: "",
+  selectedLocationId: "",
   searchValue: "",
   selectedCustomers: [],
   customer: {
@@ -75,6 +77,9 @@ export const appFeatureSlice = createSlice({
     },
     resetSelectedCustomers: (state) => {
       state.selectedCustomers = [];
+    },
+    updateSelectedCompanyId: (state, action) => {
+      state.selectedCompanyId = action.payload;
     },
     updateSelectedBusinessUnitId: (state, action) => {
       state.selectedBusinessUnitId = action.payload;
@@ -123,6 +128,7 @@ export const {
   resetSelectedCustomers,
   updateActiveScreen,
   updateCustomerCurrentPage,
+  updateSelectedCompanyId,
   updateSelectedBusinessUnitId,
   updateSelectedLocationId,
   updateSearchValue,

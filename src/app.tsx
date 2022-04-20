@@ -7,7 +7,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import i18n from './i18n';
 import { ErrorScreen } from './components/error-screen';
 import reduxStore from './store';
-import { Router } from './routes';
+import { RouterComponent } from './routes';
 import { reportWebVitals } from './reportWebVitals';
 import './styles/theme.css';
 import {
@@ -33,7 +33,7 @@ export const App = () => (
           <QueryClientProvider client={queryClient}>
             <I18nextProvider i18n={i18n}>
               <Suspense fallback='loading'>
-                <Router />
+                <RouterComponent />
                 <ToastContainer theme='colored' newestOnTop />
               </Suspense>
             </I18nextProvider>
