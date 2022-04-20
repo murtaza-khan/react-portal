@@ -257,6 +257,7 @@ export const AddCoupon: React.FC = () => {
                 </label>
                 <div className="input input-bordered w-full grid content-center">
                   <DatePicker
+                    dateFormat="dd-MMM-yyyy"
                     selected={startDate}
                     onChange={(date: Date) => setStartDate(date)}
                   />
@@ -269,6 +270,7 @@ export const AddCoupon: React.FC = () => {
                 </label>
                 <div className="input input-bordered w-full grid content-center">
                   <DatePicker
+                    dateFormat="dd-MMM-yyyy"
                     selected={endDate}
                     minDate={startDate}
                     onChange={(date: Date) => setEndDate(date)}
