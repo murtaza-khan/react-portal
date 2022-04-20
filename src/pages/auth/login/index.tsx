@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../store/thunks/auth';
+import { checkLoginApiData } from 'src/utils/auth'
+import { toast } from 'react-toastify';
 
 function Login() {
   const [username, setUserName] = useState('');
@@ -9,7 +11,14 @@ function Login() {
   const dispatch = useDispatch();
 
   async function handleLogin() {
-    dispatch(login({ username, password, role_id }));
+
+    const validate = checkLoginApiData({ username, password });
+
+    if (validate.ok) {
+      dispatch(login({ username, password, role_id }));
+    } else {
+      toast.error(validate.error);
+    }
   }
 
   const boxDimensions = {
