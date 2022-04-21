@@ -30,7 +30,7 @@ export const AddCoupon: React.FC = () => {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [initialDate, setInitialDate] = useState(new Date());
+  const [initialDate] = useState(new Date());
   const [discountValue, setDiscountValue] = useState<number | null>(null);
   const [maxUsagePerCustomer, setMaxUsagePerCustomer] = useState<number>(0);
   const [discountTypeId, setDiscountTypeId] = useState(1);
@@ -39,11 +39,11 @@ export const AddCoupon: React.FC = () => {
   const [maxDiscountValue, setMaxDiscountValue] = useState<number>(0);
   const [businessUnitId, setBusinessUnitId] = useState('');
   const [locationId, setLocationId] = useState<number | string>('');
-  const [couponCustomer, setCouponCustomer] = useState("1");
+  const [couponCustomerOptionId, setCouponCustomerOptionId] = useState("1");
   const [couponSku, setCouponSku] = useState("0");
   const [disabled, setDisabled] = useState(false);
   const [hideOnWallet, setHideOnWallet] = useState(false);
-  const [couponProductIds, setCouponProductIds] = useState<Array<number>>([]);
+  const [productIds, setProductIds] = useState<Array<number>>([]);
   const [couponCustomerIds, setCouponCustomerIds] = useState<Array<number>>([]);
   const [showSelectCustomers, setShowSelectCustomers] = useState(false);
   const selectedCustomers = useSelector(getSelectedCustomers);
@@ -65,7 +65,7 @@ export const AddCoupon: React.FC = () => {
     if (locations.length && businessUnitId) {
       setLocationId(locations[0].id)
     }
-  }, [locations])
+  }, [locations, businessUnitId])
 
   const handleBusinessUnitSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     if (businessUnitId === e.target.value) return;
@@ -82,15 +82,17 @@ export const AddCoupon: React.FC = () => {
     setLocationId(e.target.value)
   }, [locationId]);
 
-  const clearFile = (file: any) => {
-    file.current.value = "";
+  const clearFile = (file: React.RefObject<HTMLInputElement>) => {
+    if (file.current) {
+      file.current.value = "";
 
-    if (file.current.name === "customer") {
-      setCouponCustomerIds([]);
-    }
+      if (file.current.name === "customer") {
+        setCouponCustomerIds([]);
+      }
 
-    if (file.current.name === "sku") {
-      setCouponProductIds([]);
+      if (file.current.name === "sku") {
+        setProductIds([]);
+      }
     }
   }
 
@@ -98,11 +100,11 @@ export const AddCoupon: React.FC = () => {
     if (!locationId) {
       toast.error('Please select location for coupon first');
     } else {
-      setShowSelectCustomers(true)
+      setShowSelectCustomers(true);
     }
   }
 
-  const handleFileSubmission = (file: any, type: string) => {
+  const handleFileSubmission = (file: FileList | null, type: string) => {
     if (!locationId) {
       toast.error('Please select location for coupon first');
 
@@ -116,7 +118,6 @@ export const AddCoupon: React.FC = () => {
         }
       }
     } else {
-
       const reader: FileReader = new FileReader();
 
       if (file) {
@@ -130,25 +131,41 @@ export const AddCoupon: React.FC = () => {
             .map(item => { return item.trim() })
             .slice(1);
 
+          const chunkSize = 200;
+
           if (type === "customer") {
-            dispatch(fetchCustomerIds({
-              select: "id",
-              phone: csvArray.toString()
-            }));
+            let customerIdsArray: Array<number> = [];
 
-            const customerIds = couponCustomers?.map((customer: any) => customer?.id);
-            setCouponCustomerIds(customerIds!)
+            for (let i = 0; i < csvArray.length; i += chunkSize) {
+              const chunk = csvArray.slice(i, i + chunkSize);
+              dispatch(fetchCustomerIds({
+                select: "id",
+                phone: chunk.toString()
+              }));
+
+              const fetchedCustomerIds = couponCustomers?.map((customer: any) => customer?.id);
+              customerIdsArray = [...customerIdsArray, ...fetchedCustomerIds!];
+            }
+
+            setCouponCustomerIds(customerIdsArray)
           } else if (type === "sku") {
-            const skuString = csvArray.toString();
-            const sku = '["' + skuString.replaceAll(',', '","') + '"]'
-            dispatch(fetchSkuIds({
-              sku,
-              locationId,
-              select: '["id"]'
-            }));
+            let productIdsArray: Array<number> = [];
 
-            const productIds = couponProducts?.map((product: any) => product?.id);
-            setCouponProductIds(productIds!)
+            for (let i = 0; i < csvArray.length; i += chunkSize) {
+              const chunk = csvArray.slice(i, i + chunkSize);
+              const skuString = chunk.toString();
+              const sku = '["' + skuString.replaceAll(',', '","') + '"]'
+              dispatch(fetchSkuIds({
+                sku,
+                locationId,
+                select: '["id"]'
+              }));
+
+              const fetchedProductIds = couponProducts?.map((product: any) => product.id);
+              productIdsArray = [...productIdsArray, ...fetchedProductIds!];
+            }
+
+            setProductIds(productIdsArray!)
           }
         }
       }
@@ -170,15 +187,41 @@ export const AddCoupon: React.FC = () => {
   const selectCustomerIds = () => {
     let customerIds: number[] = [];
 
-    if (couponCustomer === "2") {
+    if (couponCustomerOptionId === "2") {
       customerIds = selectedCustomers.map(customer => customer.id);
     }
 
-    if (couponCustomer === "3") {
+    if (couponCustomerOptionId === "3") {
       customerIds = couponCustomerIds;
     }
 
     return customerIds;
+  }
+
+  const handleCouponCustomerOption = (option: string) => {
+    setCouponCustomerOptionId(option);
+
+    if (option === "1") {
+      clearFile(customerFile);
+      dispatch(setSelectedCustomers([]));
+    }
+
+    if (option === "2") {
+      clearFile(customerFile);
+    }
+
+    if (option === "3") {
+      dispatch(setSelectedCustomers([]));
+    }
+  }
+
+  const handleCouponPercentageOption = (option: string) => {
+    setDiscountTypeId(+option);
+
+    if (option === "2") {
+      setCouponSku("0");
+      setProductIds([]);
+    }
   }
 
   const handleCreate = () => {
@@ -196,10 +239,10 @@ export const AddCoupon: React.FC = () => {
       locationId,
       disabled,
       hideOnWallet,
-      couponCustomerOptionId: couponCustomer === "1" ? 1 : 2,
+      couponCustomerOptionId: couponCustomerOptionId === "1" ? 1 : 2,
       couponCustomers: selectCustomerIds(),
       productsListType: +couponSku,
-      couponProductIds,
+      productIds,
       businessUnitId,
       companyId: COMPANY.RETAILO
     }
@@ -207,7 +250,7 @@ export const AddCoupon: React.FC = () => {
     const validate = checkCreateApiData(apiData);
 
     if (validate.ok) {
-      if (couponCustomer === "2" && !selectedCustomers.length) {
+      if (couponCustomerOptionId === "2" && !selectedCustomers.length) {
         toast.error('Select atleast one customer for coupon')
       } else {
         dispatch(createCoupon(apiData));
@@ -283,9 +326,11 @@ export const AddCoupon: React.FC = () => {
                 <label className="label">
                   <span className="label-text">Select Coupon Type</span>
                 </label>
-                <select className="select select-bordered w-full font-normal">
+                <select className="select select-bordered w-full font-normal"
+                  value={discountTypeId}
+                  onChange={(e) => handleCouponPercentageOption(e.target.value)}>
                   {COUPON_TYPES.map(type =>
-                    <option value={type.name} key={type.id} onChange={() => setDiscountTypeId(type.id)}>{type.name}</option>
+                    <option value={type.id} key={type.name}>{type.name}</option>
                   )};
                 </select>
               </div>
@@ -294,9 +339,11 @@ export const AddCoupon: React.FC = () => {
                 <label className="label">
                   <span className="label-text ">Select Coupon User</span>
                 </label>
-                <select className="select select-bordered w-full font-normal">
+                <select className="select select-bordered w-full font-normal"
+                  value={userTypeId}
+                  onChange={(e) => setUserTypeId(e.target.value)}>
                   {COUPON_USERS.map(user =>
-                    <option value={user.name} key={user.id} onChange={() => setUserTypeId(user.value)}>{user.name}</option>
+                    <option value={user.value} key={user.name}>{user.name}</option>
                   )};
                 </select>
               </div>
@@ -325,7 +372,7 @@ export const AddCoupon: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               <div>
                 <label className="label">
                   <span className="label-text ">Coupon Max Usage *</span>
@@ -381,8 +428,8 @@ export const AddCoupon: React.FC = () => {
                       <input
                         value="1"
                         type="radio"
-                        checked={couponCustomer === "1"}
-                        onClick={() => setCouponCustomer("1")}
+                        checked={couponCustomerOptionId === "1"}
+                        onClick={() => handleCouponCustomerOption("1")}
                         onChange={e => { e }}
                       />
                       <span className="input font-normal">Everyone</span>
@@ -390,14 +437,14 @@ export const AddCoupon: React.FC = () => {
 
                     <div>
                       <input
-                        value="1"
+                        value="2"
                         type="radio"
-                        checked={couponCustomer === "2"}
-                        onClick={() => setCouponCustomer("2")}
+                        checked={couponCustomerOptionId === "2"}
+                        onClick={() => handleCouponCustomerOption("2")}
                         onChange={e => { e }}
                       />
                       <span className="input font-normal">Selected Customers</span>
-                      {couponCustomer === "2" ? <div>
+                      {couponCustomerOptionId === "2" ? <div>
                         <button className="btn btn-primary mt-2 ml-7"
                           onClick={handleSelectCustomer}>Select Customers</button>
                       </div> : null}
@@ -405,17 +452,17 @@ export const AddCoupon: React.FC = () => {
 
                     <div>
                       <input
-                        value="2"
+                        value="3"
                         name="customer"
                         type="radio"
-                        checked={couponCustomer === "3"}
-                        onClick={() => setCouponCustomer("3")}
+                        checked={couponCustomerOptionId === "3"}
+                        onClick={() => handleCouponCustomerOption("3")}
                         onChange={e => { e }}
                       />
                       <span className="input font-normal">Upload Customer File</span>
-                      {couponCustomer === "3" ? <div>
+                      {couponCustomerOptionId === "3" ? <div>
                         <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
-                          onChange={(e) => handleFileSubmission(e.target.files, "customer")} />
+                          onChange={(e) => handleFileSubmission(e.target.files!, "customer")} />
                         <div className="w-24">
                           <button className="btn btn-primary btn-block mt-3 ml-7"
                             onClick={() => { clearFile(customerFile) }}>Clear File</button>
@@ -425,61 +472,63 @@ export const AddCoupon: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
-                  <p className="text-l font-semibold mt-6">SKU Eligibility</p>
-                  <div className="grid grid-cols-3 gap-4 mt-3">
-                    <div>
-                      <input
-                        value="0"
-                        type="radio"
-                        checked={couponSku === "0"}
-                        onClick={() => setCouponSku("0")}
-                        onChange={e => { e }}
-                      />
-                      <span className="input font-normal">All SKUs</span>
-                    </div>
+                {discountTypeId === 1 ?
+                  <div>
+                    <p className="text-l font-semibold mt-6">SKU Eligibility</p>
+                    <div className="grid grid-cols-3 gap-4 mt-3">
+                      <div>
+                        <input
+                          value="0"
+                          type="radio"
+                          checked={couponSku === "0"}
+                          onClick={() => setCouponSku("0")}
+                          onChange={e => { e }}
+                        />
+                        <span className="input font-normal">All SKUs</span>
+                      </div>
 
-                    <div>
-                      <input
-                        value="1"
-                        name="sku"
-                        type="radio"
-                        checked={couponSku === "1"}
-                        onClick={() => setCouponSku("1")}
-                        onChange={e => { e }}
-                      />
-                      <span className="input font-normal">Whitelist SKUs</span>
-                      {couponSku === "1" ? <div>
-                        <input className="mt-2 ml-7" type="file" name="file" ref={whitelistFile}
-                          onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
-                        <div className="w-24">
-                          <button className="btn btn-primary btn-block mt-3 ml-7"
-                            onClick={() => { clearFile(whitelistFile) }}>Clear File</button>
-                        </div>
-                      </div> : null}
-                    </div>
+                      <div>
+                        <input
+                          value="1"
+                          name="sku"
+                          type="radio"
+                          checked={couponSku === "1"}
+                          onClick={() => setCouponSku("1")}
+                          onChange={e => { e }}
+                        />
+                        <span className="input font-normal">Whitelist SKUs</span>
+                        {couponSku === "1" ? <div>
+                          <input className="mt-2 ml-7" type="file" name="file" ref={whitelistFile}
+                            onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                          <div className="w-24">
+                            <button className="btn btn-primary btn-block mt-3 ml-7"
+                              onClick={() => { clearFile(whitelistFile) }}>Clear File</button>
+                          </div>
+                        </div> : null}
+                      </div>
 
-                    <div>
-                      <input
-                        value="2"
-                        name="sku"
-                        type="radio"
-                        checked={couponSku === "2"}
-                        onClick={() => setCouponSku("2")}
-                        onChange={e => { e }}
-                      />
-                      <span className="input font-normal">Blacklist SKUs</span>
-                      {couponSku === "2" ? <div>
-                        <input className="mt-2 ml-7" type="file" name="file" ref={blacklistFile}
-                          onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
-                        <div className="w-24">
-                          <button className="btn btn-primary btn-block mt-3 ml-7"
-                            onClick={() => { clearFile(blacklistFile) }}>Clear File</button>
-                        </div>
-                      </div> : null}
+                      <div>
+                        <input
+                          value="2"
+                          name="sku"
+                          type="radio"
+                          checked={couponSku === "2"}
+                          onClick={() => setCouponSku("2")}
+                          onChange={e => { e }}
+                        />
+                        <span className="input font-normal">Blacklist SKUs</span>
+                        {couponSku === "2" ? <div>
+                          <input className="mt-2 ml-7" type="file" name="file" ref={blacklistFile}
+                            onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                          <div className="w-24">
+                            <button className="btn btn-primary btn-block mt-3 ml-7"
+                              onClick={() => { clearFile(blacklistFile) }}>Clear File</button>
+                          </div>
+                        </div> : null}
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </div> : null}
+
                 {selectedCustomers.length ? (
                   <div className="flex flex-col pb-8">
                     {selectedCustomers.map((sc) => (

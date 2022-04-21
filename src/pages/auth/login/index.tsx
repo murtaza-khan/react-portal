@@ -21,6 +21,12 @@ function Login() {
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  }
+
   const boxDimensions = {
     height: 400,
     width: 600
@@ -47,6 +53,7 @@ function Login() {
                 focus:outline-none rounded-md w-96'
                 name='username'
                 type='username'
+                onKeyDown={(e) => handleKeyDown(e)}
               />
             </div>
           </div>
@@ -63,6 +70,7 @@ function Login() {
                 focus:outline-none rounded-md w-96'
                 name='password'
                 type='password'
+                onKeyDown={(e) => handleKeyDown(e)}
               />
             </div>
           </div>
