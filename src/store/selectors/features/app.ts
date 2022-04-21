@@ -27,6 +27,8 @@ export const getIsCustomerLoading = createSelector(appFeatureSelector, app => ge
 
 export const getCustomerPerPage = createSelector(appFeatureSelector, app => get(app, 'customer.perPage', 20));
 
+export const getCustomerFilter = createSelector(appFeatureSelector, app => get(app, 'customer.filter', ''));
+
 export const getCustomerTotalCount = createSelector(appFeatureSelector, app => get(app, 'customer.totalCount', 0));
 
 export const getCustomerPage = createSelector(appFeatureSelector, app => get(app, 'customer.page', 1));

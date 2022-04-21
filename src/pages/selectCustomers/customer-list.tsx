@@ -1,22 +1,31 @@
 /* eslint-disable padding-line-between-statements */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DataGrid, { Column } from "react-data-grid";
 import { useSelector, useDispatch } from "react-redux";
+import debounce from "lodash.debounce";
+import { fetchCustomersByLocation } from "src/store/thunks";
+import { COMPANY } from "src/constants/company-ids";
 import { getCustomerList } from "src/store/selectors/entities/app";
 import { getSelectedCustomers } from "src/store/selectors/features/app";
-import { setSelectedCustomers } from "src/store/slices/features/app";
+import {
+  setSelectedCustomers,
+  updateCustomerCurrentPage,
+  updateCustomerfilter,
+} from "src/store/slices/features/app";
 
-export const CustomerList: React.FC = () => {
+interface CustomerListProps {
+  onClose: () => void;
+}
+
+export const CustomerList: React.FC<CustomerListProps> = ({ onClose }) => {
   const customerList = useSelector(getCustomerList);
-  const dispatch = useDispatch();
   const selectedCustomers = useSelector(getSelectedCustomers);
+  const dispatch = useDispatch();
   const [rows, setRows] = useState<ICustomerRow[]>(customerList);
-  const [filter, setFilter] = useState("");
+  const [selectedRows, setSelectedRows] = useState(selectedCustomers);
 
   useEffect(() => {
-    const selectedCustomerIds = selectedCustomers.map(
-      (customer) => customer.id
-    );
+    const selectedCustomerIds = selectedRows.map((customer) => customer.id);
     setRows(
       customerList.map((customer) => ({
         ...customer,
@@ -37,21 +46,21 @@ export const CustomerList: React.FC = () => {
         checked: !row.checked,
       });
       setRows(localRows);
-      const selectedIndex = selectedCustomers.findIndex(
+      const selectedIndex = selectedRows.findIndex(
         (customer) => customer.id === id
       );
       const customerItem = customerList.find((customer) => customer.id === id);
       if (customerItem) {
-        const updatedSelectedCustomers = [...selectedCustomers];
+        const updatedSelectedCustomers = [...selectedRows];
         if (selectedIndex >= 0) {
           updatedSelectedCustomers.splice(selectedIndex, 1);
         } else {
           updatedSelectedCustomers.push(customerItem);
         }
-        dispatch(setSelectedCustomers(updatedSelectedCustomers));
+        setSelectedRows(updatedSelectedCustomers);
       }
     },
-    [rows, selectedCustomers]
+    [rows, selectedRows]
   );
 
   const columns = useMemo((): readonly Column<ICustomerRow>[] => {
@@ -83,31 +92,44 @@ export const CustomerList: React.FC = () => {
     return row.number;
   };
 
-  const filteredRows = filter
-    ? rows.filter(
-        (r) =>
-          r?.name?.toLowerCase().includes(filter.toLowerCase()) ||
-          r?.phone?.toLowerCase()?.includes(filter.toLowerCase())
-      )
-    : rows;
+  const handleUpdateCustomer = () => {
+    dispatch(setSelectedCustomers(selectedRows));
+    onClose();
+  };
+
+  const handleSearch = debounce((e: { target: { value: string } }) => {
+    const search = e.target.value?.trim();
+    dispatch(updateCustomerCurrentPage(1));
+    dispatch(updateCustomerfilter(search));
+    dispatch(fetchCustomersByLocation({ companyId: COMPANY.RETAILO }));
+  }, 500);
 
   return (
     <>
-      <input
-        className="input input-bordered w-full max-w-xxs mt-4 mb-6"
-        onChange={(e) => setFilter(e.target.value)}
-        type="text"
-        placeholder="Search by Name or Phone"
-      />
-      <DataGrid
-        rowKeyGetter={rowKeyGetter}
-        columns={columns}
-        rows={filteredRows}
-        headerRowHeight={45}
-        rowHeight={45}
-        className="h-full border-none"
-        enableVirtualization={false}
-      />
+      <div>
+        <input
+          className="input input-bordered w-full max-w-xxs mt-4 mb-6"
+          onChange={handleSearch}
+          type="text"
+          placeholder="Search by Name or Phone"
+        />
+        <DataGrid
+          rowKeyGetter={rowKeyGetter}
+          columns={columns}
+          rows={rows}
+          headerRowHeight={45}
+          rowHeight={45}
+          className="h-full border-none"
+          enableVirtualization={false}
+        />
+      </div>
+      {customerList.length ? (
+        <div className="modal-action justify-center">
+          <button onClick={handleUpdateCustomer} className="btn btn-primary">
+            Update Coupon Customers
+          </button>
+        </div>
+      ) : null}
     </>
   );
 };
