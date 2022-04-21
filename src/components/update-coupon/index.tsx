@@ -104,6 +104,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             value={couponDescription}
             className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
             onChange={(e) => setCouponDescription(e.target.value)}
+            onKeyDown={(e) => e.stopPropagation()}
           />
         </div>
         <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
