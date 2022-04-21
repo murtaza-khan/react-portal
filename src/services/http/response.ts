@@ -15,6 +15,7 @@ export const prepareResponseObject = (response: AxiosResponse<any> | any, status
       ...finalResponse,
       data: {message: 'offline'},
       statusCode: STATUS_CODES.BAD_GATEWAY,
+      statusText: 'offline'
     };
   }
 
