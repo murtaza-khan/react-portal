@@ -39,7 +39,7 @@ export const AddCoupon: React.FC = () => {
   const [maxDiscountValue, setMaxDiscountValue] = useState<number>(0);
   const [businessUnitId, setBusinessUnitId] = useState('');
   const [locationId, setLocationId] = useState<number | string>('');
-  const [couponCustomer, setCouponCustomer] = useState("0");
+  const [couponCustomer, setCouponCustomer] = useState("1");
   const [couponSku, setCouponSku] = useState("0");
   const [disabled, setDisabled] = useState(false);
   const [hideOnWallet, setHideOnWallet] = useState(false);
@@ -170,11 +170,11 @@ export const AddCoupon: React.FC = () => {
   const selectCustomerIds = () => {
     let customerIds: number[] = [];
 
-    if (couponCustomer === "1") {
+    if (couponCustomer === "2") {
       customerIds = selectedCustomers.map(customer => customer.id);
     }
 
-    if (couponCustomer === "2") {
+    if (couponCustomer === "3") {
       customerIds = couponCustomerIds;
     }
 
@@ -196,7 +196,7 @@ export const AddCoupon: React.FC = () => {
       locationId,
       disabled,
       hideOnWallet,
-      couponCustomerOptionId: +couponCustomer,
+      couponCustomerOptionId: couponCustomer === "1" ? 1 : 2,
       couponCustomers: selectCustomerIds(),
       productsListType: +couponSku,
       couponProductIds,
@@ -207,7 +207,7 @@ export const AddCoupon: React.FC = () => {
     const validate = checkCreateApiData(apiData);
 
     if (validate.ok) {
-      if (couponCustomer === "1" && !selectedCustomers.length) {
+      if (couponCustomer === "2" && !selectedCustomers.length) {
         toast.error('Select atleast one customer for coupon')
       } else {
         dispatch(createCoupon(apiData));
@@ -379,10 +379,10 @@ export const AddCoupon: React.FC = () => {
                   <div className="grid grid-cols-3 gap-4 mt-3">
                     <div>
                       <input
-                        value="0"
+                        value="1"
                         type="radio"
-                        checked={couponCustomer === "0"}
-                        onClick={() => setCouponCustomer("0")}
+                        checked={couponCustomer === "1"}
+                        onClick={() => setCouponCustomer("1")}
                         onChange={e => { e }}
                       />
                       <span className="input font-normal">Everyone</span>
@@ -392,12 +392,12 @@ export const AddCoupon: React.FC = () => {
                       <input
                         value="1"
                         type="radio"
-                        checked={couponCustomer === "1"}
-                        onClick={() => setCouponCustomer("1")}
+                        checked={couponCustomer === "2"}
+                        onClick={() => setCouponCustomer("2")}
                         onChange={e => { e }}
                       />
                       <span className="input font-normal">Selected Customers</span>
-                      {couponCustomer === "1" ? <div>
+                      {couponCustomer === "2" ? <div>
                         <button className="btn btn-primary mt-2 ml-7"
                           onClick={handleSelectCustomer}>Select Customers</button>
                       </div> : null}
@@ -408,12 +408,12 @@ export const AddCoupon: React.FC = () => {
                         value="2"
                         name="customer"
                         type="radio"
-                        checked={couponCustomer === "2"}
-                        onClick={() => setCouponCustomer("2")}
+                        checked={couponCustomer === "3"}
+                        onClick={() => setCouponCustomer("3")}
                         onChange={e => { e }}
                       />
                       <span className="input font-normal">Upload Customer File</span>
-                      {couponCustomer === "2" ? <div>
+                      {couponCustomer === "3" ? <div>
                         <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
                           onChange={(e) => handleFileSubmission(e.target.files, "customer")} />
                         <div className="w-24">
