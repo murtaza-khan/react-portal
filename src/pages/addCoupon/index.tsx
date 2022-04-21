@@ -354,23 +354,7 @@ export const AddCoupon: React.FC = () => {
                   placeholder="Enter Discount Amount" className="input input-bordered w-full"
                   onChange={(e) => setDiscountValue(+e.target.value)} />
               </div>
-              <div className="dropdown">
-                <label className="label">
-                  <span className="label-text">Select Business Unit</span>
-                </label>
-                <select
-                  value={businessUnitId}
-                  className="select select-bordered w-full font-normal"
-                  onChange={handleBusinessUnitSelection}
-                >
-                  <option value="" disabled></option>
-                  {businessUnits.map((businessUnit) => (
-                    <option key={businessUnit.id} value={businessUnit.id}>
-                      {businessUnit.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              
 
               <div>
                 <label className="label">
@@ -401,6 +385,23 @@ export const AddCoupon: React.FC = () => {
                 <input type="number" value={maxDiscountValue} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
+              </div>
+              <div className="dropdown">
+                <label className="label">
+                  <span className="label-text">Select Business Unit</span>
+                </label>
+                <select
+                  value={businessUnitId}
+                  className="select select-bordered w-full font-normal"
+                  onChange={handleBusinessUnitSelection}
+                >
+                  <option value="" disabled></option>
+                  {businessUnits.map((businessUnit) => (
+                    <option key={businessUnit.id} value={businessUnit.id}>
+                      {businessUnit.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="dropdown">
                 <label className="label">
