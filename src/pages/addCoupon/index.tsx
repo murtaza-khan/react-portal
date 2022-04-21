@@ -242,7 +242,7 @@ export const AddCoupon: React.FC = () => {
       couponCustomerOptionId: couponCustomerOptionId === "1" ? 1 : 2,
       couponCustomers: selectCustomerIds(),
       productsListType: +couponSku,
-      productIds,
+      productIds: couponSku != "0" ? productIds : undefined,
       businessUnitId,
       companyId: COMPANY.RETAILO
     }
