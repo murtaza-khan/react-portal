@@ -303,7 +303,6 @@ export const AddCoupon: React.FC = () => {
                   <DatePicker
                     dateFormat="dd-MMM-yyyy"
                     selected={startDate}
-                    minDate={initialDate}
                     onChange={(date: Date) => setStartDate(date)}
                   />
                 </div>
@@ -317,7 +316,7 @@ export const AddCoupon: React.FC = () => {
                   <DatePicker
                     dateFormat="dd-MMM-yyyy"
                     selected={endDate}
-                    minDate={startDate}
+                    minDate={initialDate}
                     onChange={(date: Date) => setEndDate(date)}
                   />
                 </div>
