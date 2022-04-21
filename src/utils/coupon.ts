@@ -38,5 +38,11 @@ export const checkCreateApiData = (apiData: any) => {
     return { ok: false, error: 'Location Required'}
   }
 
+  if (apiData.discountTypeId === 1) {
+    if (apiData.discountValue > 100) {
+      return { ok: false, error: 'Discount value for percentage coupon can not be greater than 100'}
+    }
+  }
+
   return { ok: true };
 }

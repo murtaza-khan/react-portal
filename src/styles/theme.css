@@ -156,8 +156,5 @@ button:disabled {
   box-shadow: none;
 }
 .react-datepicker__day--selected {
-	background-color: #E0A82E;
-}
-.react-datepicker__day--selected {
-	background-color: #E0A82E;
+	background-color: #e65400;
 }
