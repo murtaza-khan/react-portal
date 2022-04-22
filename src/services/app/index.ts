@@ -19,7 +19,7 @@ export class AppService extends HttpService {
   fetchAllCompanies = async (baseAuthUrl: string): Promise<any> => {
     try {
       const apiResponse = await this.get(
-        `${baseAuthUrl}/company/getAllCompanies`
+        `${baseAuthUrl}/config/company/getAll`
       );
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
@@ -31,10 +31,12 @@ export class AppService extends HttpService {
     baseAuthUrl: string,
     companyId: string
   ): Promise<any> => {
+    const apiData: Record<string, any> = {};
+    if (companyId) {
+      apiData.companyId = companyId;
+    }
     try {
-      const apiResponse = await this.get(`${baseAuthUrl}/businessUnit`, {
-        company_id: companyId,
-      });
+      const apiResponse = await this.get(`${baseAuthUrl}/config/businessunit/getAll`, { ...apiData });
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -48,10 +50,10 @@ export class AppService extends HttpService {
   ): Promise<any> => {
     try {
       const apiResponse = await this.get(
-        `${baseAuthUrl}/location/getAllLocations`,
+        `${baseAuthUrl}/config/location/getAll`,
         {
-          company_id: companyId,
-          business_unit_id: businessUnitId,
+          companyId,
+          businessUnitId,
         }
       );
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);

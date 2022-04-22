@@ -57,13 +57,14 @@ export const AddCoupon: React.FC = () => {
   const blacklistFile = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    dispatch(fetchBusinessUnits(COMPANY.RETAILO));
+    dispatch(fetchBusinessUnits(''));
     dispatch(setSelectedCustomers([]));
   }, []);
 
   useEffect(() => {
-    if (locations.length && businessUnitId) {
-      setLocationId(locations[0].id)
+    if (businessUnitId) {
+      if (locations.length) setLocationId(locations[0].id)
+      else setLocationId('')
     }
   }, [locations, businessUnitId])
 
@@ -354,7 +355,7 @@ export const AddCoupon: React.FC = () => {
                   placeholder="Enter Discount Amount" className="input input-bordered w-full"
                   onChange={(e) => setDiscountValue(+e.target.value)} />
               </div>
-              
+
 
               <div>
                 <label className="label">

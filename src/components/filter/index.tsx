@@ -25,29 +25,27 @@ export const Filter: React.FC = () => {
 
   const handleCompanySelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     if (selectedCompanyId === e.target.value) return;
-    if (!e.target.value) {
-      dispatch(resetBusinessUnits());
-      dispatch(updateSelectedBusinessUnitId(''));
-    } else {
+    dispatch(updateSelectedCompanyId(e.target.value));
+    dispatch(resetBusinessUnits());
+    dispatch(resetLocations());
+    dispatch(updateSelectedBusinessUnitId(''));
+    dispatch(updateSelectedLocationId(''));
+    if (e.target.value) {
       dispatch(fetchBusinessUnits(e.target.value));
     }
-    dispatch(updateSelectedCompanyId(e.target.value));
-    dispatch(resetLocations());
-    dispatch(updateSelectedLocationId(''));
   }, [dispatch, selectedCompanyId]);
 
   const handleBusinessUnitSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     if (selectedBusinessUnitId === e.target.value) return;
-    if (!e.target.value) {
-      dispatch(resetLocations());
-      dispatch(updateSelectedLocationId(''));
-    } else {
+    dispatch(updateSelectedBusinessUnitId(e.target.value));
+    dispatch(resetLocations());
+    dispatch(updateSelectedLocationId(''));
+    if (e.target.value) {
       dispatch(fetchAllLocations({
         companyId: selectedCompanyId,
         businessUnitId: e.target.value
       }));
     }
-    dispatch(updateSelectedBusinessUnitId(e.target.value));
   }, [dispatch, selectedBusinessUnitId, selectedCompanyId]);
 
   const handleLocationSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
