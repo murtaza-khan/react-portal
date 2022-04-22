@@ -83,7 +83,7 @@ export class AppService extends HttpService {
         `${baseAuthUrl}/user/customer/byLocation`,
         {
           companyId,
-          select: "id,name,phone",
+          select: "id,name,phone,email,address",
           ...(searchValue && {searchValue, searchOnAttributes}),
           limit: perPage,
           pageNo: pageNo,
