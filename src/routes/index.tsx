@@ -7,19 +7,27 @@ import { useDispatch } from "react-redux";
 import { setAuthToken } from "../store/slices/features/auth";
 import { LocalStorageService } from '../services/local-storage';
 import history from "src/utils/history";
+import { getAuthCookieName } from 'src/utils/auth';
+import Cookies from 'js-cookie';
 
 export const RouterComponent: React.FC = () => {
   const localStorageService = new LocalStorageService();
-  const authToken = window.location?.href?.split("token=")[1];
+  let data = { token: '', user: {} };
+  const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
 
+  if (stringData && stringData.length > 0) {
+    data = JSON.parse(stringData!);
+  }
+
+  const { token } = data;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (authToken) {
-      localStorageService.persist("token", authToken);
-      dispatch(setAuthToken(authToken));
+    if (token.length > 0) {
+      localStorageService.persist("token", token);
+      dispatch(setAuthToken(token));
     }
-  }, [authToken]);
+  }, [token, dispatch]);
 
   return (
     <Router history={history}>

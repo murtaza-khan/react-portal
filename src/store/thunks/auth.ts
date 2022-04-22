@@ -6,6 +6,8 @@ import { AlertTypes } from "src/constants/alert-types";
 import { LocalStorageService } from "../../services/local-storage";
 import { toast } from 'react-toastify';
 import { setAuthToken } from "../slices/features/auth";
+import Cookies from 'js-cookie';
+import { getAuthCookieName } from 'src/utils/auth';
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -35,6 +37,7 @@ export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
     );
     toast.success("Logged in successfully");
     localStorageService.persist("token", response?.data?.token);
+    Cookies.set(getAuthCookieName(process.env.REACT_APP_ENV), JSON.stringify(response.data));
     thunkAPI.dispatch(setAuthToken(response?.data?.token));
 
     return thunkAPI.fulfillWithValue(response.data);
