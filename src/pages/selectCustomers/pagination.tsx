@@ -30,9 +30,9 @@ export const Pagination: React.FC<Props> = ({ companyId }) => {
       const { selected: selectedPageNumber } = selectedItem;
       if (selectedPageNumber === page - 1) return;
       dispatch(updateCustomerCurrentPage(selectedPageNumber + 1));
-      dispatch(fetchCustomersByLocation(companyId));
+      dispatch(fetchCustomersByLocation({companyId}));
     },
-    [dispatch, page]
+    [dispatch, page, companyId]
   );
 
   return (
