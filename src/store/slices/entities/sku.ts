@@ -15,7 +15,7 @@ export const skuEntitySlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     resetSkuData: state => {
-      state.data = null;
+      state.data = [];
     },
   },
   extraReducers: builder => {
@@ -27,3 +27,4 @@ export const skuEntitySlice = createSlice({
 
 
 export const skuEntityReducer = skuEntitySlice.reducer;
+export const { resetSkuData } = skuEntitySlice.actions;
