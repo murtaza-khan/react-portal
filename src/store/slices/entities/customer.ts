@@ -15,7 +15,7 @@ export const customerEntitySlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     resetCustomerData: state => {
-      state.data = null;
+      state.data = [];
     },
   },
   extraReducers: builder => {
@@ -27,3 +27,4 @@ export const customerEntitySlice = createSlice({
 
 
 export const customerEntityReducer = customerEntitySlice.reducer;
+export const { resetCustomerData } = customerEntitySlice.actions;

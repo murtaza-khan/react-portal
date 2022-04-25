@@ -44,5 +44,13 @@ export const checkCreateApiData = (apiData: any) => {
     }
   }
 
+  if (apiData.couponCustomers.length === 0) {
+    return { ok: false, error: 'Please upload customer file'}
+  }
+
+  if (apiData.productIds.length === 0) {
+    return { ok: false, error: 'Please upload product file'}
+  }
+
   return { ok: true };
 }

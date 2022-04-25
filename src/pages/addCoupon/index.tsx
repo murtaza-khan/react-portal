@@ -19,6 +19,8 @@ import { checkCreateApiData } from 'src/utils/coupon'
 import { SelectCustomers } from '../selectCustomers';
 import { setSelectedCustomers } from "src/store/slices/features/app";
 import { getSelectedCustomers } from "src/store/selectors/features/app";
+import { resetCustomerData } from '../../store/slices/entities/customer';
+import { resetSkuData } from '../../store/slices/entities/sku';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -43,8 +45,6 @@ export const AddCoupon: React.FC = () => {
   const [couponSku, setCouponSku] = useState("0");
   const [disabled, setDisabled] = useState(false);
   const [hideOnWallet, setHideOnWallet] = useState(false);
-  const [productIds, setProductIds] = useState<Array<number>>([]);
-  const [couponCustomerIds, setCouponCustomerIds] = useState<Array<number>>([]);
   const [showSelectCustomers, setShowSelectCustomers] = useState(false);
   const selectedCustomers = useSelector(getSelectedCustomers);
   const businessUnits = useSelector(getBusinessUnits);
@@ -88,11 +88,11 @@ export const AddCoupon: React.FC = () => {
       file.current.value = "";
 
       if (file.current.name === "customer") {
-        setCouponCustomerIds([]);
+        dispatch(resetCustomerData());
       }
 
       if (file.current.name === "sku") {
-        setProductIds([]);
+        dispatch(resetSkuData());
       }
     }
   }
@@ -132,41 +132,17 @@ export const AddCoupon: React.FC = () => {
             .map(item => { return item.trim() })
             .slice(1);
 
-          const chunkSize = 200;
-
           if (type === "customer") {
-            let customerIdsArray: Array<number> = [];
-
-            for (let i = 0; i < csvArray.length; i += chunkSize) {
-              const chunk = csvArray.slice(i, i + chunkSize);
-              dispatch(fetchCustomerIds({
-                select: "id",
-                phone: chunk.toString()
-              }));
-
-              const fetchedCustomerIds = couponCustomers?.map((customer: any) => customer?.id);
-              customerIdsArray = [...customerIdsArray, ...fetchedCustomerIds!];
-            }
-
-            setCouponCustomerIds(customerIdsArray)
+            dispatch(fetchCustomerIds({
+              select: "id",
+              phone: csvArray
+            }));
           } else if (type === "sku") {
-            let productIdsArray: Array<number> = [];
-
-            for (let i = 0; i < csvArray.length; i += chunkSize) {
-              const chunk = csvArray.slice(i, i + chunkSize);
-              const skuString = chunk.toString();
-              const sku = '["' + skuString.replaceAll(',', '","') + '"]'
-              dispatch(fetchSkuIds({
-                sku,
-                locationId,
-                select: '["id"]'
-              }));
-
-              const fetchedProductIds = couponProducts?.map((product: any) => product.id);
-              productIdsArray = [...productIdsArray, ...fetchedProductIds!];
-            }
-
-            setProductIds(productIdsArray!)
+            dispatch(fetchSkuIds({
+              sku: csvArray,
+              locationId,
+              select: '["id"]'
+            }));
           }
         }
       }
@@ -186,17 +162,21 @@ export const AddCoupon: React.FC = () => {
   };
 
   const selectCustomerIds = () => {
-    let customerIds: number[] = [];
+    let couponCustomerIds: number[] = [];
 
     if (couponCustomerOptionId === "2") {
-      customerIds = selectedCustomers.map(customer => customer.id);
+      couponCustomerIds = selectedCustomers.map(customer => customer.id);
     }
 
     if (couponCustomerOptionId === "3") {
-      customerIds = couponCustomerIds;
+      if (couponCustomers?.length === 0) {
+        return [];
+      }
+
+      couponCustomerIds = couponCustomers!.map(customer => customer.id);
     }
 
-    return customerIds;
+    return couponCustomerIds;
   }
 
   const handleCouponCustomerOption = (option: string) => {
@@ -216,12 +196,38 @@ export const AddCoupon: React.FC = () => {
     }
   }
 
+  const handleProductListType = (option: string) => {
+    setCouponSku(option);
+    dispatch(resetSkuData());
+
+    if (option === "0") {
+      clearFile(whitelistFile);
+      clearFile(blacklistFile);
+    }
+
+    if (option === "1") {
+      clearFile(whitelistFile);
+    }
+
+    if (option === "2") {
+      clearFile(blacklistFile);
+    }
+  }
+
+  const mapProductIds = () => {
+    if (couponProducts?.length === 0) {
+      return undefined;
+    } else {
+      return couponProducts?.map(product => product.id);
+    }
+  }
+
   const handleCouponPercentageOption = (option: string) => {
     setDiscountTypeId(+option);
 
     if (option === "2") {
       setCouponSku("0");
-      setProductIds([]);
+      dispatch(resetSkuData());
     }
   }
 
@@ -243,7 +249,7 @@ export const AddCoupon: React.FC = () => {
       couponCustomerOptionId: couponCustomerOptionId === "1" ? 1 : 2,
       couponCustomers: selectCustomerIds(),
       productsListType: +couponSku,
-      productIds: couponSku != "0" ? productIds : undefined,
+      productIds: mapProductIds(),
       businessUnitId,
       companyId: COMPANY.RETAILO
     }
@@ -482,7 +488,7 @@ export const AddCoupon: React.FC = () => {
                           value="0"
                           type="radio"
                           checked={couponSku === "0"}
-                          onClick={() => setCouponSku("0")}
+                          onClick={() => handleProductListType("0")}
                           onChange={e => { e }}
                         />
                         <span className="input font-normal">All SKUs</span>
@@ -494,12 +500,12 @@ export const AddCoupon: React.FC = () => {
                           name="sku"
                           type="radio"
                           checked={couponSku === "1"}
-                          onClick={() => setCouponSku("1")}
+                          onClick={() => handleProductListType("1")}
                           onChange={e => { e }}
                         />
                         <span className="input font-normal">Whitelist SKUs</span>
                         {couponSku === "1" ? <div>
-                          <input className="mt-2 ml-7" type="file" name="file" ref={whitelistFile}
+                          <input className="mt-2 ml-7" type="file" name="sku" ref={whitelistFile}
                             onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
                           <div className="w-24">
                             <button className="btn btn-primary btn-block mt-3 ml-7"
@@ -514,12 +520,12 @@ export const AddCoupon: React.FC = () => {
                           name="sku"
                           type="radio"
                           checked={couponSku === "2"}
-                          onClick={() => setCouponSku("2")}
+                          onClick={() => handleProductListType("2")}
                           onChange={e => { e }}
                         />
                         <span className="input font-normal">Blacklist SKUs</span>
                         {couponSku === "2" ? <div>
-                          <input className="mt-2 ml-7" type="file" name="file" ref={blacklistFile}
+                          <input className="mt-2 ml-7" type="file" name="sku" ref={blacklistFile}
                             onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
                           <div className="w-24">
                             <button className="btn btn-primary btn-block mt-3 ml-7"
