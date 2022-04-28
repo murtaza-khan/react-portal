@@ -59,6 +59,8 @@ export const AddCoupon: React.FC = () => {
   useEffect(() => {
     dispatch(fetchBusinessUnits(''));
     dispatch(setSelectedCustomers([]));
+    dispatch(resetCustomerData());
+    dispatch(resetSkuData());
   }, []);
 
   useEffect(() => {
@@ -134,14 +136,24 @@ export const AddCoupon: React.FC = () => {
 
           if (type === "customer") {
             dispatch(fetchCustomerIds({
-              select: "id",
-              phone: csvArray
+              select: "id,phone",
+              phone: csvArray,
+              onError: () => clearFile(customerFile)
             }));
           } else if (type === "sku") {
             dispatch(fetchSkuIds({
               sku: csvArray,
               locationId,
-              select: '["id"]'
+              select: '["id","sku"]',
+              onError: () => {
+                if (couponSku === "1") {
+                  clearFile(whitelistFile);
+                }
+
+                if (couponSku === "2") {
+                  clearFile(blacklistFile);
+                }
+              }
             }));
           }
         }

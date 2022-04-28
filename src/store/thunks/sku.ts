@@ -25,14 +25,19 @@ export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
           });
         response = [...response, ...data];
       }
-      thunkAPI.dispatch(setIsLoading(false));
-      if (response.length === 0) {
-        throw { statusText: 'No products found against provided csv file' };
+
+      if (response.length != apiData.sku.length) {
+        const responseArray = response.map((product: { sku: string; }) => product.sku);
+        const errorSkus = apiData.sku.filter((sku: any) => !responseArray.includes(sku));
+        throw { statusText: `Sku ${errorSkus[0]} not found` };
       }
+
+      thunkAPI.dispatch(setIsLoading(false));
       return thunkAPI.fulfillWithValue(response);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
       thunkAPI.dispatch(setIsLoading(false));
+      apiData.onError();
       return thunkAPI.rejectWithValue(statusText);
     }
   }

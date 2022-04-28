@@ -26,8 +26,10 @@ export const fetchCustomerIds = createAsyncThunk<TObject, TObject, IActionOption
         response = [...response, ...data];
       }
 
-      if (response.length === 0) {
-        throw { statusText: 'No customers found against provided csv file' };
+      if (response.length != apiData.phone.length) {
+        const responseArray = response.map((customer: { phone: string; }) => customer.phone);
+        const errorCustomers = apiData.phone.filter((phone: any) => !responseArray.includes(phone));
+        throw { statusText: `Customer ${errorCustomers[0]} not found` };
       }
 
       thunkAPI.dispatch(setIsLoading(false));
@@ -35,6 +37,7 @@ export const fetchCustomerIds = createAsyncThunk<TObject, TObject, IActionOption
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
       thunkAPI.dispatch(setIsLoading(false));
+      apiData.onError();
       return thunkAPI.rejectWithValue(statusText);
     }
   }
