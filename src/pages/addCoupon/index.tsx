@@ -144,7 +144,7 @@ export const AddCoupon: React.FC = () => {
             dispatch(fetchSkuIds({
               sku: csvArray,
               locationId,
-              select: '["id","sku"]',
+              select: "id,sku",
               onError: () => {
                 if (couponSku === "1") {
                   clearFile(whitelistFile);
