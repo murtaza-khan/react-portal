@@ -19,7 +19,7 @@ export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
         const chunk = apiData.sku.slice(i, i + chunkSize);
         const { data } = await skuService.fetchSkuIds(baseUrl,
           {
-            sku: '["' + chunk.toString().replaceAll(',', '","') + '"]',
+            sku: chunk.toString(),
             select: apiData.select,
             locationId: apiData.locationId
           });
