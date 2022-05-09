@@ -124,6 +124,11 @@ export const AddCoupon: React.FC = () => {
       const reader: FileReader = new FileReader();
 
       if (file) {
+        if (file[0].name.slice(-4) !== '.csv') {
+          toast.error('Invalid file format! Please upload the file with .csv extension.');
+          return;
+        }
+
         reader.readAsText(file[0]);
 
         reader.onload = () => {
@@ -159,8 +164,6 @@ export const AddCoupon: React.FC = () => {
         }
       }
     }
-
-    return undefined;
   };
 
   const removeCustomer = (id: number) => {

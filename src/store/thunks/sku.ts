@@ -14,7 +14,7 @@ export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
       thunkAPI.dispatch(setIsLoading(true));
       const baseUrl = getBaseUrl(thunkAPI.getState());
       let response: any = [];
-      const chunkSize = 500;
+      const chunkSize = 200;
       for (let i = 0; i < apiData.sku.length; i += chunkSize) {
         const chunk = apiData.sku.slice(i, i + chunkSize);
         const { data } = await skuService.fetchSkuIds(baseUrl,
