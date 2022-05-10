@@ -1,16 +1,13 @@
 import { HttpService } from '../http';
 import { prepareErrorResponse, prepareResponseObject } from '../http/response';
 import { RESPONSE_TYPES } from '../../constants/response-types';
-import { LocalStorageService } from '../local-storage';
 import Cookies from 'js-cookie';
 import { getAuthCookieName } from 'src/utils/auth';
 // import { ROLES } from '../../constants/roles';
 
-const localStorageService = new LocalStorageService();
 export class AuthService extends HttpService {
   signOut = async (/* _baseAuthUrl: string */): Promise<any> => {
     try {
-      localStorageService.remove('user');
       Cookies.remove(getAuthCookieName(process.env.REACT_APP_ENV));
     } catch (error) {
       throw prepareErrorResponse(error);

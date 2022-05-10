@@ -242,6 +242,7 @@ export const AddCoupon: React.FC = () => {
 
     if (option === "2") {
       setCouponSku("0");
+      setMaxDiscountValue(0);
       dispatch(resetSkuData());
     }
   }
@@ -398,7 +399,7 @@ export const AddCoupon: React.FC = () => {
                   onChange={(e) => setMinCouponLimit(+e.target.value)} />
               </div>
 
-              <div>
+              {discountTypeId != 2 ? <div>
                 <label className="label">
                   <span className="label-text ">
                     Coupon Max Discount Value *
@@ -407,7 +408,8 @@ export const AddCoupon: React.FC = () => {
                 <input type="number" value={maxDiscountValue} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
-              </div>
+              </div> : <div></div>}
+
               <div className="dropdown">
                 <label className="label">
                   <span className="label-text">Select Business Unit</span>

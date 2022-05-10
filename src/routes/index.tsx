@@ -5,13 +5,11 @@ import PrivateRoutes from './private-routes';
 import { HealthCheck } from "../pages";
 import { useDispatch } from "react-redux";
 import { setAuthToken } from "../store/slices/features/auth";
-import { LocalStorageService } from '../services/local-storage';
 import history from "src/utils/history";
 import { getAuthCookieName } from 'src/utils/auth';
 import Cookies from 'js-cookie';
 
 export const RouterComponent: React.FC = () => {
-  const localStorageService = new LocalStorageService();
   let data = { token: '', user: {} };
   const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
 
@@ -23,10 +21,7 @@ export const RouterComponent: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token.length > 0) {
-      localStorageService.persist("token", token);
-      dispatch(setAuthToken(token));
-    }
+    dispatch(setAuthToken(token));
   }, [token, dispatch]);
 
   return (
