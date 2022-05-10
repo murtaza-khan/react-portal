@@ -408,7 +408,7 @@ export const AddCoupon: React.FC = () => {
                 <input type="number" value={maxDiscountValue} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
-              </div> : <div></div>}
+              </div> : null}
 
               <div className="dropdown">
                 <label className="label">
