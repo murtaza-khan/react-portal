@@ -399,6 +399,7 @@ export const AddCoupon: React.FC = () => {
                   onChange={(e) => setMinCouponLimit(+e.target.value)} />
               </div>
 
+
               {discountTypeId != 2 ? <div>
                 <label className="label">
                   <span className="label-text ">
