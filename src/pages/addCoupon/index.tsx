@@ -21,6 +21,8 @@ import { setSelectedCustomers } from "src/store/slices/features/app";
 import { getSelectedCustomers } from "src/store/selectors/features/app";
 import { resetCustomerData } from '../../store/slices/entities/customer';
 import { resetSkuData } from '../../store/slices/entities/sku';
+import { checkTokenOnReroute } from 'src/utils/auth';
+import { useHistory } from 'react-router-dom';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,6 +30,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export const AddCoupon: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(new Date());
@@ -57,6 +60,10 @@ export const AddCoupon: React.FC = () => {
   const blacklistFile = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (checkTokenOnReroute()) {
+      history.push('/login');
+    }
+
     dispatch(fetchBusinessUnits(''));
     dispatch(setSelectedCustomers([]));
     dispatch(resetCustomerData());

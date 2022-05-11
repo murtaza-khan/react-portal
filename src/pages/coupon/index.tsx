@@ -14,6 +14,7 @@ import { getCouponsPage, getIsLoading } from 'src/store/selectors/features/coupo
 import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from 'src/store/slices/features/app';
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { fetchInitialData } from 'src/store/thunks/app';
+import { checkTokenOnReroute } from 'src/utils/auth';
 
 
 export const Coupon: React.FC = () => {
@@ -37,6 +38,9 @@ export const Coupon: React.FC = () => {
   }
 
   useEffect(() => {
+    if (checkTokenOnReroute()) {
+      history.push('/login');
+    }
     handleRefresh();
   }, [])
 
