@@ -30,6 +30,9 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
       thunkAPI.dispatch(setIsLoading(false));
       return thunkAPI.fulfillWithValue(data);
     } catch ({ statusText }) {
+      if (statusText === 'jwt must be provided') {
+        statusText = 'Unauthorized!';
+      }
       toast.error(`${statusText}`);
       thunkAPI.dispatch(setIsLoading(false));
       return thunkAPI.rejectWithValue(statusText);
