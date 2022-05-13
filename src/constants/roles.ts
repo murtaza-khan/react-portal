@@ -1,9 +1,10 @@
-// set roles according to your needs
 export enum ROLES {
-  SUPER_ADMIN= 'SUPER_ADMIN',
   ADMIN= 'ADMIN',
-  MANAGER= 'MANAGER',
-  CUSTOMER= 'CUSTOMER',
-  GUEST= 'GUEST',
+  COMPANY_OWNER= 'COMPANY OWNER',
+}
+
+export enum ROLE_TYPE {
+  ADMIN= 1,
+  COMPANY_OWNER= 9,
 }
 

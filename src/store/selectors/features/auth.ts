@@ -21,8 +21,8 @@ export const getUserRoleData = createSelector(getUserData, userData => get(userD
 
 export const getUserRoleName = createSelector(getUserRoleData, userRoleData => get(userRoleData, 'name', ''));
 
+export const getUserRoleId = createSelector(getUserRoleData, userRoleData => get(userRoleData, 'id', null));
+
 
 // Need to be Verified, may not work as expected
 export const getIsAdmin = createSelector(getData, (data: any) => data && data?.role === ROLES.ADMIN);
-
-export const getIsCustomer = createSelector(getData, (data: any) => data && data?.role === ROLES.CUSTOMER);

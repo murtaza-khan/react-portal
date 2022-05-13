@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getIsLoggedIn, getUserRoleName } from '../store/selectors/features/auth';
+import { getIsLoggedIn, getUserRoleId } from '../store/selectors/features/auth';
 import PrivateRoutesConfig from './private-route-config';
 import MapAllowedRoutes from './map-allowed-routes';
 
@@ -21,12 +21,9 @@ const PrivateRoutes = () => {
   let allowedRoutes = [];
 
   const isLoggedIn = useSelector(getIsLoggedIn);
-  const userRole = useSelector(getUserRoleName) || 'ADMIN';
-  if (isLoggedIn) allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, userRole);
+  const userRoleId = useSelector(getUserRoleId);
+  if (isLoggedIn) allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, userRoleId);
   else return <Redirect to='/' />;
-
-  // For Testing
-  // allowedRoutes = PrivateRoutesConfig;
 
   return (
     <Fragment>
