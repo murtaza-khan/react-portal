@@ -36,6 +36,9 @@ export const authFeatureSlice = createSlice({
 
       state.data.token = action.payload;
     },
+    setAuthData: (state, action) => {
+      state.data = action.payload;
+    },
   },
   // A "builder callback" function used to add more reducers
   extraReducers: builder => {
@@ -49,4 +52,4 @@ export const authFeatureSlice = createSlice({
 });
 
 export const authFeatureReducer = authFeatureSlice.reducer;
-export const { setAuthToken } = authFeatureSlice.actions;
+export const { setAuthToken, setAuthData } = authFeatureSlice.actions;

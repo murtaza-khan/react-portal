@@ -1,9 +1,9 @@
 import axios from "axios";
 import queryString from "query-string";
-import { LocalStorageService } from "../local-storage";
 import "./interceptors";
+import Cookies from 'js-cookie';
+import { getAuthCookieName } from 'src/utils/auth';
 
-const localStorageService = new LocalStorageService();
 export class HttpService {
   getTimeOutDuration() {
     // all api calls will be timeout
@@ -24,7 +24,14 @@ export class HttpService {
       // return headers;
     }
 
-    const token = await localStorageService.fetch("token");
+    let data = { token: '', user: {} };
+    const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
+  
+    if (stringData && stringData.length > 0) {
+      data = JSON.parse(stringData!);
+    }
+  
+    const { token } = data;
     if (token && typeof token === "string" && !headers.Authorization)
       headers.Authorization = token;
 

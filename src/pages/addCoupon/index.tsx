@@ -21,6 +21,8 @@ import { setSelectedCustomers } from "src/store/slices/features/app";
 import { getSelectedCustomers } from "src/store/selectors/features/app";
 import { resetCustomerData } from '../../store/slices/entities/customer';
 import { resetSkuData } from '../../store/slices/entities/sku';
+import { checkTokenOnReroute } from 'src/utils/auth';
+import { useHistory } from 'react-router-dom';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,6 +30,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export const AddCoupon: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(new Date());
@@ -57,6 +60,10 @@ export const AddCoupon: React.FC = () => {
   const blacklistFile = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (checkTokenOnReroute()) {
+      history.push('/login');
+    }
+
     dispatch(fetchBusinessUnits(''));
     dispatch(setSelectedCustomers([]));
     dispatch(resetCustomerData());
@@ -124,6 +131,11 @@ export const AddCoupon: React.FC = () => {
       const reader: FileReader = new FileReader();
 
       if (file) {
+        if (file[0].name.slice(-4) !== '.csv') {
+          toast.error('Invalid file format! Please upload the file with .csv extension.');
+          return;
+        }
+
         reader.readAsText(file[0]);
 
         reader.onload = () => {
@@ -159,8 +171,6 @@ export const AddCoupon: React.FC = () => {
         }
       }
     }
-
-    return undefined;
   };
 
   const removeCustomer = (id: number) => {
@@ -239,6 +249,7 @@ export const AddCoupon: React.FC = () => {
 
     if (option === "2") {
       setCouponSku("0");
+      setMaxDiscountValue(0);
       dispatch(resetSkuData());
     }
   }
@@ -395,7 +406,8 @@ export const AddCoupon: React.FC = () => {
                   onChange={(e) => setMinCouponLimit(+e.target.value)} />
               </div>
 
-              <div>
+
+              {discountTypeId != 2 ? <div>
                 <label className="label">
                   <span className="label-text ">
                     Coupon Max Discount Value *
@@ -404,7 +416,8 @@ export const AddCoupon: React.FC = () => {
                 <input type="number" value={maxDiscountValue} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
                   placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
                   onChange={(e) => setMaxDiscountValue(+e.target.value)} />
-              </div>
+              </div> : null}
+
               <div className="dropdown">
                 <label className="label">
                   <span className="label-text">Select Business Unit</span>

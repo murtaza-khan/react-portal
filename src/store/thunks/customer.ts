@@ -14,7 +14,7 @@ export const fetchCustomerIds = createAsyncThunk<TObject, TObject, IActionOption
       thunkAPI.dispatch(setIsLoading(true));
       const baseUrl = getBaseUrl(thunkAPI.getState());
       let response: any = [];
-      const chunkSize = 500;
+      const chunkSize = 200;
       for (let i = 0; i < apiData.phone.length; i += chunkSize) {
         const chunk = apiData.phone.slice(i, i + chunkSize);
         const { data } = await customerService.fetchCustomerIds(baseUrl,
