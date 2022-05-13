@@ -9,6 +9,7 @@ export class AuthService extends HttpService {
   signOut = async (/* _baseAuthUrl: string */): Promise<any> => {
     try {
       Cookies.remove(getAuthCookieName(process.env.REACT_APP_ENV));
+      localStorage.clear();
     } catch (error) {
       throw prepareErrorResponse(error);
     }
