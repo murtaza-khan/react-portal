@@ -1,4 +1,4 @@
-import { ROLE_TYPE } from '../constants/roles';
+import { ROLES } from '../constants/roles';
 import { Coupon, AddCoupon } from '../pages';
 
 // TODO:
@@ -15,8 +15,8 @@ export default [
     path: '/',
     title: 'Coupon',
     permission: [
-      ROLE_TYPE.ADMIN,
-      ROLE_TYPE.COMPANY_OWNER,
+      ROLES.ADMIN,
+      ROLES.COMPANY_OWNER,
     ],
   },
   {
@@ -24,8 +24,8 @@ export default [
     path: '/add',
     title: 'Add Coupon',
     permission: [
-      ROLE_TYPE.ADMIN,
-      ROLE_TYPE.COMPANY_OWNER,
+      ROLES.ADMIN,
+      ROLES.COMPANY_OWNER,
     ],
   },
 ];
