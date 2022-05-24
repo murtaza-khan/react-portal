@@ -6,6 +6,7 @@ export enum ROUTES  {
 }
 
 export const ADMIN_PORTAL_URL = process.env.REACT_APP_ADMIN_PORTAL_URL;
+export const LOYALTY_PORTAL_URL = process.env.REACT_APP_LOYALTY_PORTAL_URL;
 
 //Sidebar Route Names
 export enum SIDEBAR_NAMES {
@@ -23,6 +24,7 @@ export enum SIDEBAR_NAMES {
   BANNERS = 'Banners',
   BNPL_TRANSACTIONS = 'BNPL Transactions',
   MAILING_LISTS = 'Mailing Lists',
+  REWARDS = 'Rewards',
   HIERARCHY = 'Hierarchy',
   SETTINGS = 'Settings',
 }
