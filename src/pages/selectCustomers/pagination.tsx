@@ -10,10 +10,7 @@ import {
 import { updateCustomerCurrentPage } from "src/store/slices/features/app";
 import { fetchCustomersByLocation } from "src/store/thunks";
 
-interface Props {
-  companyId: string | number;
-}
-export const Pagination: React.FC<Props> = ({ companyId }) => {
+export const Pagination: React.FC = () => {
   const dispatch = useDispatch();
   const [pageCount, setPageCount] = useState(0);
 
@@ -30,9 +27,9 @@ export const Pagination: React.FC<Props> = ({ companyId }) => {
       const { selected: selectedPageNumber } = selectedItem;
       if (selectedPageNumber === page - 1) return;
       dispatch(updateCustomerCurrentPage(selectedPageNumber + 1));
-      dispatch(fetchCustomersByLocation({companyId}));
+      dispatch(fetchCustomersByLocation({}));
     },
-    [dispatch, page, companyId]
+    [dispatch, page]
   );
 
   return (

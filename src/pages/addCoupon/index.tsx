@@ -605,7 +605,7 @@ export const AddCoupon: React.FC = () => {
           </div>
         </div>
       </div>
-      {showSelectCustomers ? <SelectCustomers companyId={COMPANY.RETAILO} isOpen={showSelectCustomers} closeModal={() => setShowSelectCustomers(false)} /> : null}
+      {showSelectCustomers ? <SelectCustomers isOpen={showSelectCustomers} closeModal={() => setShowSelectCustomers(false)} /> : null}
     </>
   );
 };
