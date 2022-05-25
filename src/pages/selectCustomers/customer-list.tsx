@@ -4,7 +4,6 @@ import DataGrid, { Column } from "react-data-grid";
 import { useSelector, useDispatch } from "react-redux";
 import debounce from "lodash.debounce";
 import { fetchCustomersByLocation } from "src/store/thunks";
-import { COMPANY } from "src/constants/company-ids";
 import { getCustomerList } from "src/store/selectors/entities/app";
 import { getSelectedCustomers } from "src/store/selectors/features/app";
 import {
@@ -101,7 +100,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({ onClose }) => {
     const search = e.target.value?.trim();
     dispatch(updateCustomerCurrentPage(1));
     dispatch(updateCustomerfilter(search));
-    dispatch(fetchCustomersByLocation({ companyId: COMPANY.RETAILO }));
+    dispatch(fetchCustomersByLocation({}));
   }, 500);
 
   return (
