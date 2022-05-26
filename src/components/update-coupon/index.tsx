@@ -53,7 +53,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
 
 
   return (
-    <div className="px-3.5 py-5">
+    <div className="px-3.5 py-5 overflow-auto h-[565px]">
       <div className="flex flex-wrap">
         <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral bg rounded-md">
