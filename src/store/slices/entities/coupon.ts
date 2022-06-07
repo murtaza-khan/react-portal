@@ -27,6 +27,4 @@ export const couponEntitySlice = createSlice({
   },
 });
 
-// export const { resetBusinessUnits, resetLocations } = couponEntitySlice.actions
-
 export const couponEntityReducer = couponEntitySlice.reducer;

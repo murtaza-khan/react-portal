@@ -13,22 +13,6 @@ import { toast } from 'react-toastify';
 
 const appService = new AppService();
 
-export const fetchAppData = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'app/fetchAppData',
-  async (_requestPayload: Record<string, string>, thunkAPI) => {
-    // Example of an API call to fetch the app-data
-    const baseUrl = getBaseUrl(thunkAPI.getState());
-    const response = await appService.fetchAppData(baseUrl);
-
-    // const response = { data: null, error: { message: 'API failed with status 400' }}; // example response
-    if (response.error) {
-      return thunkAPI.rejectWithValue({ ...response.error });
-    }
-
-    return response?.data;
-  }
-);
-
 export const fetchAllCompanies = createAsyncThunk<TObject, TObject, IActionOptions>(
   'app/fetchAllCompanies',
   async (_: any, thunkAPI) => {
