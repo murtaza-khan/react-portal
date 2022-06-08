@@ -3,7 +3,6 @@ import { prepareErrorResponse, prepareResponseObject } from '../http/response';
 import { RESPONSE_TYPES } from '../../constants/response-types';
 import Cookies from 'js-cookie';
 import { getAuthCookieName } from 'src/utils/auth';
-// import { ROLES } from '../../constants/roles';
 
 export class AuthService extends HttpService {
   signOut = async (/* _baseAuthUrl: string */): Promise<any> => {

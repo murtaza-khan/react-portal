@@ -10,10 +10,7 @@ import PublicRoutes from './public-routes';
 */
 const Auth = () => {
   const loggedIn = useSelector(getIsLoggedIn);
-  // const isAdmin = useSelector(getIsAdmin);
-  // TODO: temp logged-in check, update as per your app logic
   return loggedIn ? (
-    // <Redirect to={ isAdmin ? '/app/dashboard' : '/app/profile' } />
     <Redirect to={ '/coupon' } />
   ) : (
     <PublicRoutes />

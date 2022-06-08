@@ -123,9 +123,6 @@ button:disabled {
 }
 
 .app-wrapper {
-	/* display: grid; */
-	/* grid-template-columns: 320px 1fr; */
-	/* width: 100vw; */
 	height: 100vh;
 }
 .highlighted-view {

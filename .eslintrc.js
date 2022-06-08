@@ -6,7 +6,6 @@ module.exports = {
     'jest',
   ],
   extends: [
-    // './node_modules/jslint-configs/config-react.js',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     "plugin:react-hooks/recommended"
