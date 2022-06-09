@@ -8,17 +8,11 @@ import reduxStore from './store';
 import { RouterComponent } from './routes';
 import { reportWebVitals } from './reportWebVitals';
 import './styles/theme.css';
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const { store, persistor } = reduxStore();
-
-const queryClient = new QueryClient();
 
 export const App = () => (
   <React.StrictMode>
@@ -28,12 +22,10 @@ export const App = () => (
           loading={null}
           persistor={persistor}
         >
-          <QueryClientProvider client={queryClient}>
-            <Suspense fallback='loading'>
-              <RouterComponent />
-              <ToastContainer theme='colored' newestOnTop />
-            </Suspense>
-          </QueryClientProvider>
+          <Suspense fallback='loading'>
+            <RouterComponent />
+            <ToastContainer theme='colored' newestOnTop />
+          </Suspense>
         </PersistGate>
       </Provider>
     </ErrorBoundary>
