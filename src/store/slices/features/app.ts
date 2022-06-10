@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCustomersByLocation } from "../../thunks";
+import { fetchCustomersByLocation } from "src/store/thunks/app";  // import from `src/store/thunks` was giving error
 import { ROUTES } from "../../../constants/navigation-routes";
 /**
  * An example of creating feature slices, reducers and INITIAL_STATE.

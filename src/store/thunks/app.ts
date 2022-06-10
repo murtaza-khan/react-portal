@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppService } from '../../services/app';
-import { getBaseUrl } from '../selectors/features/app';
+import { getBaseUrl, getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from '../selectors/features/app';
 import { getCustomerPage, getCustomerPerPage, getCustomerFilter } from '../selectors/features/app';
 import { fetchCoupons } from 'src/store/thunks/coupon';
 import { toast } from 'react-toastify';
+import { getCouponsPage } from '../selectors/features/coupon';
+import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from '../slices/features/app';
+import { updateCurrentPage } from '../slices/features/coupon';
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -65,7 +68,7 @@ export const fetchCustomersByLocation = createAsyncThunk<TObject, TObject, IActi
       const perPage = getCustomerPerPage(thunkAPI.getState());
       const searchValue = getCustomerFilter(thunkAPI.getState());
       const { companyId } = _requestPayload;
-      
+
       const payload = {
         companyId,
         perPage,
@@ -84,4 +87,20 @@ export const fetchCustomersByLocation = createAsyncThunk<TObject, TObject, IActi
 export const fetchInitialData = () => async (dispatch: any): Promise<any> => {
   dispatch(fetchAllCompanies({}));
   dispatch(fetchCoupons({}));
+};
+
+
+export const handleRefresh = () => async (dispatch: any, getState: any): Promise<any> => {
+  const selectedCompanyId = getSelectedCompanyId(getState());
+  const selectedBusinessUnitId = getSelectedBusinessUnitId(getState());
+  const selectedLocationId = getSelectedLocationId(getState());
+  const searchValue = getSearchValue(getState());
+  const currentPage = getCouponsPage(getState());
+
+  selectedCompanyId && dispatch(updateSelectedCompanyId(''));
+  selectedBusinessUnitId && dispatch(updateSelectedBusinessUnitId(''));
+  selectedLocationId && dispatch(updateSelectedLocationId(''));
+  searchValue && dispatch(updateSearchValue(''));
+  currentPage !== 1 && dispatch(updateCurrentPage(1));
+  dispatch(fetchInitialData());
 };
