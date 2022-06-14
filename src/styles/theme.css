@@ -95,7 +95,6 @@ p {
 
 input {
 	@apply focus:outline-none;
-	@apply focus:bg-white;
 	@apply focus:ring-opacity-0;
 	@apply ring-opacity-0;
 }
