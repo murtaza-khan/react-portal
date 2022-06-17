@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchSkuIds } from 'src/store/thunks/sku';
+import { fetchSkuIds } from 'src/store/thunks';
 
 interface IInitalState {
   data: null | ICoupon[]

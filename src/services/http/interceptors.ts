@@ -1,6 +1,10 @@
 import axios from 'axios';
-import { RESPONSE_TYPES, STATUS_CODES } from '../../constants/response-types';
+import { logout } from 'src/store/thunks';
 import { REFRESH_TOKEN_HEADER } from '../../constants/auth';
+import { RESPONSE_TYPES, STATUS_CODES } from '../../constants/response-types';
+import { store } from 'src/store';
+import { toast } from 'react-toastify';
+import { REDIRECTING_TO_LOGIN } from 'src/constants/toast-message';
 
 axios.interceptors.request.use(async function (req) {
   return req;
@@ -24,8 +28,9 @@ axios.interceptors.response.use(response => {
   }
 
   if (error?.response?.status === STATUS_CODES.UNAUTHORIZED) {
+    toast.info(REDIRECTING_TO_LOGIN);
     setTimeout(() => {
-      // TODO dispatch actions to logout
+      store.dispatch<any>(logout({}));
     }, 4000);
   }
 

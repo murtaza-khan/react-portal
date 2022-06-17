@@ -1,16 +1,15 @@
 import React, { Suspense } from 'react';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-
+import './services/http/interceptors';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorScreen } from './components/error-screen';
-import reduxStore from './store';
-import { RouterComponent } from './routes';
-import { reportWebVitals } from './reportWebVitals';
-import './styles/theme.css';
-
+import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ErrorScreen } from './components/error-screen';
+import { reportWebVitals } from './reportWebVitals';
+import { RouterComponent } from './routes';
+import reduxStore from './store';
+import './styles/theme.css';
 
 export const { store, persistor } = reduxStore();
 

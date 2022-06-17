@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthService } from '../../services/auth';
+import { AuthService } from 'src/services';
 import { getBaseUrl } from '../selectors/features/app';
 import { showAlert } from "../slices/features/alerts";
 import { AlertTypes } from "src/constants/alert-types";

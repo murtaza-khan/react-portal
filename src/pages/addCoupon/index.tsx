@@ -11,10 +11,7 @@ import { getSkuIds } from 'src/store/selectors/entities/sku';
 import { getCustomerIds } from 'src/store/selectors/entities/customer';
 import { getIsLoading } from 'src/store/selectors/features/coupon';
 import { resetLocations } from 'src/store/slices/entities/app';
-import { fetchAllLocations, fetchBusinessUnits } from 'src/store/thunks/app';
-import { createCoupon } from 'src/store/thunks/coupon'
-import { fetchSkuIds } from 'src/store/thunks/sku'
-import { fetchCustomerIds } from 'src/store/thunks/customer'
+import { createCoupon, fetchAllLocations, fetchBusinessUnits, fetchCustomerIds, fetchSkuIds } from 'src/store/thunks';
 import { checkCreateApiData } from 'src/utils/coupon'
 import { SelectCustomers } from '../selectCustomers';
 import { setSelectedCustomers } from "src/store/slices/features/app";

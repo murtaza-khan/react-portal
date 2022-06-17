@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout } from '../../thunks';
+import { login, logout } from 'src/store/thunks';
 
 
 /**

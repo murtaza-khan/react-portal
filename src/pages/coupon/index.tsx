@@ -10,7 +10,7 @@ import { Pagination } from 'src/components/pagination';
 import { SideBar } from 'src/components/sidebar';
 import { CustomDataGrid } from 'src/components/table/CustomDataGrid';
 import { getIsLoading } from 'src/store/selectors/features/coupon';
-import { handleRefresh } from 'src/store/thunks/app';
+import { handleRefresh } from 'src/store/thunks';
 
 
 export const Coupon: React.FC = () => {

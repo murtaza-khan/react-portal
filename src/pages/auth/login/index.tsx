@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../../store/thunks/auth';
+import { login } from 'src/store/thunks';
 import { checkLoginApiData } from 'src/utils/auth'
 import { toast } from 'react-toastify';
 

@@ -1,6 +1,5 @@
 import axios from "axios";
 import queryString from "query-string";
-import "./interceptors";
 import Cookies from 'js-cookie';
 import { getAuthCookieName } from 'src/utils/auth';
 
@@ -26,11 +25,11 @@ export class HttpService {
 
     let data = { token: '', user: {} };
     const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
-  
+
     if (stringData && stringData.length > 0) {
       data = JSON.parse(stringData!);
     }
-  
+
     const { token } = data;
     if (token && typeof token === "string" && !headers.Authorization)
       headers.Authorization = token;
