@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllCompanies, fetchBusinessUnits, fetchAllLocations, fetchCustomersByLocation } from 'src/store/thunks/app';
+import { fetchAllCompanies, fetchBusinessUnits, fetchAllLocations, fetchCustomersByLocation } from 'src/store/thunks';
 
 /**
  * An example of creating entity slices, reducers and INITIAL_STATE.

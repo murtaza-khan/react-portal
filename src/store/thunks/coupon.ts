@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CouponService } from '../../services/coupon';
+import { CouponService } from 'src/services';
 import { getBaseUrl, getSearchValue, getSelectedLocationId, getSelectedBusinessUnitId, getSelectedCompanyId } from '../selectors/features/app';
 import { getCouponPerPage, getCouponsPage } from '../selectors/features/coupon';
 import { setIsLoading, setTotalCount } from '../slices/features/coupon';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../store/thunks/auth';
+import { logout } from 'src/store/thunks';
 
 export const Dashboard: React.FC = () => {
   const dispatch = useDispatch();

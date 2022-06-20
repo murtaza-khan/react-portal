@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "src/store/slices/features/auth";
-import { handleRefresh } from "src/store/thunks/app";
+import { handleRefresh } from "src/store/thunks";
 import { getAuthCookieName } from "src/utils/auth";
 
 export const useReroute = () => {

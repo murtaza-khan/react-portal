@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCustomerIds } from 'src/store/thunks/customer';
+import { fetchCustomerIds } from 'src/store/thunks';
 
 interface IInitalState {
   data: null | ICoupon[]

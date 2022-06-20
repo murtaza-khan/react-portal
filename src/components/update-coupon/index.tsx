@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCouponDetail } from 'src/store/selectors/entities/coupon';
-import { updateCoupon } from 'src/store/thunks';
-import { handleRefresh } from 'src/store/thunks/app';
+import { updateCoupon, handleRefresh } from 'src/store/thunks';
 import { getFormattedDate } from 'src/utils/common';
 
 interface UpdateCouponProps {

@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CustomerService } from '../../services/customer';
+import { CustomerService } from 'src/services';
 import { setIsLoading } from '../slices/features/coupon';
 import { getBaseUrl } from '../selectors/features/app';
 import { toast } from 'react-toastify';

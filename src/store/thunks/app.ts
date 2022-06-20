@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppService } from '../../services/app';
+import { AppService } from 'src/services';
 import { getBaseUrl, getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from '../selectors/features/app';
 import { getCustomerPage, getCustomerPerPage, getCustomerFilter } from '../selectors/features/app';
-import { fetchCoupons } from 'src/store/thunks/coupon';
+import { fetchCoupons } from 'src/store/thunks';
 import { toast } from 'react-toastify';
 import { getCouponsPage } from '../selectors/features/coupon';
 import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from '../slices/features/app';

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { RetailoLogoHeader } from 'src/assets';
 import { FaBars, FaPowerOff } from 'react-icons/fa';
-import { logout } from '../../store/thunks/auth';
+import { logout } from 'src/store/thunks';
 import { getAuthCookieName } from 'src/utils/auth';
 import Cookies from 'js-cookie';
 
@@ -13,7 +13,7 @@ export const NavBar: React.FC = () => {
   useEffect(() => {
     let data = { user: { name: '' } };
     const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
-  
+
     if (stringData && stringData.length > 0) {
       data = JSON.parse(stringData!);
     }
