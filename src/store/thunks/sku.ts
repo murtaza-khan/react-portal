@@ -13,7 +13,7 @@ export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
     try {
       thunkAPI.dispatch(setIsLoading(true));
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      let response: any = [];
+      let response: allAnyTypes = [];
       const chunkSize = 200;
       for (let i = 0; i < apiData.sku.length; i += chunkSize) {
         const chunk = apiData.sku.slice(i, i + chunkSize);
@@ -28,7 +28,7 @@ export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
 
       if (response.length != apiData.sku.length) {
         const responseArray = response.map((product: { sku: string; }) => product.sku);
-        const errorSkus = apiData.sku.filter((sku: any) => !responseArray.includes(sku));
+        const errorSkus = apiData.sku.filter((sku: allAnyTypes) => !responseArray.includes(sku));
         throw { statusText: `Sku ${errorSkus[0]} not found` };
       }
 

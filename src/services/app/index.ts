@@ -2,9 +2,10 @@
 import { HttpService } from "../http";
 import { prepareErrorResponse, prepareResponseObject } from "../http/response";
 import { RESPONSE_TYPES } from "../../constants/response-types";
+import { AxiosResponse } from "axios";
 
 export class AppService extends HttpService {
-  fetchAllCompanies = async (baseAuthUrl: string): Promise<any> => {
+  fetchAllCompanies = async (baseAuthUrl: string): Promise<IPrepareResponse<AxiosResponse>> => {
     try {
       const apiResponse = await this.get(
         `${baseAuthUrl}/config/company/getAll`
@@ -18,8 +19,8 @@ export class AppService extends HttpService {
   fetchBusinessUnits = async (
     baseAuthUrl: string,
     companyId: string
-  ): Promise<any> => {
-    const apiData: Record<string, any> = {};
+  ): Promise<IPrepareResponse<AxiosResponse>> => {
+    const apiData: Record<string, string> = {};
     if (companyId) {
       apiData.companyId = companyId;
     }
@@ -35,7 +36,7 @@ export class AppService extends HttpService {
     baseAuthUrl: string,
     companyId: string,
     businessUnitId: string
-  ): Promise<any> => {
+  ): Promise<IPrepareResponse<AxiosResponse>> => {
     try {
       const apiResponse = await this.get(
         `${baseAuthUrl}/config/location/getAll`,
@@ -65,7 +66,7 @@ export class AppService extends HttpService {
       searchOnAttributes?: string;
       searchValue?: string;
     }
-  ): Promise<any> => {
+  ): Promise<IPrepareResponse<AxiosResponse>> => {
     try {
       const apiResponse = await this.get(
         `${baseAuthUrl}/user/customer/byLocation`,

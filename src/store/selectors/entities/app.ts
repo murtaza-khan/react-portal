@@ -35,7 +35,7 @@ export const getCustomerList = (state: TReduxState) => {
   const currentPage = getCustomerPage(state);
 
   const updatedCustomerList =
-    customerData?.map((customer: any, index: number) => {
+    customerData?.map((customer: allAnyTypes, index: number) => {
       const rowCount = getRowCount(itemsPerPage, currentPage, index);
       return {
         ...customer,

@@ -32,7 +32,7 @@ export const CustomDataGrid: React.FC = () => {
       localRows.splice(index + 1, 1);
     } else {
       // Else creating the Detail Row to the next index of Parent
-      (localRows as any).splice(index + 1, 0, {
+      (localRows as allAnyTypes).splice(index + 1, 0, {
         type: 'DETAIL',
         number: row.number + 100,
         parentId: row.id,

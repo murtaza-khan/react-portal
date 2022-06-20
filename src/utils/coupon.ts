@@ -1,4 +1,4 @@
-export const checkCreateApiData = (apiData: any) => {
+export const checkCreateApiData = (apiData: ICoupon) => {
   if (!apiData.name || !apiData.name.trim()) {
     return { ok: false, error: 'Coupon Name required' }
   }

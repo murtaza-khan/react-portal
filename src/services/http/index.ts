@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import queryString from "query-string";
 import "./interceptors";
 import Cookies from 'js-cookie';
@@ -44,10 +44,10 @@ export class HttpService {
 
   async get(
     url: string,
-    queryParams: Record<string, string> | null = null,
+    queryParams: Record<string, allAnyTypes> | null = null,
     options?: IHttpRequestOptions,
     timeOut?: number
-  ): Promise<any> {
+  ): Promise<AxiosResponse> {
     const headers: Record<string, string> = await this.getHeaders(options);
     return axios.get(url, {
       params: queryParams,
@@ -75,7 +75,7 @@ export class HttpService {
   async put(
     url: string,
     postData: unknown,
-    queryParams: Record<string, any> | null = null,
+    queryParams: Record<string, allAnyTypes> | null = null,
     options?: IHttpRequestOptions,
     timeOut?: number
   ): Promise<unknown> {
