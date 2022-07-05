@@ -9,3 +9,14 @@ export enum DATA_GRID_ROW_TYPE {
   MASTER = 'MASTER',
 }
 
+export enum SKU_TYPE {
+  ALL = 'all',
+  WHITELIST = 'whitelist',
+  BLACKLIST = 'blacklist',
+}
+
+export enum CUSTOMER_OPTION {
+  ALL = 'all',
+  SELECTED = 'selected',
+  FILE = 'file',
+}
