@@ -1,5 +1,6 @@
 import get from 'lodash.get';
 import { createSelector } from 'reselect';
+import { CUSTOMER_STATUS } from 'src/constants/customer';
 
 /**
  *
@@ -23,7 +24,7 @@ export const getSelectedLocationId = createSelector(appFeatureSelector, app => g
 
 export const getSearchValue = createSelector(appFeatureSelector, app => get(app, 'searchValue', ''));
 
-export const getIsCustomerLoading = createSelector(appFeatureSelector, app => get(app, 'customer.status', '') === 'pending');
+export const getIsCustomerLoading = createSelector(appFeatureSelector, app => get(app, 'customer.status', '') === CUSTOMER_STATUS.PENDING);
 
 export const getCustomerPerPage = createSelector(appFeatureSelector, app => get(app, 'customer.perPage', 20));
 

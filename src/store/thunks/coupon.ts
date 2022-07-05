@@ -6,11 +6,15 @@ import { getCouponPerPage, getCouponsPage } from '../selectors/features/coupon';
 import { setIsLoading, setTotalCount } from '../slices/features/coupon';
 import { toast } from 'react-toastify';
 import history from 'src/utils/history';
+import { MAIN_ROUTE } from 'src/constants/navigation-routes';
+import { COUPON_MESSAGES } from 'src/constants/toast-messages';
+import { COUPON_FETCH, COUPON_CREATE, COUPON_UPDATE } from 'src/store/action-types';
+import { STATUS_MESSAGES } from 'src/constants/response-types';
 
 const couponService = new CouponService();
 
 export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/fetchCoupons',
+  COUPON_FETCH,
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));
@@ -30,8 +34,8 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
       thunkAPI.dispatch(setIsLoading(false));
       return thunkAPI.fulfillWithValue(data);
     } catch ({ statusText }) {
-      if (statusText === 'jwt must be provided') {
-        statusText = 'Unauthorized!';
+      if (statusText === STATUS_MESSAGES.PROVIDE_JWT) {
+        statusText = STATUS_MESSAGES.UNAUTHORIZED;
       }
       toast.error(`${statusText}`);
       thunkAPI.dispatch(setIsLoading(false));
@@ -41,15 +45,15 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
 );
 
 export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/createCoupons',
+  COUPON_CREATE,
   async (apiData, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const { data } = await couponService.createCoupon(baseUrl, apiData);
       thunkAPI.dispatch(setIsLoading(false));
-      toast.success('Coupon created successfully');
-      history.push('/couponportal');
+      toast.success(COUPON_MESSAGES.COUPON_CREATED);
+      history.push(MAIN_ROUTE);
       return thunkAPI.fulfillWithValue(data);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
@@ -60,12 +64,12 @@ export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
 );
 
 export const updateCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/updateCoupon',
+  COUPON_UPDATE,
   async (_requestPayload: IUpdateCouponPayload, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      const response = await couponService.updateCoupon(baseUrl, _requestPayload);
-      toast.success('Coupon updated successfully');
+      await couponService.updateCoupon(baseUrl, _requestPayload);
+      toast.success(COUPON_MESSAGES.COUPON_CREATED);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
     }

@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { getCouponDetail } from 'src/store/selectors/entities/coupon';
 import { updateCoupon, handleRefresh } from 'src/store/thunks';
 import { getFormattedDate } from 'src/utils/common';
+import { FORM_FIELDS } from 'src/constants/coupons';
 
 interface UpdateCouponProps {
   row: DetailRow;
@@ -45,7 +46,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral bg rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Name</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.NAME }</span>
             </label>
             <input
               type="text"
@@ -57,7 +58,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Start Date</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.START_DATE }</span>
             </label>
             <input
               type="text"
@@ -69,7 +70,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">End Date</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.END_DATE }</span>
             </label>
             <input
               type="text"
@@ -82,8 +83,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
               <span className="label-text font-bold text-black-dark text-xs">
-                Description
-                <small> [Use "|" for line break and "|-" for bullet points]</small>
+                { FORM_FIELDS.DESCRIPTION }
+                <small>{ FORM_FIELDS.DESCRIPTION_SMALL }</small>
               </span>
             </label>
             <Controller
@@ -104,7 +105,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Languages</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.LANGUAGES }</span>
             </label>
             <input
               type="text"
@@ -116,7 +117,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Language Description</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.LANGUAGE_DESCRIPTION }</span>
             </label>
             <input
               type="text"
@@ -128,7 +129,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Coupon Type</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.COUPON_TYPE }</span>
             </label>
             <input
               type="text"
@@ -140,7 +141,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Coupon User</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.COUPON_USER }</span>
             </label>
             <input
               type="text"
@@ -152,7 +153,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Discount Value</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.DISCOUNT_VALUE }</span>
             </label>
             <input
               type="text"
@@ -164,7 +165,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Min Coupon Limit</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.MIN_COUPON_LIMIT }</span>
             </label>
             <input
               type="text"
@@ -176,7 +177,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Max Discount Value</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.MAX_DISCOUNT_VALUE }</span>
             </label>
             <input
               type="text"
@@ -188,7 +189,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Coupon Max Usage</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.COUPON_MAX_USAGE }</span>
             </label>
             <input
               type="text"
@@ -200,7 +201,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
           <div className="form-control md:w-[32%] mb-5 md:mr-3 py-1.5 px-3 text-black-light h-[55px]
           text-base border-[1px] border-solid border-neutral rounded-md">
             <label className="label p-0">
-              <span className="label-text font-bold text-black-dark text-xs">Customer Eligibility</span>
+              <span className="label-text font-bold text-black-dark text-xs">{ FORM_FIELDS.CUSTOMER_ELIGIBILITY }</span>
             </label>
             <input
               type="text"
@@ -212,9 +213,9 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
         </div>
         <div className="flex mt-3 h-[55px]">
           <div className="md:w-[32%] mb-5 md:mr-3">
-            <h6 className="text-left input font-semibold h-8">Disable/Enable Coupon</h6>
+            <h6 className="text-left input font-semibold h-8">{ FORM_FIELDS.COUPON_DISABLE_ENABLE }</h6>
             <div className="flex flex-row">
-              <p className="input font-normal pr-0 leading-6">Disable</p>
+              <p className="input font-normal pr-0 leading-6">{ FORM_FIELDS.DISABLE }</p>
               <Controller
                 control={control}
                 name="couponDisabled"
@@ -229,13 +230,13 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
                   />
                 )}
               />
-              <p className="input font-normal leading-6">Enable</p>
+              <p className="input font-normal leading-6">{ FORM_FIELDS.ENABLE }</p>
             </div>
           </div>
           <div className="md:w-[32%] mb-5 md:mr-3">
-            <h6 className="text-left input font-semibold h-8">Hide/Show on Coupon Wallet</h6>
+            <h6 className="text-left input font-semibold h-8">{ FORM_FIELDS.COUPON_HIDE_SHOW }</h6>
             <div className="flex flex-row">
-              <p className="input font-normal pr-0 leading-6">Hide</p>
+              <p className="input font-normal pr-0 leading-6">{ FORM_FIELDS.HIDE }</p>
               <Controller
                 control={control}
                 name="couponHideOnWallet"
@@ -250,7 +251,7 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
                   />
                 )}
               />
-              <p className="input font-normal h-0 leading-6">Show</p>
+              <p className="input font-normal h-0 leading-6">{ FORM_FIELDS.SHOW }</p>
             </div>
           </div>
         </div>

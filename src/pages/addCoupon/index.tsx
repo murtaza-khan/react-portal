@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { NavBar } from "src/components/navbar";
 import { SideBar } from "src/components/sidebar";
 import { COMPANY } from 'src/constants/company-ids';
-import { COUPON_TYPES, COUPON_USERS } from 'src/constants/coupons';
+import { COUPON_TYPES, COUPON_USERS, FORM_FIELDS } from 'src/constants/coupons';
 import { getBusinessUnits, getAllLocations } from 'src/store/selectors/entities/app';
 import { getSkuIds } from 'src/store/selectors/entities/sku';
 import { getCustomerIds } from 'src/store/selectors/entities/customer';
@@ -22,6 +22,8 @@ import { resetSkuData } from '../../store/slices/entities/sku';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { COUPON_MESSAGES } from "src/constants/toast-messages";
+import { CUSTOMER_OPTION, SKU_TYPE } from "src/constants/misc";
 
 
 export const AddCoupon: React.FC = () => {
@@ -104,7 +106,7 @@ export const AddCoupon: React.FC = () => {
 
   const handleSelectCustomer = () => {
     if (!selectedLocationId) {
-      toast.error('Please select location for coupon first');
+      toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
     } else {
       setShowSelectCustomers(true);
     }
@@ -112,12 +114,12 @@ export const AddCoupon: React.FC = () => {
 
   const handleFileSubmission = (file: FileList | null, type: string) => {
     if (!selectedLocationId) {
-      toast.error('Please select location for coupon first');
+      toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
 
       if (type === "customer") {
         clearFile(customerFile);
       } else {
-        if (selectedProductsListType === "whitelist") {
+        if (selectedProductsListType === SKU_TYPE.WHITELIST) {
           clearFile(whitelistFile);
         } else {
           clearFile(blacklistFile);
@@ -128,7 +130,7 @@ export const AddCoupon: React.FC = () => {
 
       if (file) {
         if (file[0].name.slice(-4) !== '.csv') {
-          toast.error('Invalid file format! Please upload the file with .csv extension.');
+          toast.error(COUPON_MESSAGES.INVALID_FILE_FORMAT);
           return;
         }
 
@@ -154,11 +156,11 @@ export const AddCoupon: React.FC = () => {
               locationId: selectedLocationId,
               select: "id,sku",
               onError: () => {
-                if (selectedProductsListType === "whitelist") {
+                if (selectedProductsListType === SKU_TYPE.WHITELIST) {
                   clearFile(whitelistFile);
                 }
 
-                if (selectedProductsListType === "blacklist") {
+                if (selectedProductsListType === SKU_TYPE.BLACKLIST) {
                   clearFile(blacklistFile);
                 }
               }
@@ -182,11 +184,11 @@ export const AddCoupon: React.FC = () => {
   const selectCustomerIds = () => {
     let couponCustomerIds: number[] = [];
 
-    if (selectedCouponCustomerOptionId === "selected") {
+    if (selectedCouponCustomerOptionId === CUSTOMER_OPTION.SELECTED) {
       couponCustomerIds = selectedCustomers.map(customer => customer.id);
     }
 
-    if (selectedCouponCustomerOptionId === "file") {
+    if (selectedCouponCustomerOptionId === CUSTOMER_OPTION.FILE) {
       if (couponCustomers?.length === 0) {
         return [];
       }
@@ -198,16 +200,16 @@ export const AddCoupon: React.FC = () => {
   }
 
   const handleCouponCustomerOption = (option: string) => {
-    if (option === "all") {
+    if (option === CUSTOMER_OPTION.ALL) {
       clearFile(customerFile);
       dispatch(setSelectedCustomers([]));
     }
 
-    if (option === "selected") {
+    if (option === CUSTOMER_OPTION.SELECTED) {
       clearFile(customerFile);
     }
 
-    if (option === "file") {
+    if (option === CUSTOMER_OPTION.FILE) {
       dispatch(setSelectedCustomers([]));
     }
   }
@@ -215,16 +217,16 @@ export const AddCoupon: React.FC = () => {
   const handleProductListType = (option: string) => {
     dispatch(resetSkuData());
 
-    if (option === "all") {
+    if (option === SKU_TYPE.ALL) {
       clearFile(whitelistFile);
       clearFile(blacklistFile);
     }
 
-    if (option === "whitelist") {
+    if (option === SKU_TYPE.WHITELIST) {
       clearFile(whitelistFile);
     }
 
-    if (option === "blacklist") {
+    if (option === SKU_TYPE.BLACKLIST) {
       clearFile(blacklistFile);
     }
   }
@@ -245,7 +247,7 @@ export const AddCoupon: React.FC = () => {
     }
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: allAnyTypes) => {
     data.discountTypeId = +data.discountTypeId;
     data.discountValue = +data.discountValue;
     data.maxUsagePerCustomer = +data.maxUsagePerCustomer;
@@ -258,10 +260,10 @@ export const AddCoupon: React.FC = () => {
     data.hideOnWallet = !data.hideOnWallet;
 
     switch (data.productsListType) {
-      case "whitelist":
+      case SKU_TYPE.WHITELIST:
         data.productsListType = 1;
         break;
-      case "blacklist":
+      case SKU_TYPE.BLACKLIST:
         data.productsListType = 2;
         break;
       default:
@@ -275,7 +277,7 @@ export const AddCoupon: React.FC = () => {
 
     if (validate.ok) {
       if (data.couponCustomerOptionId === 2 && !selectedCustomers.length) {
-        toast.error('Select atleast one customer for coupon')
+        toast.error(COUPON_MESSAGES.SELECT_CUSTOMER)
       } else {
         dispatch(createCoupon(data));
       }
@@ -306,7 +308,7 @@ export const AddCoupon: React.FC = () => {
               <div className="grid grid-cols-4 gap-4">
                 <div>
                   <label className="label">
-                    <span className="label-text">Name *</span>
+                    <span className="label-text">{ `${ FORM_FIELDS.NAME } *` }</span>
                   </label>
                   <input
                     type="text"
@@ -318,9 +320,9 @@ export const AddCoupon: React.FC = () => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text">Description</span>
+                    <span className="label-text">{ FORM_FIELDS.DESCRIPTION }</span>
                     <span className="label-text" style={{ fontSize: "0.58rem" }}>
-                      [Use "|" for line break and "|-" for bullet points]
+                      { FORM_FIELDS.DESCRIPTION_SMALL }
                     </span>
                   </label>
                   <input
@@ -333,7 +335,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text ">Start Date</span>
+                    <span className="label-text ">{ FORM_FIELDS.START_DATE }</span>
                   </label>
                   <Controller
                     control={control}
@@ -343,7 +345,7 @@ export const AddCoupon: React.FC = () => {
                         <DatePicker
                           placeholderText="Select date"
                           dateFormat="dd-MMM-yyyy"
-                          onChange={(date: any) => field.onChange(date)}
+                          onChange={(date: allAnyTypes) => field.onChange(date)}
                           selected={field.value}
                         />
                       </div>
@@ -353,7 +355,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text ">End Date</span>
+                    <span className="label-text ">{ FORM_FIELDS.END_DATE }</span>
                   </label>
                   <Controller
                     control={control}
@@ -363,7 +365,7 @@ export const AddCoupon: React.FC = () => {
                         <DatePicker
                           placeholderText="Select date"
                           dateFormat="dd-MMM-yyyy"
-                          onChange={(date: any) => field.onChange(date)}
+                          onChange={(date: allAnyTypes) => field.onChange(date)}
                           selected={field.value}
                           minDate={initialDate}
                         />
@@ -374,7 +376,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div className="dropdown">
                   <label className="label">
-                    <span className="label-text ">Select Coupon Type</span>
+                    <span className="label-text ">{ `Select ${ FORM_FIELDS.COUPON_TYPE }` }</span>
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
@@ -392,7 +394,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div className="dropdown">
                   <label className="label">
-                    <span className="label-text ">Select Coupon User</span>
+                    <span className="label-text ">{ `Select ${ FORM_FIELDS.COUPON_USER }` }</span>
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
@@ -408,7 +410,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text">Discount Value *</span>
+                    <span className="label-text">{ `${ FORM_FIELDS.DISCOUNT_VALUE } *` }</span>
                   </label>
                   <input
                     type="number"
@@ -423,7 +425,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text">Coupon Max Usage *</span>
+                    <span className="label-text">{ `${ FORM_FIELDS.COUPON_MAX_USAGE } *` }</span>
                   </label>
                   <input
                     type="number"
@@ -437,7 +439,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div>
                   <label className="label">
-                    <span className="label-text">Coupon Min Discount Limit *</span>
+                    <span className="label-text">{ `${ FORM_FIELDS.MIN_DICOUNT_LIMIT } *` }</span>
                   </label>
                   <input
                     type="number"
@@ -452,7 +454,7 @@ export const AddCoupon: React.FC = () => {
 
                 {selectedDiscountTypeId === "1" ? <div>
                   <label className="label">
-                    <span className="label-text">Coupon Max Discount Value *</span>
+                    <span className="label-text">{ `Coupon ${ FORM_FIELDS.MAX_DISCOUNT_VALUE } *` }</span>
                   </label>
                   <input
                     type="number"
@@ -467,7 +469,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div className="dropdown">
                   <label className="label">
-                    <span className="label-text ">Select Business Unit *</span>
+                    <span className="label-text ">{ `${ FORM_FIELDS.SELECT_BUSINESS_UNIT } *` }</span>
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
@@ -482,7 +484,7 @@ export const AddCoupon: React.FC = () => {
 
                 <div className="dropdown">
                   <label className="label">
-                    <span className="label-text ">Select Location *</span>
+                    <span className="label-text ">{ `${ FORM_FIELDS.SELECT_LOCATION } *` }</span>
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
@@ -500,7 +502,7 @@ export const AddCoupon: React.FC = () => {
               <div className="grid grid-cols-4 gap-0">
                 <div className="mt-6 col-span-3">
                   <div>
-                    <p className="text-l font-semibold">Customer Eligibility</p>
+                    <p className="text-l font-semibold">{ FORM_FIELDS.CUSTOMER_ELIGIBILITY }</p>
                     <div className="grid grid-cols-3 gap-4 mt-3">
                       <div>
                         <input
@@ -516,13 +518,13 @@ export const AddCoupon: React.FC = () => {
                       <div>
                         <input
                           {...register("couponCustomerOptionId")}
-                          value="selected"
+                          value={ CUSTOMER_OPTION.SELECTED }
                           type="radio"
                           name="couponCustomerOptionId"
-                          onClick={() => handleCouponCustomerOption("selected")}
+                          onClick={() => handleCouponCustomerOption(CUSTOMER_OPTION.SELECTED)}
                         />
-                        <span className="input font-normal">Selected Customers</span>
-                        {selectedCouponCustomerOptionId === "selected" ? <div>
+                        <span className="input font-normal">{ FORM_FIELDS.SELECTED_CUSTOMERS }</span>
+                        {selectedCouponCustomerOptionId === CUSTOMER_OPTION.SELECTED ? <div>
                           <input type="button" value="Select Customers" className="btn btn-primary mt-2 ml-7"
                             onClick={handleSelectCustomer} />
                         </div> : null}
@@ -531,13 +533,13 @@ export const AddCoupon: React.FC = () => {
                       <div>
                         <input
                           {...register("couponCustomerOptionId")}
-                          value="file"
+                          value={ CUSTOMER_OPTION.FILE }
                           type="radio"
                           name="couponCustomerOptionId"
-                          onClick={() => handleCouponCustomerOption("file")}
+                          onClick={() => handleCouponCustomerOption(CUSTOMER_OPTION.FILE)}
                         />
-                        <span className="input font-normal">Upload Customer File</span>
-                        {selectedCouponCustomerOptionId === "file" ? <div>
+                        <span className="input font-normal">{ FORM_FIELDS.UPLOAD_FILE }</span>
+                        {selectedCouponCustomerOptionId === CUSTOMER_OPTION.FILE ? <div>
                           <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
                             onChange={(e) => handleFileSubmission(e.target.files!, "customer")} />
                           <div className="w-24">
@@ -551,7 +553,7 @@ export const AddCoupon: React.FC = () => {
 
                   {selectedDiscountTypeId === "1" ?
                     <div>
-                      <p className="text-l font-semibold mt-6">SKU Eligibility</p>
+                      <p className="text-l font-semibold mt-6">{ FORM_FIELDS.SKU_ELIGIBILITY }</p>
                       <div className="grid grid-cols-3 gap-4 mt-3">
                         <div>
                           <input
@@ -561,19 +563,19 @@ export const AddCoupon: React.FC = () => {
                             name="productsListType"
                             onClick={() => handleProductListType("all")}
                           />
-                          <span className="input font-normal">All SKUs</span>
+                          <span className="input font-normal capitalize">{ `${SKU_TYPE.ALL} SKUs` }</span>
                         </div>
 
                         <div>
                           <input
                             {...register("productsListType")}
-                            value="whitelist"
+                            value={ SKU_TYPE.WHITELIST }
                             type="radio"
                             name="productsListType"
-                            onClick={() => handleProductListType("whitelist")}
+                            onClick={() => handleProductListType(SKU_TYPE.WHITELIST)}
                           />
-                          <span className="input font-normal">Whitelist SKUs</span>
-                          {selectedProductsListType === "whitelist" ? <div>
+                          <span className="input font-normal capitalize">{ `${SKU_TYPE.WHITELIST} SKUs` }</span>
+                          {selectedProductsListType === SKU_TYPE.WHITELIST ? <div>
                             <input className="mt-2 ml-7" type="file" name="sku" ref={whitelistFile}
                               onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
                             <div className="w-24">
@@ -586,13 +588,13 @@ export const AddCoupon: React.FC = () => {
                         <div>
                           <input
                             {...register("productsListType")}
-                            value="blacklist"
+                            value={ SKU_TYPE.BLACKLIST }
                             type="radio"
                             name="productsListType"
-                            onClick={() => handleProductListType("blacklist")}
+                            onClick={() => handleProductListType(SKU_TYPE.BLACKLIST)}
                           />
-                          <span className="input font-normal">Blacklist SKUs</span>
-                          {selectedProductsListType === "blacklist" ? <div>
+                          <span className="input font-normal capitalize">{ `${SKU_TYPE.BLACKLIST} SKUs` }</span>
+                          {selectedProductsListType === SKU_TYPE.BLACKLIST ? <div>
                             <input className="mt-2 ml-7" type="file" name="sku" ref={blacklistFile}
                               onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
                             <div className="w-24">
@@ -622,31 +624,31 @@ export const AddCoupon: React.FC = () => {
                 </div>
 
                 <div className="mt-6">
-                  <p className="input font-semibold h-8">Disable/Enable Coupon</p>
+                  <p className="input font-semibold h-8">{ FORM_FIELDS.COUPON_DISABLE_ENABLE }</p>
                   <div className="flex flex-row">
                     <div className="w-16">
-                      <p className="input font-normal pr-0 leading-6">Disable</p>
+                      <p className="input font-normal pr-0 leading-6">{ FORM_FIELDS.DISABLE }</p>
                     </div>
                     <input
                       type="checkbox"
                       className={`ml-4 toggle toggle-primary ${disabled ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
                       {...register("disabled")}
                       onChange={() => setValue("disabled", !disabled)} />
-                    <p className="input font-normal leading-6">Enable</p>
+                    <p className="input font-normal leading-6">{ FORM_FIELDS.ENABLE }</p>
                   </div>
                   <p className="input font-semibold h-8">
-                    Hide/Show on Coupon Wallet
+                    { FORM_FIELDS.COUPON_HIDE_SHOW }
                   </p>
                   <div className="flex flex-row">
                     <div className="w-16">
-                      <p className="input font-normal pr-0 leading-6">Hide</p>
+                      <p className="input font-normal pr-0 leading-6">{ FORM_FIELDS.HIDE }</p>
                     </div>
                     <input
                       type="checkbox"
                       className={`ml-4 toggle toggle-primary ${hideOnWallet ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
                       {...register("hideOnWallet")}
                       onChange={() => setValue("hideOnWallet", !hideOnWallet)} />
-                    <p className="input font-normal h-0 leading-6">Show</p>
+                    <p className="input font-normal h-0 leading-6">{ FORM_FIELDS.SHOW }</p>
                   </div>
                   <div className="mt-8 w-40">
                     <button type="submit" className="btn btn-primary btn-block mt-2 ml-4">Create</button>

@@ -1,3 +1,4 @@
+import { ADD_ROUTE } from './../constants/navigation-routes';
 import { ROLE_TYPE } from '../constants/roles';
 import { Coupon, AddCoupon } from '../pages';
 
@@ -21,7 +22,7 @@ export default [
   },
   {
     component: AddCoupon,
-    path: '/add',
+    path: ADD_ROUTE,
     title: 'Add Coupon',
     permission: [
       ROLE_TYPE.ADMIN,

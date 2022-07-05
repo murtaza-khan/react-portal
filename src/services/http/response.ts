@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
-import isEmpty from "lodash.isempty";
-import { RESPONSE_TYPES, STATUS_CODES } from "../../constants/response-types";
+import { AxiosResponse } from 'axios';
+import isEmpty from 'lodash.isempty';
+import { RESPONSE_TYPES, STATUS_CODES, STATUS_MESSAGES } from '../../constants/response-types';
 
 export const prepareResponseObject = <T>(
   response: AxiosResponse<T> | allAnyTypes,
@@ -16,9 +16,9 @@ export const prepareResponseObject = <T>(
   if (response.noInternet) {
     return {
       ...finalResponse,
-      data: { message: "offline" },
+      data: { message: STATUS_MESSAGES.OFFLINE },
       statusCode: STATUS_CODES.BAD_GATEWAY,
-      statusText: "offline",
+      statusText: STATUS_MESSAGES.OFFLINE
     };
   }
 
@@ -45,12 +45,12 @@ export const prepareResponseObject = <T>(
       ...finalResponse,
       data: errorData,
       statusCode: response?.data?.error?.code || response?.status,
-      statusText: response?.data?.message || "Something Went Wrong!",
+      statusText: response?.data?.message || STATUS_MESSAGES.WENT_WRONG,
     };
   } else if (status === RESPONSE_TYPES.ERROR_REQUEST) {
     return {
       ...finalResponse,
-      statusText: response || "Something Went Wrong!",
+      statusText: response || STATUS_MESSAGES.WENT_WRONG,
     };
   }
 

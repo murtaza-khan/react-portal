@@ -1,3 +1,4 @@
+import { STATUS_MESSAGES } from './../../constants/response-types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppService } from 'src/services';
 import { getBaseUrl, getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from '../selectors/features/app';
@@ -7,6 +8,7 @@ import { toast } from 'react-toastify';
 import { getCouponsPage } from '../selectors/features/coupon';
 import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from '../slices/features/app';
 import { updateCurrentPage } from '../slices/features/coupon';
+import { APP_FETCH_ALL_COMPANIES, APP_FETCH_BUSINESS_UNITS, APP_FETCH_ALL_LOCATIONS, APP_FETCH_CUSTOMERS_BY_LOCATION } from 'src/store/action-types';
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -17,7 +19,7 @@ import { updateCurrentPage } from '../slices/features/coupon';
 const appService = new AppService();
 
 export const fetchAllCompanies = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'app/fetchAllCompanies',
+  APP_FETCH_ALL_COMPANIES,
   async (_: allAnyTypes, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
@@ -31,7 +33,7 @@ export const fetchAllCompanies = createAsyncThunk<TObject, TObject, IActionOptio
 );
 
 export const fetchBusinessUnits = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'app/fetchBusinessUnits',
+  APP_FETCH_BUSINESS_UNITS,
   async (companyId: string, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
@@ -45,7 +47,7 @@ export const fetchBusinessUnits = createAsyncThunk<TObject, TObject, IActionOpti
 );
 
 export const fetchAllLocations = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'app/fetchAllLocations',
+  APP_FETCH_ALL_LOCATIONS,
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
@@ -60,7 +62,7 @@ export const fetchAllLocations = createAsyncThunk<TObject, TObject, IActionOptio
 );
 
 export const fetchCustomersByLocation = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'app/fetchCustomersByLocation',
+  APP_FETCH_CUSTOMERS_BY_LOCATION,
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
@@ -79,7 +81,7 @@ export const fetchCustomersByLocation = createAsyncThunk<TObject, TObject, IActi
       const response = await appService.fetchAllCustomers(baseUrl, payload);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (err) {
-      return thunkAPI.rejectWithValue('Opps there seems to be an error')
+      return thunkAPI.rejectWithValue(STATUS_MESSAGES.SEEMS_TO_BE_ERROR)
     }
   }
 );

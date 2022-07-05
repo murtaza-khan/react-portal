@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CUSTOMER_STATUS } from "src/constants/customer";
 import { fetchCustomersByLocation } from "src/store/thunks";
 import { ROUTES } from "../../../constants/navigation-routes";
 /**
@@ -17,7 +18,7 @@ interface IAppFeature {
     page: number | string,
     perPage: number | string,
     totalCount: number | string,
-    status: string, // can be 'idle', 'pending', 'succeeded', 'failed',
+    status: CUSTOMER_STATUS,
     filter: string,
   },
   validationStates: {
@@ -38,7 +39,7 @@ const INITIAL_STATE: IAppFeature = {
     page: 1,
     perPage: 20,
     totalCount: 0,
-    status: "idle", // can be 'idle', 'pending', 'succeeded', 'failed',
+    status: CUSTOMER_STATUS.IDLE,
     filter: '',
   },
   validationStates: {
@@ -85,16 +86,16 @@ export const appFeatureSlice = createSlice({
   // A "builder callback" function used to add more reducers
   extraReducers: (builder) => {
     builder.addCase(fetchCustomersByLocation.pending, (state) => {
-      state.customer.status = "pending";
+      state.customer.status = CUSTOMER_STATUS.PENDING;
     });
     builder.addCase(fetchCustomersByLocation.fulfilled, (state, action) => {
       const { totalCount } = action.payload;
-      state.customer.status = 'succeeded'
+      state.customer.status = CUSTOMER_STATUS.SUCCEEDED
       state.customer.totalCount = totalCount
 
     })
     builder.addCase(fetchCustomersByLocation.rejected, state => {
-      state.customer.status = 'failed'
+      state.customer.status = CUSTOMER_STATUS.FAILED
     })
   },
 });

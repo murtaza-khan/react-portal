@@ -9,6 +9,7 @@ import { NavBar } from 'src/components/navbar';
 import { Pagination } from 'src/components/pagination';
 import { SideBar } from 'src/components/sidebar';
 import { CustomDataGrid } from 'src/components/table/CustomDataGrid';
+import { ADD_ROUTE, SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 import { getIsLoading } from 'src/store/selectors/features/coupon';
 import { handleRefresh } from 'src/store/thunks';
 
@@ -17,7 +18,7 @@ export const Coupon: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector(getIsLoading);
-  const navigateToAddCoupon = () => history.push('/coupon/add');
+  const navigateToAddCoupon = () => history.push(`${ SIDEBAR_ROUTES.COUPON }${ ADD_ROUTE }`);
 
   useEffect(() => {
     dispatch(handleRefresh());

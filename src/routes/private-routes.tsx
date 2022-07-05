@@ -5,6 +5,7 @@ import { getIsLoggedIn, getUserRoleId } from '../store/selectors/features/auth';
 import PrivateRoutesConfig from './private-route-config';
 import MapAllowedRoutes from './map-allowed-routes';
 import { useReroute } from 'src/hooks/useReroute';
+import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 
 export function isArrayWithLength(arr: TArrayOfObjects) {
   return (Array.isArray(arr) && arr.length);
@@ -31,7 +32,7 @@ const PrivateRoutes = () => {
     <Fragment>
       <MapAllowedRoutes
         routes={ allowedRoutes }
-        basePath='/coupon'
+        basePath={ SIDEBAR_ROUTES.COUPON}
         isAddNotFound
       />
     </Fragment>

@@ -3,88 +3,88 @@ import { FaThList, FaShoppingCart, FaTruck, FaListAlt, FaHouzz, FaGift, FaUsers,
   FaBell, FaLocationArrow, FaImage, FaCreditCard, FaRegListAlt, FaCogs
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import { SIDEBAR_NAMES, ADMIN_PORTAL_URL } from 'src/constants/navigation-routes';
+import { SIDEBAR_NAMES, SIDEBAR_ROUTES, ADMIN_PORTAL_URL } from 'src/constants/navigation-routes';
 import { RetailoLogoSidebar } from 'src/assets';
 
 const PROFILE_SIDEBAR = [
   {
     name: SIDEBAR_NAMES.PRODUCTS,
-    to: `${ADMIN_PORTAL_URL}/product`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.PRODUCTS }`,
     icon: <FaThList />,
   },
   {
     name: SIDEBAR_NAMES.CATALOGUES,
-    to: `${ADMIN_PORTAL_URL}/catalogue`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.CATALOGUES }`,
     icon: <FaThList />,
   },
   {
     name: SIDEBAR_NAMES.ORDERS,
-    to: `${ADMIN_PORTAL_URL}/order`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.ORDERS }`,
     icon: <FaShoppingCart />,
   },
   {
     name: SIDEBAR_NAMES.BATCHES,
-    to: `${ADMIN_PORTAL_URL}/order/batch-orders`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.BATCHES }`,
     icon: <FaTruck />,
   },
   {
     name: SIDEBAR_NAMES.CATEGORIES,
-    to: `${ADMIN_PORTAL_URL}/product/category`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.CATEGORIES }`,
     icon: <FaListAlt />,
   },
   {
     name: SIDEBAR_NAMES.INVENTORY,
-    to: `${ADMIN_PORTAL_URL}/inventory/inventory-management`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.INVENTORY }`,
     icon: <FaHouzz />,
   },
   {
     name: SIDEBAR_NAMES.COUPON,
-    to: `/coupon`,
+    to: `${ SIDEBAR_ROUTES.COUPON }`,
     icon: <FaGift />,
   },
   {
     name: SIDEBAR_NAMES.USERS,
-    to: `${ADMIN_PORTAL_URL}/user/edit`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.USERS }`,
     icon: <FaUsers />,
   },
   {
     name: SIDEBAR_NAMES.CUSTOMERS,
-    to: `${ADMIN_PORTAL_URL}/customers/all-customers`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.CUSTOMERS }`,
     icon: <FaUserAlt />,
   },
   {
     name: SIDEBAR_NAMES.NOTIF_CENTER,
-    to: `${ADMIN_PORTAL_URL}/notifications`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.NOTIF_CENTER }`,
     icon: <FaBell />,
   },
   {
     name: SIDEBAR_NAMES.LOCATION,
-    to: `${ADMIN_PORTAL_URL}/location/show-location`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.LOCATION }`,
     icon: <FaLocationArrow />,
   },
   {
     name: SIDEBAR_NAMES.BANNERS,
-    to: `${ADMIN_PORTAL_URL}/banners`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.BANNERS }`,
     icon: <FaImage />,
   },
   {
     name: SIDEBAR_NAMES.BNPL_TRANSACTIONS,
-    to: `${ADMIN_PORTAL_URL}/bnpl-transactions`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.BNPL_TRANSACTIONS }`,
     icon: <FaCreditCard />,
   },
   {
     name: SIDEBAR_NAMES.MAILING_LISTS,
-    to: `${ADMIN_PORTAL_URL}/mailing-list`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.MAILING_LISTS }`,
     icon: <FaRegListAlt />,
   },
   {
     name: SIDEBAR_NAMES.HIERARCHY,
-    to: `${ADMIN_PORTAL_URL}/hierarchy/company`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.HIERARCHY }`,
     icon: <FaCogs />,
   },
   {
     name: SIDEBAR_NAMES.SETTINGS,
-    to: `${ADMIN_PORTAL_URL}/settings/app-versions`,
+    to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.SETTINGS }`,
     icon: <FaCogs />,
   },
 ];

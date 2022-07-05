@@ -14,7 +14,7 @@ module.exports = {
     'react/prop-types': 0,
     'no-use-before-define': 0,
     '@typescript-eslint/no-use-before-define': 1,
-    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-explicit-any": 2,
     'react-hooks/exhaustive-deps': 1,
     'keyword-spacing': [2, { before: true, after: true }],
     'no-nested-ternary': 1,

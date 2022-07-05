@@ -4,11 +4,12 @@ import { CustomerService } from 'src/services';
 import { setIsLoading } from '../slices/features/coupon';
 import { getBaseUrl } from '../selectors/features/app';
 import { toast } from 'react-toastify';
+import { CUSTOMER_FETCH_IDS } from 'src/store/action-types';
 
 const customerService = new CustomerService();
 
 export const fetchCustomerIds = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/fetchCustomerIds',
+  CUSTOMER_FETCH_IDS,
   async (apiData, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));
