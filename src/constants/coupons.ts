@@ -1,3 +1,10 @@
+export enum COUPON_STATUS {
+  EXPIRED = 'Expired',
+  DISABLED = 'Disabled',
+  IN_ACTIVE = 'In Active',
+  ACTIVE = 'Active',
+}
+
 const COUPON_TYPES = [
   {
     name: 'Percentage Discount',
@@ -13,21 +20,21 @@ const COUPON_USERS = [
   {
     name: 'Consumer',
     id: 1,
-    value: "[8]"
+    value: '[8]'
   },
   {
     name: 'Supervisor',
     id: 2,
-    value: "[16]"
+    value: '[16]'
   },
   {
     name: 'Both',
     id: 3,
-    value: "[8,16]"
+    value: '[8,16]'
   }
 ];
 
 export {
-  COUPON_TYPES, 
+  COUPON_TYPES,
   COUPON_USERS,
 };

@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from '../store/selectors/features/auth';
 import PublicRoutes from './public-routes';
+import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 
 /*
 * TODO: when user loggedIn he/she unable to goto public routes
@@ -11,7 +12,7 @@ import PublicRoutes from './public-routes';
 const Auth = () => {
   const loggedIn = useSelector(getIsLoggedIn);
   return loggedIn ? (
-    <Redirect to={ '/coupon' } />
+    <Redirect to={ SIDEBAR_ROUTES.COUPON} />
   ) : (
     <PublicRoutes />
   );

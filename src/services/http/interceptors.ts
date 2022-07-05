@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { logout } from 'src/store/thunks';
 import { REFRESH_TOKEN_HEADER } from '../../constants/auth';
-import { RESPONSE_TYPES, STATUS_CODES } from '../../constants/response-types';
+import { ERROR_CODES, RESPONSE_TYPES, STATUS_CODES } from '../../constants/response-types';
 import { store } from 'src/store';
 import { toast } from 'react-toastify';
-import { REDIRECTING_TO_LOGIN } from 'src/constants/toast-message';
+import { REDIRECTING_TO_LOGIN } from 'src/constants/toast-messages';
 
 axios.interceptors.request.use(async function (req) {
   return req;
@@ -22,7 +22,7 @@ axios.interceptors.response.use(response => {
   if (
     axios.isCancel(error) ||
     error?.message === RESPONSE_TYPES.NETWORK_ERROR ||
-    (error?.response?.status === 408 || error?.code === 'ECONNABORTED')
+    (error?.response?.status === STATUS_CODES.REQUEST_TIMEOUT || error?.code === ERROR_CODES.ECONNABORTED)
   ) {
     return Promise.reject({ noInternet: true });
   }

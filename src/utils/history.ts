@@ -1,5 +1,6 @@
 import { createBrowserHistory } from 'history';
+import { MAIN_ROUTE } from 'src/constants/navigation-routes';
 
 export default createBrowserHistory({
-  basename: '/couponportal'
+  basename: MAIN_ROUTE
 });

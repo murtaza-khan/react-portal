@@ -4,11 +4,12 @@ import { SkuService } from 'src/services';
 import { setIsLoading } from '../slices/features/coupon';
 import { getBaseUrl } from '../selectors/features/app';
 import { toast } from 'react-toastify';
+import { SKU_FETCH_IDS } from 'src/store/action-types';
 
 const skuService = new SkuService();
 
 export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/fetchSkuIds',
+  SKU_FETCH_IDS,
   async (apiData, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));

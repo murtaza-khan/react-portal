@@ -3,6 +3,8 @@ import get from 'lodash.get';
 import { createSelector } from 'reselect';
 import { getDateWithOutTime, getFormattedDate, getRowCount } from 'src/utils/common';
 import { getCouponsPage, getCouponPerPage } from 'src/store/selectors/features/coupon';
+import { DATA_GRID_ROW_TYPE } from 'src/constants/misc';
+import { COUPON_STATUS } from 'src/constants/coupons';
 
 const couponEntitySelector = (state: TReduxState) => state.entities.coupon;
 
@@ -11,16 +13,16 @@ export const getCouponData = createSelector(couponEntitySelector, coupon => get(
 const getCouponStatus = (disabled: boolean, startDate: any, endDate: any) => {
   const today = getDateWithOutTime(new Date());
   if (today > endDate) {
-      return "Expired";
+      return COUPON_STATUS.EXPIRED;
   }
   else if (disabled) {
-      return "Disabled";
+      return COUPON_STATUS.DISABLED;
   }
   else if (startDate > today) {
-      return "In Active";
+      return COUPON_STATUS.IN_ACTIVE;
   }
   else {
-      return "Active";
+      return COUPON_STATUS.ACTIVE;
   }
 
 }
@@ -40,7 +42,7 @@ export const getCouponList = (state: TReduxState) => {
     const formattedEndDate = getFormattedDate(endDate);
     const status = getCouponStatus(disabled, formattedStartDate, formattedEndDate);
     return {
-      type: 'MASTER',     // Used in datagrid
+      type: DATA_GRID_ROW_TYPE.MASTER,     // Used in datagrid
       expanded: false,    // Used in datagrid
       number: rowCount,
       id,

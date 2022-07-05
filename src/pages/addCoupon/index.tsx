@@ -21,6 +21,7 @@ import { resetSkuData } from '../../store/slices/entities/sku';
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { COUPON_MESSAGES } from "src/constants/toast-messages";
 
 
 export const AddCoupon: React.FC = () => {
@@ -98,7 +99,7 @@ export const AddCoupon: React.FC = () => {
 
   const handleSelectCustomer = () => {
     if (!locationId) {
-      toast.error('Please select location for coupon first');
+      toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
     } else {
       setShowSelectCustomers(true);
     }
@@ -106,7 +107,7 @@ export const AddCoupon: React.FC = () => {
 
   const handleFileSubmission = (file: FileList | null, type: string) => {
     if (!locationId) {
-      toast.error('Please select location for coupon first');
+      toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
 
       if (type === "customer") {
         clearFile(customerFile);
@@ -122,7 +123,7 @@ export const AddCoupon: React.FC = () => {
 
       if (file) {
         if (file[0].name.slice(-4) !== '.csv') {
-          toast.error('Invalid file format! Please upload the file with .csv extension.');
+          toast.error(COUPON_MESSAGES.INVALID_FILE_FORMAT);
           return;
         }
 
@@ -271,7 +272,7 @@ export const AddCoupon: React.FC = () => {
 
     if (validate.ok) {
       if (couponCustomerOptionId === "2" && !selectedCustomers.length) {
-        toast.error('Select atleast one customer for coupon')
+        toast.error(COUPON_MESSAGES.SELECT_CUSTOMER)
       } else {
         dispatch(createCoupon(apiData));
       }
