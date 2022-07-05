@@ -61,7 +61,7 @@ export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
 
 export const updateCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
   'coupon/updateCoupon',
-  async (_requestPayload: Record<string, string>, thunkAPI) => {
+  async (_requestPayload: IUpdateCouponPayload, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const response = await couponService.updateCoupon(baseUrl, _requestPayload);

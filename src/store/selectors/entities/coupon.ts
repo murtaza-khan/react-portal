@@ -8,7 +8,7 @@ const couponEntitySelector = (state: TReduxState) => state.entities.coupon;
 
 export const getCouponData = createSelector(couponEntitySelector, coupon => get(coupon, 'data', []));
 
-const getCouponStatus = (disabled: boolean, startDate: any, endDate: any) => {
+const getCouponStatus = (disabled: boolean, startDate: isDateOrString, endDate: isDateOrString) => {
   const today = getDateWithOutTime(new Date());
   if (today > endDate) {
       return "Expired";
