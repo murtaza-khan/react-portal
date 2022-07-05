@@ -30,7 +30,7 @@ axios.interceptors.response.use(response => {
   if (error?.response?.status === STATUS_CODES.UNAUTHORIZED) {
     toast.info(REDIRECTING_TO_LOGIN);
     setTimeout(() => {
-      store.dispatch<any>(logout({}));
+      store.dispatch<allAnyTypes>(logout({}));
     }, 4000);
   }
 

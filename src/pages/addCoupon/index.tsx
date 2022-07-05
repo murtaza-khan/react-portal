@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, Controller } from "react-hook-form";
 import BeatLoader from "react-spinners/BeatLoader";
 import { toast } from 'react-toastify';
 import { NavBar } from "src/components/navbar";
@@ -26,23 +27,7 @@ import { COUPON_MESSAGES } from "src/constants/toast-messages";
 
 export const AddCoupon: React.FC = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
   const [initialDate] = useState(new Date());
-  const [discountValue, setDiscountValue] = useState<number | null>(null);
-  const [maxUsagePerCustomer, setMaxUsagePerCustomer] = useState<number>(0);
-  const [discountTypeId, setDiscountTypeId] = useState(1);
-  const [userTypeId, setUserTypeId] = useState("[8]");
-  const [minCouponLimit, setMinCouponLimit] = useState<number>(0);
-  const [maxDiscountValue, setMaxDiscountValue] = useState<number>(0);
-  const [businessUnitId, setBusinessUnitId] = useState('');
-  const [locationId, setLocationId] = useState<number | string>('');
-  const [couponCustomerOptionId, setCouponCustomerOptionId] = useState("1");
-  const [couponSku, setCouponSku] = useState("0");
-  const [disabled, setDisabled] = useState(false);
-  const [hideOnWallet, setHideOnWallet] = useState(false);
   const [showSelectCustomers, setShowSelectCustomers] = useState(false);
   const selectedCustomers = useSelector(getSelectedCustomers);
   const businessUnits = useSelector(getBusinessUnits);
@@ -53,35 +38,56 @@ export const AddCoupon: React.FC = () => {
   const customerFile = useRef<HTMLInputElement>(null);
   const whitelistFile = useRef<HTMLInputElement>(null);
   const blacklistFile = useRef<HTMLInputElement>(null);
+  const { register, handleSubmit, setValue, watch, reset, control } = useForm();
+  const selectedDiscountTypeId = watch("discountTypeId");
+  const selectedBusinessUnitId = watch("businessUnitId");
+  const selectedLocationId = watch("locationId");
+  const selectedCouponCustomerOptionId = watch("couponCustomerOptionId");
+  const selectedProductsListType = watch("productsListType");
+  const disabled = watch("disabled");
+  const hideOnWallet = watch("hideOnWallet");
 
   useEffect(() => {
     dispatch(fetchBusinessUnits(''));
     dispatch(setSelectedCustomers([]));
     dispatch(resetCustomerData());
     dispatch(resetSkuData());
+    resetForm();
   }, []);
 
   useEffect(() => {
-    if (businessUnitId) {
-      if (locations.length) setLocationId(locations[0].id)
-      else setLocationId('')
-    }
-  }, [locations, businessUnitId])
+    setValue("locationId", locations[0] ? locations[0].id : "");
+  }, [locations])
 
-  const handleBusinessUnitSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (businessUnitId === e.target.value) return;
+  const resetForm = () => {
+    reset({
+      "name": "",
+      "description": "",
+      "startDate": new Date(),
+      "endDate": new Date(),
+      "discountTypeId": "1",
+      "userTypeId": "[8]",
+      "discountValue": null,
+      "maxUsagePerCustomer": "0",
+      "minCouponLimit": "0",
+      "maxDiscountValue": "0",
+      "businessUnitId": "",
+      "locationId": "",
+      "couponCustomerOptionId": "everyone",
+      "productsListType": "all",
+      "disabled": true,
+      "hideOnWallet": true,
+    })
+  }
+
+  const handleBusinessUnitSelection = useCallback(async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (selectedBusinessUnitId === e.target.value) return;
+    setValue("businessUnitId", e.target.value);
     dispatch(resetLocations());
-    dispatch(fetchAllLocations({
+    await dispatch(fetchAllLocations({
       businessUnitId: e.target.value
     }));
-
-    setBusinessUnitId(e.target.value)
-  }, [dispatch, businessUnitId]);
-
-  const handleLocationSelection = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (locationId === e.target.value) return;
-    setLocationId(e.target.value)
-  }, [locationId]);
+  }, [dispatch, selectedBusinessUnitId]);
 
   const clearFile = (file: React.RefObject<HTMLInputElement>) => {
     if (file.current) {
@@ -98,7 +104,7 @@ export const AddCoupon: React.FC = () => {
   }
 
   const handleSelectCustomer = () => {
-    if (!locationId) {
+    if (!selectedLocationId) {
       toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
     } else {
       setShowSelectCustomers(true);
@@ -106,13 +112,13 @@ export const AddCoupon: React.FC = () => {
   }
 
   const handleFileSubmission = (file: FileList | null, type: string) => {
-    if (!locationId) {
+    if (!selectedLocationId) {
       toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
 
       if (type === "customer") {
         clearFile(customerFile);
       } else {
-        if (couponSku === "1") {
+        if (selectedProductsListType === "whitelist") {
           clearFile(whitelistFile);
         } else {
           clearFile(blacklistFile);
@@ -146,14 +152,14 @@ export const AddCoupon: React.FC = () => {
           } else if (type === "sku") {
             dispatch(fetchSkuIds({
               sku: csvArray,
-              locationId,
+              locationId: selectedLocationId,
               select: "id,sku",
               onError: () => {
-                if (couponSku === "1") {
+                if (selectedProductsListType === "whitelist") {
                   clearFile(whitelistFile);
                 }
 
-                if (couponSku === "2") {
+                if (selectedProductsListType === "blacklist") {
                   clearFile(blacklistFile);
                 }
               }
@@ -177,11 +183,11 @@ export const AddCoupon: React.FC = () => {
   const selectCustomerIds = () => {
     let couponCustomerIds: number[] = [];
 
-    if (couponCustomerOptionId === "2") {
+    if (selectedCouponCustomerOptionId === "selected") {
       couponCustomerIds = selectedCustomers.map(customer => customer.id);
     }
 
-    if (couponCustomerOptionId === "3") {
+    if (selectedCouponCustomerOptionId === "file") {
       if (couponCustomers?.length === 0) {
         return [];
       }
@@ -193,36 +199,33 @@ export const AddCoupon: React.FC = () => {
   }
 
   const handleCouponCustomerOption = (option: string) => {
-    setCouponCustomerOptionId(option);
-
-    if (option === "1") {
+    if (option === "all") {
       clearFile(customerFile);
       dispatch(setSelectedCustomers([]));
     }
 
-    if (option === "2") {
+    if (option === "selected") {
       clearFile(customerFile);
     }
 
-    if (option === "3") {
+    if (option === "file") {
       dispatch(setSelectedCustomers([]));
     }
   }
 
   const handleProductListType = (option: string) => {
-    setCouponSku(option);
     dispatch(resetSkuData());
 
-    if (option === "0") {
+    if (option === "all") {
       clearFile(whitelistFile);
       clearFile(blacklistFile);
     }
 
-    if (option === "1") {
+    if (option === "whitelist") {
       clearFile(whitelistFile);
     }
 
-    if (option === "2") {
+    if (option === "blacklist") {
       clearFile(blacklistFile);
     }
   }
@@ -236,50 +239,52 @@ export const AddCoupon: React.FC = () => {
   }
 
   const handleCouponPercentageOption = (option: string) => {
-    setDiscountTypeId(+option);
-
     if (option === "2") {
-      setCouponSku("0");
-      setMaxDiscountValue(0);
+      setValue("productsListType", "all");
+      setValue("maxDiscountValue", 0);
       dispatch(resetSkuData());
     }
   }
 
-  const handleCreate = () => {
-    const apiData = {
-      name,
-      description,
-      startDate,
-      endDate,
-      discountValue,
-      maxUsagePerCustomer,
-      discountTypeId,
-      userTypeId,
-      minCouponLimit,
-      maxDiscountValue,
-      locationId,
-      disabled,
-      hideOnWallet,
-      couponCustomerOptionId: couponCustomerOptionId === "1" ? 1 : 2,
-      couponCustomers: selectCustomerIds(),
-      productsListType: +couponSku,
-      productIds: mapProductIds(),
-      businessUnitId,
-      companyId: COMPANY.RETAILO
+  const onSubmit = (data: allAnyTypes) => {
+    data.discountTypeId = +data.discountTypeId;
+    data.discountValue = +data.discountValue;
+    data.maxUsagePerCustomer = +data.maxUsagePerCustomer;
+    data.minCouponLimit = +data.minCouponLimit;
+    data.businessUnitId = +data.businessUnitId;
+    data.locationId = +data.locationId;
+    data.maxDiscountValue = +data.maxDiscountValue;
+    data.couponCustomerOptionId = data.couponCustomerOptionId === "everyone" ? 1 : 2;
+    data.disabled = !data.disabled;
+    data.hideOnWallet = !data.hideOnWallet;
+
+    switch (data.productsListType) {
+      case "whitelist":
+        data.productsListType = 1;
+        break;
+      case "blacklist":
+        data.productsListType = 2;
+        break;
+      default:
+        data.productsListType = 0;
     }
 
-    const validate = checkCreateApiData(apiData);
+    data.couponCustomers = selectCustomerIds();
+    data.productIds = mapProductIds();
+
+    const validate = checkCreateApiData(data);
 
     if (validate.ok) {
-      if (couponCustomerOptionId === "2" && !selectedCustomers.length) {
+      if (data.couponCustomerOptionId === 2 && !selectedCustomers.length) {
         toast.error(COUPON_MESSAGES.SELECT_CUSTOMER)
       } else {
-        dispatch(createCoupon(apiData));
+        dispatch(createCoupon(data));
       }
     } else {
       toast.error(validate.error);
     }
   }
+
 
   return (
     <>
@@ -295,304 +300,361 @@ export const AddCoupon: React.FC = () => {
             <div className="h-12 w-full">
               <p className="text-3xl">Create Coupon</p>
             </div>
-
-            <div className="grid grid-cols-4 gap-4">
-              <div>
-                <label className="label">
-                  <span className="label-text">Name *</span>
-                </label>
-                <input type="text" placeholder="Enter Coupon Name"
-                  className="input input-bordered w-full"
-                  onChange={(e) => setName(e.target.value)} />
-              </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text">Description</span>
-                  <span className="label-text" style={{ fontSize: "0.58rem" }}>[Use "|" for line break and "|-" for bullet points]</span>
-                </label>
-                <input type="text" placeholder="Enter Coupon Description"
-                  className="input input-bordered w-full"
-                  onChange={(e) => setDescription(e.target.value)} />
-              </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text ">Start Date</span>
-                </label>
-                <div className="input input-bordered w-full grid content-center">
-                  <DatePicker
-                    dateFormat="dd-MMM-yyyy"
-                    selected={startDate}
-                    onChange={(date: Date) => setStartDate(date)}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text">End Date</span>
-                </label>
-                <div className="input input-bordered w-full grid content-center">
-                  <DatePicker
-                    dateFormat="dd-MMM-yyyy"
-                    selected={endDate}
-                    minDate={initialDate}
-                    onChange={(date: Date) => setEndDate(date)}
-                  />
-                </div>
-              </div>
-              <div className="dropdown">
-                <label className="label">
-                  <span className="label-text">Select Coupon Type</span>
-                </label>
-                <select className="select select-bordered w-full font-normal"
-                  value={discountTypeId}
-                  onChange={(e) => handleCouponPercentageOption(e.target.value)}>
-                  {COUPON_TYPES.map(type =>
-                    <option value={type.id} key={type.name}>{type.name}</option>
-                  )};
-                </select>
-              </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text ">Select Coupon User</span>
-                </label>
-                <select className="select select-bordered w-full font-normal"
-                  value={userTypeId}
-                  onChange={(e) => setUserTypeId(e.target.value)}>
-                  {COUPON_USERS.map(user =>
-                    <option value={user.value} key={user.name}>{user.name}</option>
-                  )};
-                </select>
-              </div>
-              <div>
-                <label className="label">
-                  <span className="label-text ">Discount Value *</span>
-                </label>
-                <input type="number" min={1} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                  placeholder="Enter Discount Amount" className="input input-bordered w-full"
-                  onChange={(e) => setDiscountValue(+e.target.value)} />
-              </div>
-
-
-              <div>
-                <label className="label">
-                  <span className="label-text ">Coupon Max Usage *</span>
-                </label>
-                <input value={maxUsagePerCustomer} min={0} type="number" onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                  placeholder="Enter Max Limit of Coupon Usage" className="input input-bordered w-full"
-                  onChange={(e) => setMaxUsagePerCustomer(+e.target.value)} />
-              </div>
-
-              <div>
-                <label className="label">
-                  <span className="label-text ">
-                    Coupon Min Discount Limit *
-                  </span>
-                </label>
-                <input type="number" value={minCouponLimit} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                  placeholder="Enter Minimum Discount Limit" className="input input-bordered w-full"
-                  onChange={(e) => setMinCouponLimit(+e.target.value)} />
-              </div>
-
-
-              {discountTypeId != 2 ? <div>
-                <label className="label">
-                  <span className="label-text ">
-                    Coupon Max Discount Value *
-                  </span>
-                </label>
-                <input type="number" value={maxDiscountValue} onKeyDown={(e) => e.key === "e" && e.preventDefault()}
-                  placeholder="Enter Maximum Discount Value" className="input input-bordered w-full"
-                  onChange={(e) => setMaxDiscountValue(+e.target.value)} />
-              </div> : null}
-
-              <div className="dropdown">
-                <label className="label">
-                  <span className="label-text">Select Business Unit</span>
-                </label>
-                <select
-                  value={businessUnitId}
-                  className="select select-bordered w-full font-normal"
-                  onChange={handleBusinessUnitSelection}
-                >
-                  <option value="" disabled></option>
-                  {businessUnits.map((businessUnit) => (
-                    <option key={businessUnit.id} value={businessUnit.id}>
-                      {businessUnit.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="dropdown">
-                <label className="label">
-                  <span className="label-text">Select Location</span>
-                </label>
-                <select
-                  value={locationId}
-                  disabled={!businessUnitId}
-                  className="select select-bordered w-full font-normal"
-                  onChange={handleLocationSelection}
-                >
-                  <option value='' disabled></option>
-                  {locations.map(location => <option key={location?.id} value={location.id}>{location.name}</option>)}
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-4 gap-0">
-              <div className="mt-6 col-span-3">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              onKeyDown={(e) => { if (e.code === 'Enter') e.preventDefault() }}
+            >
+              <div className="grid grid-cols-4 gap-4">
                 <div>
-                  <p className="text-l font-semibold">Customer Eligibility</p>
-                  <div className="grid grid-cols-3 gap-4 mt-3">
-                    <div>
-                      <input
-                        value="1"
-                        type="radio"
-                        checked={couponCustomerOptionId === "1"}
-                        onClick={() => handleCouponCustomerOption("1")}
-                        onChange={e => { e }}
-                      />
-                      <span className="input font-normal">Everyone</span>
-                    </div>
-
-                    <div>
-                      <input
-                        value="2"
-                        type="radio"
-                        checked={couponCustomerOptionId === "2"}
-                        onClick={() => handleCouponCustomerOption("2")}
-                        onChange={e => { e }}
-                      />
-                      <span className="input font-normal">Selected Customers</span>
-                      {couponCustomerOptionId === "2" ? <div>
-                        <button className="btn btn-primary mt-2 ml-7"
-                          onClick={handleSelectCustomer}>Select Customers</button>
-                      </div> : null}
-                    </div>
-
-                    <div>
-                      <input
-                        value="3"
-                        name="customer"
-                        type="radio"
-                        checked={couponCustomerOptionId === "3"}
-                        onClick={() => handleCouponCustomerOption("3")}
-                        onChange={e => { e }}
-                      />
-                      <span className="input font-normal">Upload Customer File</span>
-                      {couponCustomerOptionId === "3" ? <div>
-                        <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
-                          onChange={(e) => handleFileSubmission(e.target.files!, "customer")} />
-                        <div className="w-24">
-                          <button className="btn btn-primary btn-block mt-3 ml-7"
-                            onClick={() => { clearFile(customerFile) }}>Clear File</button>
-                        </div>
-                      </div> : null}
-                    </div>
-                  </div>
+                  <label className="label">
+                    <span className="label-text">Name *</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="Enter Coupon Name"
+                    {...register("name")}
+                  />
                 </div>
 
-                {discountTypeId === 1 ?
+                <div>
+                  <label className="label">
+                    <span className="label-text">Description</span>
+                    <span className="label-text" style={{ fontSize: "0.58rem" }}>
+                      [Use "|" for line break and "|-" for bullet points]
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="Enter Coupon Description"
+                    {...register("description")}
+                  />
+                </div>
+
+                <div>
+                  <label className="label">
+                    <span className="label-text ">Start Date</span>
+                  </label>
+                  <Controller
+                    control={control}
+                    name="startDate"
+                    render={({ field }) => (
+                      <div className="input input-bordered w-full grid content-center">
+                        <DatePicker
+                          placeholderText="Select date"
+                          dateFormat="dd-MMM-yyyy"
+                          onChange={(date: allAnyTypes) => field.onChange(date)}
+                          selected={field.value}
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
+
+                <div>
+                  <label className="label">
+                    <span className="label-text ">End Date</span>
+                  </label>
+                  <Controller
+                    control={control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <div className="input input-bordered w-full grid content-center">
+                        <DatePicker
+                          placeholderText="Select date"
+                          dateFormat="dd-MMM-yyyy"
+                          onChange={(date: allAnyTypes) => field.onChange(date)}
+                          selected={field.value}
+                          minDate={initialDate}
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
+
+                <div className="dropdown">
+                  <label className="label">
+                    <span className="label-text ">Select Coupon Type</span>
+                  </label>
+                  <select
+                    className="select select-bordered w-full font-normal"
+                    {...register("discountTypeId")}
+                    onChange={(e) => {
+                      setValue("discountTypeId", e.target.value);
+                      handleCouponPercentageOption(e.target.value);
+                    }}
+                  >
+                    {COUPON_TYPES.map(type =>
+                      <option value={type.id} key={type.name}>{type.name}</option>
+                    )};
+                  </select>
+                </div>
+
+                <div className="dropdown">
+                  <label className="label">
+                    <span className="label-text ">Select Coupon User</span>
+                  </label>
+                  <select
+                    className="select select-bordered w-full font-normal"
+                    {...register("userTypeId")}
+                    onChange={(e) => setValue("userTypeId", e.target.value)}
+                  >
+                    {COUPON_USERS.map(type =>
+                      <option value={type.value} key={type.name}>{type.name}</option>
+                    )};
+                  </select>
+                </div>
+
+
+                <div>
+                  <label className="label">
+                    <span className="label-text">Discount Value *</span>
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    min={1}
+                    className="input input-bordered w-full"
+                    placeholder="Enter Discount Amount"
+                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
+                    {...register("discountValue")}
+                  />
+                </div>
+
+                <div>
+                  <label className="label">
+                    <span className="label-text">Coupon Max Usage *</span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    className="input input-bordered w-full"
+                    placeholder="Enter Max Limit of Coupon Usage"
+                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
+                    {...register("maxUsagePerCustomer")}
+                  />
+                </div>
+
+                <div>
+                  <label className="label">
+                    <span className="label-text">Coupon Min Discount Limit *</span>
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    className="input input-bordered w-full"
+                    placeholder="Enter Max Limit of Coupon Usage"
+                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
+                    {...register("minCouponLimit")}
+                  />
+                </div>
+
+                {selectedDiscountTypeId === "1" ? <div>
+                  <label className="label">
+                    <span className="label-text">Coupon Max Discount Value *</span>
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    min={0}
+                    className="input input-bordered w-full"
+                    placeholder="Enter Maximum Discount Value"
+                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
+                    {...register("maxDiscountValue")}
+                  />
+                </div> : null}
+
+                <div className="dropdown">
+                  <label className="label">
+                    <span className="label-text ">Select Business Unit *</span>
+                  </label>
+                  <select
+                    className="select select-bordered w-full font-normal"
+                    {...register("businessUnitId")}
+                    onChange={(e) => handleBusinessUnitSelection(e)}
+                  >
+                    {businessUnits.map(businessUnit =>
+                      <option value={businessUnit.id} key={businessUnit.id}>{businessUnit.name}</option>
+                    )};
+                  </select>
+                </div>
+
+                <div className="dropdown">
+                  <label className="label">
+                    <span className="label-text ">Select Location *</span>
+                  </label>
+                  <select
+                    className="select select-bordered w-full font-normal"
+                    {...register("locationId")}
+                    disabled={!selectedBusinessUnitId}
+                    onChange={(e) => setValue("locationId", e.target.value)}
+                  >
+                    {locations.map(location =>
+                      <option value={location.id} key={location.id}>{location.name}</option>
+                    )};
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 gap-0">
+                <div className="mt-6 col-span-3">
                   <div>
-                    <p className="text-l font-semibold mt-6">SKU Eligibility</p>
+                    <p className="text-l font-semibold">Customer Eligibility</p>
                     <div className="grid grid-cols-3 gap-4 mt-3">
                       <div>
                         <input
-                          value="0"
+                          {...register("couponCustomerOptionId")}
+                          value="everyone"
                           type="radio"
-                          checked={couponSku === "0"}
-                          onClick={() => handleProductListType("0")}
-                          onChange={e => { e }}
+                          name="couponCustomerOptionId"
+                          onClick={() => handleCouponCustomerOption("everyone")}
                         />
-                        <span className="input font-normal">All SKUs</span>
+                        <span className="input font-normal">Everyone</span>
                       </div>
 
                       <div>
                         <input
-                          value="1"
-                          name="sku"
+                          {...register("couponCustomerOptionId")}
+                          value="selected"
                           type="radio"
-                          checked={couponSku === "1"}
-                          onClick={() => handleProductListType("1")}
-                          onChange={e => { e }}
+                          name="couponCustomerOptionId"
+                          onClick={() => handleCouponCustomerOption("selected")}
                         />
-                        <span className="input font-normal">Whitelist SKUs</span>
-                        {couponSku === "1" ? <div>
-                          <input className="mt-2 ml-7" type="file" name="sku" ref={whitelistFile}
-                            onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
-                          <div className="w-24">
-                            <button className="btn btn-primary btn-block mt-3 ml-7"
-                              onClick={() => { clearFile(whitelistFile) }}>Clear File</button>
-                          </div>
+                        <span className="input font-normal">Selected Customers</span>
+                        {selectedCouponCustomerOptionId === "selected" ? <div>
+                          <input type="button" value="Select Customers" className="btn btn-primary mt-2 ml-7"
+                            onClick={handleSelectCustomer} />
                         </div> : null}
                       </div>
 
                       <div>
                         <input
-                          value="2"
-                          name="sku"
+                          {...register("couponCustomerOptionId")}
+                          value="file"
                           type="radio"
-                          checked={couponSku === "2"}
-                          onClick={() => handleProductListType("2")}
-                          onChange={e => { e }}
+                          name="couponCustomerOptionId"
+                          onClick={() => handleCouponCustomerOption("file")}
                         />
-                        <span className="input font-normal">Blacklist SKUs</span>
-                        {couponSku === "2" ? <div>
-                          <input className="mt-2 ml-7" type="file" name="sku" ref={blacklistFile}
-                            onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                        <span className="input font-normal">Upload Customer File</span>
+                        {selectedCouponCustomerOptionId === "file" ? <div>
+                          <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
+                            onChange={(e) => handleFileSubmission(e.target.files!, "customer")} />
                           <div className="w-24">
                             <button className="btn btn-primary btn-block mt-3 ml-7"
-                              onClick={() => { clearFile(blacklistFile) }}>Clear File</button>
+                              onClick={() => { clearFile(customerFile) }}>Clear File</button>
                           </div>
                         </div> : null}
                       </div>
                     </div>
-                  </div> : null}
+                  </div>
 
-                {selectedCustomers.length ? (
-                  <div className="flex flex-col pb-8">
-                    {selectedCustomers.map((sc) => (
-                      <div className="">
-                        <span className="badge badge-secondary rounded-none">{`${sc.name} ${sc.phone}`}</span>
-                        <button
-                          onClick={() => removeCustomer(sc.id)}
-                          className="badge btn btn-xs btn-primary rounded-none"
-                        >
-                          x
-                        </button>
+                  {selectedDiscountTypeId === "1" ?
+                    <div>
+                      <p className="text-l font-semibold mt-6">SKU Eligibility</p>
+                      <div className="grid grid-cols-3 gap-4 mt-3">
+                        <div>
+                          <input
+                            {...register("productsListType")}
+                            value="all"
+                            type="radio"
+                            name="productsListType"
+                            onClick={() => handleProductListType("all")}
+                          />
+                          <span className="input font-normal">All SKUs</span>
+                        </div>
+
+                        <div>
+                          <input
+                            {...register("productsListType")}
+                            value="whitelist"
+                            type="radio"
+                            name="productsListType"
+                            onClick={() => handleProductListType("whitelist")}
+                          />
+                          <span className="input font-normal">Whitelist SKUs</span>
+                          {selectedProductsListType === "whitelist" ? <div>
+                            <input className="mt-2 ml-7" type="file" name="sku" ref={whitelistFile}
+                              onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                            <div className="w-24">
+                              <button className="btn btn-primary btn-block mt-3 ml-7"
+                                onClick={() => { clearFile(whitelistFile) }}>Clear File</button>
+                            </div>
+                          </div> : null}
+                        </div>
+
+                        <div>
+                          <input
+                            {...register("productsListType")}
+                            value="blacklist"
+                            type="radio"
+                            name="productsListType"
+                            onClick={() => handleProductListType("blacklist")}
+                          />
+                          <span className="input font-normal">Blacklist SKUs</span>
+                          {selectedProductsListType === "blacklist" ? <div>
+                            <input className="mt-2 ml-7" type="file" name="sku" ref={blacklistFile}
+                              onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                            <div className="w-24">
+                              <button className="btn btn-primary btn-block mt-3 ml-7"
+                                onClick={() => { clearFile(blacklistFile) }}>Clear File</button>
+                            </div>
+                          </div> : null}
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
+                    </div> : null}
 
-              <div className="mt-6">
-                <p className="input font-semibold h-8">Disable/Enable Coupon</p>
-                <div className="flex flex-row">
-                  <div className="w-16">
-                    <p className="input font-normal pr-0 leading-6">Disable</p>
-                  </div>
-                  <input type="checkbox" className={`ml-4 toggle toggle-primary ${disabled ? "focus:bg-base-300" : "focus:bg-primary"} bg-base-300`} checked={disabled === false} onChange={() => setDisabled(!disabled)} />
-                  <p className="input font-normal leading-6">Enable</p>
+                  {selectedCustomers.length ? (
+                    <div className="flex flex-col pb-8">
+                      {selectedCustomers.map((sc) => (
+                        <div className="">
+                          <span className="badge badge-secondary rounded-none">{`${sc.name} ${sc.phone}`}</span>
+                          <button
+                            onClick={() => removeCustomer(sc.id)}
+                            className="badge btn btn-xs btn-primary rounded-none"
+                          >
+                            x
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
-                <p className="input font-semibold h-8">
-                  Hide/Show on Coupon Wallet
-                </p>
-                <div className="flex flex-row">
-                  <div className="w-16">
-                    <p className="input font-normal pr-0 leading-6">Hide</p>
+
+                <div className="mt-6">
+                  <p className="input font-semibold h-8">Disable/Enable Coupon</p>
+                  <div className="flex flex-row">
+                    <div className="w-16">
+                      <p className="input font-normal pr-0 leading-6">Disable</p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      className={`ml-4 toggle toggle-primary ${disabled ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
+                      {...register("disabled")}
+                      onChange={() => setValue("disabled", !disabled)} />
+                    <p className="input font-normal leading-6">Enable</p>
                   </div>
-                  <input type="checkbox" className={`ml-4 toggle toggle-primary ${hideOnWallet ? "focus:bg-base-300" : "focus:bg-primary"} bg-base-300`} checked={hideOnWallet === false} onChange={() => setHideOnWallet(!hideOnWallet)} />
-                  <p className="input font-normal h-0 leading-6">Show</p>
-                </div>
-                <div className="mt-8 w-40">
-                  <button className="btn btn-primary btn-block mt-2 ml-4" onClick={handleCreate}>Create</button>
+                  <p className="input font-semibold h-8">
+                    Hide/Show on Coupon Wallet
+                  </p>
+                  <div className="flex flex-row">
+                    <div className="w-16">
+                      <p className="input font-normal pr-0 leading-6">Hide</p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      className={`ml-4 toggle toggle-primary ${hideOnWallet ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
+                      {...register("hideOnWallet")}
+                      onChange={() => setValue("hideOnWallet", !hideOnWallet)} />
+                    <p className="input font-normal h-0 leading-6">Show</p>
+                  </div>
+                  <div className="mt-8 w-40">
+                    <button type="submit" className="btn btn-primary btn-block mt-2 ml-4">Create</button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

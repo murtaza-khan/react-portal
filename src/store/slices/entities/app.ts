@@ -8,7 +8,7 @@ import { fetchAllCompanies, fetchBusinessUnits, fetchAllLocations, fetchCustomer
 interface IResponse {
   id: number;
   name: string;
-  [key: string] : any;
+  [key: string] : allAnyTypes;
 }
 
 interface IAppData {

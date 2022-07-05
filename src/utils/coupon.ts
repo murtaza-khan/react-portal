@@ -1,6 +1,6 @@
 import { COUPON_MESSAGES } from 'src/constants/toast-messages';
 
-export const checkCreateApiData = (apiData: any) => {
+export const checkCreateApiData = (apiData: ICoupon) => {
   if (!apiData.name || !apiData.name.trim()) {
     return { ok: false, error: COUPON_MESSAGES.COUPON_NAME_REQUIRED }
   }
@@ -16,7 +16,7 @@ export const checkCreateApiData = (apiData: any) => {
     return { ok: false, error: COUPON_MESSAGES.DATES_REQUIRED }
   }
 
-  if (!apiData.discountValue || apiData.discountValue < 0) {
+  if (!apiData.discountValue || apiData.discountValue < 1) {
     return { ok: false, error: COUPON_MESSAGES.DISCOUNT_VALUE_REQUIRED }
   }
 
