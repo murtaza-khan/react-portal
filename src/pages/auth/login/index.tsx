@@ -29,7 +29,7 @@ function Login() {
 
   const boxDimensions = {
     height: 400,
-    width: 600
+    width: 600,
   };
 
   return (

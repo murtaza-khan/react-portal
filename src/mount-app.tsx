@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
-import { App } from "./app";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+import { App } from './app';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require("../package.json");
+const packageJson = require('../package.json');
 
 const { version } = packageJson;
 Sentry.init({
@@ -18,7 +18,7 @@ Sentry.init({
 const mount = (element: Element | Document | DocumentFragment | null) =>
   ReactDOM.render(<App />, element);
 
-const root = document.querySelector("#root");
+const root = document.querySelector('#root');
 
 if (root) {
   mount(root);

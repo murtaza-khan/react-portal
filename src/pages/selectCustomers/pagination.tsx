@@ -1,14 +1,14 @@
 /* eslint-disable padding-line-between-statements */
-import React, { useCallback, useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getCustomerPage,
   getCustomerPerPage,
   getCustomerTotalCount,
-} from "src/store/selectors/features/app";
-import { updateCustomerCurrentPage } from "src/store/slices/features/app";
-import { fetchCustomersByLocation } from "src/store/thunks";
+} from 'src/store/selectors/features/app';
+import { updateCustomerCurrentPage } from 'src/store/slices/features/app';
+import { fetchCustomersByLocation } from 'src/store/thunks';
 
 interface Props {
   companyId: string | number;

@@ -1,14 +1,24 @@
 /* eslint-disable padding-line-between-statements */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CouponService } from 'src/services';
-import { getBaseUrl, getSearchValue, getSelectedLocationId, getSelectedBusinessUnitId, getSelectedCompanyId } from '../selectors/features/app';
+import {
+  getBaseUrl,
+  getSearchValue,
+  getSelectedLocationId,
+  getSelectedBusinessUnitId,
+  getSelectedCompanyId,
+} from '../selectors/features/app';
 import { getCouponPerPage, getCouponsPage } from '../selectors/features/coupon';
 import { setIsLoading, setTotalCount } from '../slices/features/coupon';
 import { toast } from 'react-toastify';
 import history from 'src/utils/history';
 import { MAIN_ROUTE } from 'src/constants/navigation-routes';
 import { COUPON_MESSAGES } from 'src/constants/toast-messages';
-import { COUPON_FETCH, COUPON_CREATE, COUPON_UPDATE } from 'src/store/action-types';
+import {
+  COUPON_FETCH,
+  COUPON_CREATE,
+  COUPON_UPDATE,
+} from 'src/store/action-types';
 import { STATUS_MESSAGES } from 'src/constants/response-types';
 
 const couponService = new CouponService();

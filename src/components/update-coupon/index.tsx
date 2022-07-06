@@ -1,7 +1,7 @@
 /* eslint-disable padding-line-between-statements */
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 import { getCouponDetail } from 'src/store/selectors/entities/coupon';
 import { updateCoupon, handleRefresh } from 'src/store/thunks';
 import { getFormattedDate } from 'src/utils/common';
@@ -23,16 +23,18 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
     minCouponLimit, maxDiscountValue, maxUsagePerCustomer, couponCustomerOption, disabled, hideOnWallet,
   } = coupon || {};
   const { handleSubmit, watch, control } = useForm();
-  const couponDescription = watch("couponDescription");
-  const couponDisabled = watch("couponDisabled");
-  const couponHideOnWallet = watch("couponHideOnWallet");
+  const couponDescription = watch('couponDescription');
+  const couponDisabled = watch('couponDisabled');
+  const couponHideOnWallet = watch('couponHideOnWallet');
 
   const handleCancel = () => {
     onCancel(parentId);
   }
 
   const handleUpdate = async () => {
-    await dispatch(updateCoupon({ id: parentId, description: couponDescription, disabled: !couponDisabled, hideOnWallet: !couponHideOnWallet }))
+    await dispatch(updateCoupon({
+      id: parentId, description: couponDescription, disabled: !couponDisabled, hideOnWallet: !couponHideOnWallet,
+    }))
     dispatch(handleRefresh());
   };
 
@@ -51,7 +53,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={name}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -63,7 +66,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={getFormattedDate(startDate || '')}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -75,7 +79,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={getFormattedDate(endDate || '')}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -95,7 +100,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
                 <input
                   type="text"
                   {...field}
-                  className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+                  className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+                   disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
                   checked={field.value}
                   onKeyDown={(e) => e.stopPropagation()}
                 />
@@ -110,7 +116,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={language}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -122,7 +129,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={languageDescription}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -134,7 +142,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={discountType}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -146,7 +155,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={userType}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -158,7 +168,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={discountValue}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -170,7 +181,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={minCouponLimit}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -182,7 +194,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={maxDiscountValue}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -194,7 +207,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={maxUsagePerCustomer}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -206,7 +220,8 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
             <input
               type="text"
               value={couponCustomerOption}
-              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
+              className="input border-none w-full h-auto p-0 rounded-none focus:outline-none
+               disabled:bg-white disabled:cursor-default disabled:text-gray-gray5 selection:bg-blue-skyblue"
               disabled
             />
           </div>
@@ -224,7 +239,9 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
                   <input
                     type="checkbox"
                     {...field}
-                    className={`ml-4 toggle toggle-primary ${couponDisabled ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
+                    className={`ml-4 toggle toggle-primary ${
+                      couponDisabled ? 'focus:bg-primary' : 'focus:bg-base-300'
+                    } bg-base-300`}
                     checked={field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
                   />
@@ -245,7 +262,9 @@ export const UpdateCoupon: React.FC<UpdateCouponProps> = ({
                   <input
                     type="checkbox"
                     {...field}
-                    className={`ml-4 toggle toggle-primary ${couponHideOnWallet ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
+                    className={`ml-4 toggle toggle-primary ${
+                      couponHideOnWallet ? 'focus:bg-primary' : 'focus:bg-base-300'
+                    } bg-base-300`}
                     checked={field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
                   />

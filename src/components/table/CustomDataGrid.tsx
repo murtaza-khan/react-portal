@@ -1,5 +1,5 @@
 /* eslint-disable padding-line-between-statements */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import DataGrid, { Column } from 'react-data-grid';
 import { useSelector } from 'react-redux';
 import { getCouponList } from 'src/store/selectors/entities/coupon';
@@ -37,7 +37,7 @@ export const CustomDataGrid: React.FC = () => {
         type: DATA_GRID_ROW_TYPE.DETAIL,
         number: row.number + 100,
         parentId: row.id,
-        parentNumber: row.number
+        parentNumber: row.number,
       });
     }
 
@@ -71,7 +71,7 @@ export const CustomDataGrid: React.FC = () => {
               onCellExpand={onRowsChange}
             />
           );
-        }
+        },
       },
       { key: 'number', name: '#' },
       { key: 'id', name: 'ID' },
@@ -92,7 +92,9 @@ export const CustomDataGrid: React.FC = () => {
       columns={columns}
       rows={rows}
       headerRowHeight={45}
-      rowHeight={(args) => (args.type === DATA_GRID_ARGS_TYPE.ROW && args.row.type === DATA_GRID_ROW_TYPE.DETAIL ? 550 : 45)}
+      rowHeight={(args) =>
+        args.type === DATA_GRID_ARGS_TYPE.ROW && args.row.type === DATA_GRID_ROW_TYPE.DETAIL ? 550 : 45
+      }
       className="h-full border-none bg-white"
       enableVirtualization={false}
     />

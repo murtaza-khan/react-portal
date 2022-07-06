@@ -30,7 +30,7 @@ export const authFeatureSlice = createSlice({
     setAuthToken: (state, action) => {
       if (!state.data) {
         state.data = {
-          token: ''
+          token: '',
         };
       }
 

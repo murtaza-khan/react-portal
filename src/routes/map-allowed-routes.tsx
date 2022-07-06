@@ -18,8 +18,7 @@ function MapAllowedRoutes({routes, basePath, isAddNotFound} :
 				* just make sure that rest object only contain props that supported by react-router's route component
 				* you may find props list here https://reactrouter.com/web/api/Route
 				*/
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { path, component: Component, children, title, permission, ...rest } = route;
+        const { path, component: Component, children, ...rest } = route;
         return (
           <Route
             { ...rest }
@@ -27,7 +26,9 @@ function MapAllowedRoutes({routes, basePath, isAddNotFound} :
             path={ `${match?.path}${path}` }
             exact
           >
-            <Component children={ children } />
+            <Component>
+              { children }
+            </Component>
           </Route>
         );
       }) }

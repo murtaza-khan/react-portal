@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import queryString from "query-string";
+import axios, { AxiosResponse } from 'axios';
+import queryString from 'query-string';
 import Cookies from 'js-cookie';
 import { getAuthCookieName } from 'src/utils/auth';
 
@@ -31,11 +31,11 @@ export class HttpService {
     }
 
     const { token } = data;
-    if (token && typeof token === "string" && !headers.Authorization)
+    if (token && typeof token === 'string' && !headers.Authorization)
       headers.Authorization = token;
 
-    if (!headers["Content-Type"]) {
-      headers["Content-Type"] = "application/json";
+    if (!headers['Content-Type']) {
+      headers['Content-Type'] = 'application/json';
     }
 
     return headers;

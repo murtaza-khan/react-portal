@@ -46,11 +46,12 @@ export const checkCreateApiData = (apiData: ICoupon) => {
     }
   }
 
-  if (apiData.couponCustomerOptionId === 2 && apiData.couponCustomers?.length === 0) {
+  if (apiData.couponCustomerOptionId === 2 &&
+    apiData.couponCustomers?.length === 0) {
     return { ok: false, error: COUPON_MESSAGES.NO_CUSTOMER_SELECTED }
   }
 
-  if (apiData.productsListType != 0 && !apiData.productIds) {
+  if (apiData.productsListType !== 0 && !apiData.productIds) {
     return { ok: false, error: COUPON_MESSAGES.UPLOAD_PRODUCT_FILE }
   }
 

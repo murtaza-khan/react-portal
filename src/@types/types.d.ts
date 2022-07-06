@@ -1,10 +1,10 @@
 /**
  * Defined some of the common types
  */
-type ReactNode = import("react").ReactNode;
-type ReactChild = import("react").ReactChild;
-type ReactChildren = import("react").ReactChildren;
-type Component = import("react").Component;
+type ReactNode = import('react').ReactNode;
+type ReactChild = import('react').ReactChild;
+type ReactChildren = import('react').ReactChildren;
+type Component = import('react').Component;
 type TFunction = () => void;
 type TObject = Record<string, number, string, undefined, boolean, TFunction>;
 type TArrayOfObjects = Array<string, TObject>;
@@ -31,8 +31,8 @@ type isDateOrString = Date | string;
 /**
  * Redux Store types
  */
-type TDispatch = import("../store/index").AppDispatch;
-type TReduxState = import("../store/index").ReduxState;
+type TDispatch = import('../store/index').AppDispatch;
+type TReduxState = import('../store/index').ReduxState;
 
 /**
  * Defined an interfce example

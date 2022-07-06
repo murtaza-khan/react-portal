@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
   data: {
-    message: "",
-    type: "",
+    message: '',
+    type: '',
   },
   validationStates: {
     isVisible: false,
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 };
 
 const alertSlice = createSlice({
-  name: "alert",
+  name: 'alert',
   initialState: INITIAL_STATE,
   reducers: {
     showAlert: (state, action) => {
@@ -20,8 +20,8 @@ const alertSlice = createSlice({
       state.validationStates.isVisible = true;
     },
     hideAlert: (state) => {
-      state.data.message = "";
-      state.data.type = "";
+      state.data.message = '';
+      state.data.type = '';
       state.validationStates.isVisible = false;
     },
   },

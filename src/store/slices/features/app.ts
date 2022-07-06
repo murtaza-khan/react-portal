@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CUSTOMER_STATUS } from "src/constants/customer";
-import { fetchCustomersByLocation } from "src/store/thunks";
-import { ROUTES } from "../../../constants/navigation-routes";
+import { createSlice } from '@reduxjs/toolkit';
+import { CUSTOMER_STATUS } from 'src/constants/customer';
+import { fetchCustomersByLocation } from 'src/store/thunks';
+import { ROUTES } from '../../../constants/navigation-routes';
 /**
  * An example of creating feature slices, reducers and INITIAL_STATE.
  */
@@ -30,10 +30,10 @@ interface IAppFeature {
 const INITIAL_STATE: IAppFeature = {
   baseUrl: process.env.REACT_APP_BASE_URL || '',
   activeScreen: ROUTES.LOGIN,
-  selectedCompanyId: "",
-  selectedBusinessUnitId: "",
-  selectedLocationId: "",
-  searchValue: "",
+  selectedCompanyId: '',
+  selectedBusinessUnitId: '',
+  selectedLocationId: '',
+  searchValue: '',
   selectedCustomers: [],
   customer: {
     page: 1,
@@ -50,7 +50,7 @@ const INITIAL_STATE: IAppFeature = {
 
 export const appFeatureSlice = createSlice({
   // A name, used in action types
-  name: "app",
+  name: 'app',
   // The initial state for the reducer
   initialState: INITIAL_STATE,
   // An object of "case reducers". Key names will be used to generate actions.

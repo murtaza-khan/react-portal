@@ -22,14 +22,18 @@ export const fetchSkuIds = createAsyncThunk<TObject, TObject, IActionOptions>(
           {
             sku: chunk.toString(),
             select: apiData.select,
-            locationId: apiData.locationId
+            locationId: apiData.locationId,
           });
         response = [...response, ...data];
       }
 
-      if (response.length != apiData.sku.length) {
-        const responseArray = response.map((product: { sku: string; }) => product.sku);
-        const errorSkus = apiData.sku.filter((sku: allAnyTypes) => !responseArray.includes(sku));
+      if (response.length !== apiData.sku.length) {
+        const responseArray = response.map(
+          (product: { sku: string; }) => product.sku
+        );
+        const errorSkus = apiData.sku.filter(
+          (sku: allAnyTypes) => !responseArray.includes(sku)
+        );
         throw { statusText: `Sku ${errorSkus[0]} not found` };
       }
 

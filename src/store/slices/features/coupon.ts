@@ -34,6 +34,11 @@ export const couponFeatureSlice = createSlice({
   },
 });
 
-export const { resetCouponData, updateCurrentPage, setTotalCount, setIsLoading } = couponFeatureSlice.actions
+export const {
+  resetCouponData,
+  updateCurrentPage,
+  setTotalCount,
+  setIsLoading,
+} = couponFeatureSlice.actions
 
 export const couponFeatureReducer = couponFeatureSlice.reducer;

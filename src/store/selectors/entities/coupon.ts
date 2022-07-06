@@ -13,16 +13,13 @@ export const getCouponData = createSelector(couponEntitySelector, coupon => get(
 const getCouponStatus = (disabled: boolean, startDate: isDateOrString, endDate: isDateOrString) => {
   const today = getDateWithOutTime(new Date());
   if (today > endDate) {
-      return COUPON_STATUS.EXPIRED;
-  }
-  else if (disabled) {
-      return COUPON_STATUS.DISABLED;
-  }
-  else if (startDate > today) {
-      return COUPON_STATUS.IN_ACTIVE;
-  }
-  else {
-      return COUPON_STATUS.ACTIVE;
+    return COUPON_STATUS.EXPIRED;
+  } else if (disabled) {
+    return COUPON_STATUS.DISABLED;
+  } else if (startDate > today) {
+    return COUPON_STATUS.IN_ACTIVE;
+  } else {
+    return COUPON_STATUS.ACTIVE;
   }
 
 }

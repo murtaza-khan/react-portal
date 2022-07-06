@@ -1,6 +1,7 @@
-export const getRowCount = (itemsPerPage: number, currentPage: number, index: number) => {
-  return itemsPerPage * (currentPage - 1) + 1 + index;
-}
+export const getRowCount =
+  (itemsPerPage: number, currentPage: number, index: number) => {
+    return itemsPerPage * (currentPage - 1) + 1 + index;
+  }
 
 export const getDateWithOutTime = (date: isDateOrString) => {
   const updatedDate = new Date(date);
@@ -10,5 +11,11 @@ export const getDateWithOutTime = (date: isDateOrString) => {
 
 export const getFormattedDate = (date: isDateOrString) => {
   const updatedDate = getDateWithOutTime(date);
-  return (updatedDate.getDate() + "-" + updatedDate.toLocaleString('default', { month: 'short' }) + "-" + updatedDate.getFullYear());
+  return (
+    updatedDate.getDate() +
+    '-' +
+    updatedDate.toLocaleString('default', { month: 'short' }) +
+    '-' +
+    updatedDate.getFullYear()
+  );
 }

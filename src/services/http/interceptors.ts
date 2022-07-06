@@ -6,9 +6,9 @@ import { store } from 'src/store';
 import { toast } from 'react-toastify';
 import { REDIRECTING_TO_LOGIN } from 'src/constants/toast-messages';
 
-axios.interceptors.request.use(async function (req) {
+axios.interceptors.request.use(async (req) => {
   return req;
-}, function (error) {
+}, (error) => {
   return Promise.reject(error);
 });
 

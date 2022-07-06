@@ -41,7 +41,10 @@ export const NavBar: React.FC = () => {
               {userName}
             </div>
           </label>
-          <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white text-black-light rounded-md w-52">
+          <ul
+            tabIndex={0}
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white text-black-light rounded-md w-52"
+          >
             <li><a className="active:bg-primary" onClick={handleLogout}><FaPowerOff />Logout</a></li>
           </ul>
         </div>

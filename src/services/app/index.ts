@@ -1,8 +1,8 @@
 /* eslint-disable padding-line-between-statements */
-import { HttpService } from "../http";
-import { prepareErrorResponse, prepareResponseObject } from "../http/response";
-import { RESPONSE_TYPES } from "../../constants/response-types";
-import { AxiosResponse } from "axios";
+import { HttpService } from '../http';
+import { prepareErrorResponse, prepareResponseObject } from '../http/response';
+import { RESPONSE_TYPES } from '../../constants/response-types';
+import { AxiosResponse } from 'axios';
 
 export class AppService extends HttpService {
   fetchAllCompanies = async (baseAuthUrl: string): Promise<IPrepareResponse<AxiosResponse>> => {
@@ -72,8 +72,8 @@ export class AppService extends HttpService {
         `${baseAuthUrl}/user/customer/byLocation`,
         {
           companyId,
-          select: "id,name,phone,email,address",
-          ...(searchValue && {searchValue, searchOnAttributes}),
+          select: 'id,name,phone,email,address',
+          ...searchValue && {searchValue, searchOnAttributes},
           limit: perPage,
           pageNo: pageNo,
         }
