@@ -1,17 +1,17 @@
 /* eslint-disable padding-line-between-statements */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import DataGrid, { Column } from "react-data-grid";
-import { useSelector, useDispatch } from "react-redux";
-import debounce from "lodash.debounce";
-import { fetchCustomersByLocation } from "src/store/thunks";
-import { COMPANY } from "src/constants/company-ids";
-import { getCustomerList } from "src/store/selectors/entities/app";
-import { getSelectedCustomers } from "src/store/selectors/features/app";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import DataGrid, { Column } from 'react-data-grid';
+import { useSelector, useDispatch } from 'react-redux';
+import debounce from 'lodash.debounce';
+import { fetchCustomersByLocation } from 'src/store/thunks';
+import { COMPANY } from 'src/constants/company-ids';
+import { getCustomerList } from 'src/store/selectors/entities/app';
+import { getSelectedCustomers } from 'src/store/selectors/features/app';
 import {
   setSelectedCustomers,
   updateCustomerCurrentPage,
   updateCustomerfilter,
-} from "src/store/slices/features/app";
+} from 'src/store/slices/features/app';
 
 interface CustomerListProps {
   onClose: () => void;
@@ -66,8 +66,8 @@ export const CustomerList: React.FC<CustomerListProps> = ({ onClose }) => {
   const columns = useMemo((): readonly Column<ICustomerRow>[] => {
     return [
       {
-        key: "checked",
-        name: "",
+        key: 'checked',
+        name: '',
         minWidth: 30,
         width: 50,
         formatter({ row }) {
@@ -81,10 +81,10 @@ export const CustomerList: React.FC<CustomerListProps> = ({ onClose }) => {
           );
         },
       },
-      { key: "number", name: "#" },
-      { key: "id", name: "ID" },
-      { key: "name", name: "Name" },
-      { key: "phone", name: "Phone #" },
+      { key: 'number', name: '#' },
+      { key: 'id', name: 'ID' },
+      { key: 'name', name: 'Name' },
+      { key: 'phone', name: 'Phone #' },
     ];
   }, [onCheckClicked]);
 

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { FiRefreshCw } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import BeatLoader from "react-spinners/BeatLoader";
+import BeatLoader from 'react-spinners/BeatLoader';
 import { Filter } from 'src/components/filter';
 import { NavBar } from 'src/components/navbar';
 import { Pagination } from 'src/components/pagination';
@@ -39,7 +39,10 @@ export const Coupon: React.FC = () => {
               <div className="font-normal text-[28px] mr-5	text-black-dark">
                 Coupon Management
               </div>
-              <FiRefreshCw className="text-primary w-[40px] my-auto cursor-pointer" onClick={ () => dispatch(handleRefresh() ) } />
+              <FiRefreshCw
+                className="text-primary w-[40px] my-auto cursor-pointer"
+                onClick={ () => dispatch(handleRefresh() ) }
+              />
               <button
                 onClick={ navigateToAddCoupon }
                 className="ml-5 px-[30px] leading-9	rounded-sm border-[1px] border-solid border-neutral text-primary
@@ -59,4 +62,5 @@ export const Coupon: React.FC = () => {
         </div>
       </div>
     </>
-)};
+  )
+};

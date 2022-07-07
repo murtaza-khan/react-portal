@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from "react-hook-form";
-import BeatLoader from "react-spinners/BeatLoader";
+import { useForm, Controller } from 'react-hook-form';
+import BeatLoader from 'react-spinners/BeatLoader';
 import { toast } from 'react-toastify';
-import { NavBar } from "src/components/navbar";
-import { SideBar } from "src/components/sidebar";
+import { NavBar } from 'src/components/navbar';
+import { SideBar } from 'src/components/sidebar';
 import { COMPANY } from 'src/constants/company-ids';
 import { COUPON_TYPES, COUPON_USERS, FORM_FIELDS } from 'src/constants/coupons';
 import { getBusinessUnits, getAllLocations } from 'src/store/selectors/entities/app';
@@ -15,15 +15,15 @@ import { resetLocations } from 'src/store/slices/entities/app';
 import { createCoupon, fetchAllLocations, fetchBusinessUnits, fetchCustomerIds, fetchSkuIds } from 'src/store/thunks';
 import { checkCreateApiData } from 'src/utils/coupon'
 import { SelectCustomers } from '../selectCustomers';
-import { setSelectedCustomers } from "src/store/slices/features/app";
-import { getSelectedCustomers } from "src/store/selectors/features/app";
+import { setSelectedCustomers } from 'src/store/slices/features/app';
+import { getSelectedCustomers } from 'src/store/selectors/features/app';
 import { resetCustomerData } from '../../store/slices/entities/customer';
 import { resetSkuData } from '../../store/slices/entities/sku';
 // @ts-ignore
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { COUPON_MESSAGES } from "src/constants/toast-messages";
-import { CUSTOMER_OPTION, SKU_TYPE } from "src/constants/misc";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { COUPON_MESSAGES } from 'src/constants/toast-messages';
+import { CUSTOMER_OPTION, SKU_TYPE } from 'src/constants/misc';
 
 
 export const AddCoupon: React.FC = () => {
@@ -40,13 +40,34 @@ export const AddCoupon: React.FC = () => {
   const whitelistFile = useRef<HTMLInputElement>(null);
   const blacklistFile = useRef<HTMLInputElement>(null);
   const { register, handleSubmit, setValue, watch, reset, control } = useForm();
-  const selectedDiscountTypeId = watch("discountTypeId");
-  const selectedBusinessUnitId = watch("businessUnitId");
-  const selectedLocationId = watch("locationId");
-  const selectedCouponCustomerOptionId = watch("couponCustomerOptionId");
-  const selectedProductsListType = watch("productsListType");
-  const disabled = watch("disabled");
-  const hideOnWallet = watch("hideOnWallet");
+  const selectedDiscountTypeId = watch('discountTypeId');
+  const selectedBusinessUnitId = watch('businessUnitId');
+  const selectedLocationId = watch('locationId');
+  const selectedCouponCustomerOptionId = watch('couponCustomerOptionId');
+  const selectedProductsListType = watch('productsListType');
+  const disabled = watch('disabled');
+  const hideOnWallet = watch('hideOnWallet');
+
+  const resetForm = () => {
+    reset({
+      'name': '',
+      'description': '',
+      'startDate': new Date(),
+      'endDate': new Date(),
+      'discountTypeId': '1',
+      'userTypeId': '[8]',
+      'discountValue': null,
+      'maxUsagePerCustomer': '0',
+      'minCouponLimit': '0',
+      'maxDiscountValue': '0',
+      'businessUnitId': '',
+      'locationId': '',
+      'couponCustomerOptionId': 'everyone',
+      'productsListType': 'all',
+      'disabled': true,
+      'hideOnWallet': true,
+    })
+  }
 
   useEffect(() => {
     dispatch(fetchBusinessUnits(''));
@@ -57,48 +78,27 @@ export const AddCoupon: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setValue("locationId", locations[0] ? locations[0].id : "");
+    setValue('locationId', locations[0] ? locations[0].id : '');
   }, [locations])
-
-  const resetForm = () => {
-    reset({
-      "name": "",
-      "description": "",
-      "startDate": new Date(),
-      "endDate": new Date(),
-      "discountTypeId": "1",
-      "userTypeId": "[8]",
-      "discountValue": null,
-      "maxUsagePerCustomer": "0",
-      "minCouponLimit": "0",
-      "maxDiscountValue": "0",
-      "businessUnitId": "",
-      "locationId": "",
-      "couponCustomerOptionId": "everyone",
-      "productsListType": "all",
-      "disabled": true,
-      "hideOnWallet": true,
-    })
-  }
 
   const handleBusinessUnitSelection = useCallback(async (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (selectedBusinessUnitId === e.target.value) return;
-    setValue("businessUnitId", e.target.value);
+    setValue('businessUnitId', e.target.value);
     dispatch(resetLocations());
     await dispatch(fetchAllLocations({
-      businessUnitId: e.target.value
+      businessUnitId: e.target.value,
     }));
   }, [dispatch, selectedBusinessUnitId]);
 
   const clearFile = (file: React.RefObject<HTMLInputElement>) => {
     if (file.current) {
-      file.current.value = "";
+      file.current.value = '';
 
-      if (file.current.name === "customer") {
+      if (file.current.name === 'customer') {
         dispatch(resetCustomerData());
       }
 
-      if (file.current.name === "sku") {
+      if (file.current.name === 'sku') {
         dispatch(resetSkuData());
       }
     }
@@ -116,7 +116,7 @@ export const AddCoupon: React.FC = () => {
     if (!selectedLocationId) {
       toast.error(COUPON_MESSAGES.SELECT_COUPON_LOCATION);
 
-      if (type === "customer") {
+      if (type === 'customer') {
         clearFile(customerFile);
       } else {
         if (selectedProductsListType === SKU_TYPE.WHITELIST) {
@@ -139,22 +139,22 @@ export const AddCoupon: React.FC = () => {
         reader.onload = () => {
           const csvData = reader?.result;
 
-          const csvArray = (csvData as string).split("\n")
-            .filter(item => item != "")
+          const csvArray = (csvData as string).split('\n')
+            .filter(item => item !== '')
             .map(item => { return item.trim() })
             .slice(1);
 
-          if (type === "customer") {
+          if (type === 'customer') {
             dispatch(fetchCustomerIds({
-              select: "id,phone",
+              select: 'id,phone',
               phone: csvArray,
-              onError: () => clearFile(customerFile)
+              onError: () => clearFile(customerFile),
             }));
-          } else if (type === "sku") {
+          } else if (type === 'sku') {
             dispatch(fetchSkuIds({
               sku: csvArray,
               locationId: selectedLocationId,
-              select: "id,sku",
+              select: 'id,sku',
               onError: () => {
                 if (selectedProductsListType === SKU_TYPE.WHITELIST) {
                   clearFile(whitelistFile);
@@ -163,7 +163,7 @@ export const AddCoupon: React.FC = () => {
                 if (selectedProductsListType === SKU_TYPE.BLACKLIST) {
                   clearFile(blacklistFile);
                 }
-              }
+              },
             }));
           }
         }
@@ -240,9 +240,9 @@ export const AddCoupon: React.FC = () => {
   }
 
   const handleCouponPercentageOption = (option: string) => {
-    if (option === "2") {
-      setValue("productsListType", "all");
-      setValue("maxDiscountValue", 0);
+    if (option === '2') {
+      setValue('productsListType', 'all');
+      setValue('maxDiscountValue', 0);
       dispatch(resetSkuData());
     }
   }
@@ -255,7 +255,7 @@ export const AddCoupon: React.FC = () => {
     data.businessUnitId = +data.businessUnitId;
     data.locationId = +data.locationId;
     data.maxDiscountValue = +data.maxDiscountValue;
-    data.couponCustomerOptionId = data.couponCustomerOptionId === "everyone" ? 1 : 2;
+    data.couponCustomerOptionId = data.couponCustomerOptionId === 'everyone' ? 1 : 2;
     data.disabled = !data.disabled;
     data.hideOnWallet = !data.hideOnWallet;
 
@@ -314,14 +314,14 @@ export const AddCoupon: React.FC = () => {
                     type="text"
                     className="input input-bordered w-full"
                     placeholder="Enter Coupon Name"
-                    {...register("name")}
+                    {...register('name')}
                   />
                 </div>
 
                 <div>
                   <label className="label">
                     <span className="label-text">{ FORM_FIELDS.DESCRIPTION }</span>
-                    <span className="label-text" style={{ fontSize: "0.58rem" }}>
+                    <span className="label-text" style={{ fontSize: '0.58rem' }}>
                       { FORM_FIELDS.DESCRIPTION_SMALL }
                     </span>
                   </label>
@@ -329,7 +329,7 @@ export const AddCoupon: React.FC = () => {
                     type="text"
                     className="input input-bordered w-full"
                     placeholder="Enter Coupon Description"
-                    {...register("description")}
+                    {...register('description')}
                   />
                 </div>
 
@@ -380,9 +380,9 @@ export const AddCoupon: React.FC = () => {
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
-                    {...register("discountTypeId")}
+                    {...register('discountTypeId')}
                     onChange={(e) => {
-                      setValue("discountTypeId", e.target.value);
+                      setValue('discountTypeId', e.target.value);
                       handleCouponPercentageOption(e.target.value);
                     }}
                   >
@@ -398,8 +398,8 @@ export const AddCoupon: React.FC = () => {
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
-                    {...register("userTypeId")}
-                    onChange={(e) => setValue("userTypeId", e.target.value)}
+                    {...register('userTypeId')}
+                    onChange={(e) => setValue('userTypeId', e.target.value)}
                   >
                     {COUPON_USERS.map(type =>
                       <option value={type.value} key={type.name}>{type.name}</option>
@@ -418,8 +418,8 @@ export const AddCoupon: React.FC = () => {
                     min={1}
                     className="input input-bordered w-full"
                     placeholder="Enter Discount Amount"
-                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
-                    {...register("discountValue")}
+                    onKeyDown={(e) => ['e', '+', '-'].includes(e.key) && e.preventDefault()}
+                    {...register('discountValue')}
                   />
                 </div>
 
@@ -432,8 +432,8 @@ export const AddCoupon: React.FC = () => {
                     min={0}
                     className="input input-bordered w-full"
                     placeholder="Enter Max Limit of Coupon Usage"
-                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
-                    {...register("maxUsagePerCustomer")}
+                    onKeyDown={(e) => ['e', '+', '-'].includes(e.key) && e.preventDefault()}
+                    {...register('maxUsagePerCustomer')}
                   />
                 </div>
 
@@ -447,12 +447,12 @@ export const AddCoupon: React.FC = () => {
                     min={0}
                     className="input input-bordered w-full"
                     placeholder="Enter Max Limit of Coupon Usage"
-                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
-                    {...register("minCouponLimit")}
+                    onKeyDown={(e) => ['e', '+', '-'].includes(e.key) && e.preventDefault()}
+                    {...register('minCouponLimit')}
                   />
                 </div>
 
-                {selectedDiscountTypeId === "1" ? <div>
+                {selectedDiscountTypeId === '1' ? <div>
                   <label className="label">
                     <span className="label-text">{ `Coupon ${ FORM_FIELDS.MAX_DISCOUNT_VALUE } *` }</span>
                   </label>
@@ -462,8 +462,8 @@ export const AddCoupon: React.FC = () => {
                     min={0}
                     className="input input-bordered w-full"
                     placeholder="Enter Maximum Discount Value"
-                    onKeyDown={(e) => ["e", "+", "-"].includes(e.key) && e.preventDefault()}
-                    {...register("maxDiscountValue")}
+                    onKeyDown={(e) => ['e', '+', '-'].includes(e.key) && e.preventDefault()}
+                    {...register('maxDiscountValue')}
                   />
                 </div> : null}
 
@@ -473,7 +473,7 @@ export const AddCoupon: React.FC = () => {
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
-                    {...register("businessUnitId")}
+                    {...register('businessUnitId')}
                     onChange={(e) => handleBusinessUnitSelection(e)}
                   >
                     {businessUnits.map(businessUnit =>
@@ -488,9 +488,9 @@ export const AddCoupon: React.FC = () => {
                   </label>
                   <select
                     className="select select-bordered w-full font-normal"
-                    {...register("locationId")}
+                    {...register('locationId')}
                     disabled={!selectedBusinessUnitId}
-                    onChange={(e) => setValue("locationId", e.target.value)}
+                    onChange={(e) => setValue('locationId', e.target.value)}
                   >
                     {locations.map(location =>
                       <option value={location.id} key={location.id}>{location.name}</option>
@@ -506,18 +506,18 @@ export const AddCoupon: React.FC = () => {
                     <div className="grid grid-cols-3 gap-4 mt-3">
                       <div>
                         <input
-                          {...register("couponCustomerOptionId")}
+                          {...register('couponCustomerOptionId')}
                           value="everyone"
                           type="radio"
                           name="couponCustomerOptionId"
-                          onClick={() => handleCouponCustomerOption("everyone")}
+                          onClick={() => handleCouponCustomerOption('everyone')}
                         />
                         <span className="input font-normal">Everyone</span>
                       </div>
 
                       <div>
                         <input
-                          {...register("couponCustomerOptionId")}
+                          {...register('couponCustomerOptionId')}
                           value={ CUSTOMER_OPTION.SELECTED }
                           type="radio"
                           name="couponCustomerOptionId"
@@ -532,7 +532,7 @@ export const AddCoupon: React.FC = () => {
 
                       <div>
                         <input
-                          {...register("couponCustomerOptionId")}
+                          {...register('couponCustomerOptionId')}
                           value={ CUSTOMER_OPTION.FILE }
                           type="radio"
                           name="couponCustomerOptionId"
@@ -541,7 +541,7 @@ export const AddCoupon: React.FC = () => {
                         <span className="input font-normal">{ FORM_FIELDS.UPLOAD_FILE }</span>
                         {selectedCouponCustomerOptionId === CUSTOMER_OPTION.FILE ? <div>
                           <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
-                            onChange={(e) => handleFileSubmission(e.target.files!, "customer")} />
+                            onChange={(e) => handleFileSubmission(e.target.files!, 'customer')} />
                           <div className="w-24">
                             <button className="btn btn-primary btn-block mt-3 ml-7"
                               onClick={() => { clearFile(customerFile) }}>Clear File</button>
@@ -551,24 +551,24 @@ export const AddCoupon: React.FC = () => {
                     </div>
                   </div>
 
-                  {selectedDiscountTypeId === "1" ?
+                  {selectedDiscountTypeId === '1' ?
                     <div>
                       <p className="text-l font-semibold mt-6">{ FORM_FIELDS.SKU_ELIGIBILITY }</p>
                       <div className="grid grid-cols-3 gap-4 mt-3">
                         <div>
                           <input
-                            {...register("productsListType")}
+                            {...register('productsListType')}
                             value="all"
                             type="radio"
                             name="productsListType"
-                            onClick={() => handleProductListType("all")}
+                            onClick={() => handleProductListType('all')}
                           />
                           <span className="input font-normal capitalize">{ `${SKU_TYPE.ALL} SKUs` }</span>
                         </div>
 
                         <div>
                           <input
-                            {...register("productsListType")}
+                            {...register('productsListType')}
                             value={ SKU_TYPE.WHITELIST }
                             type="radio"
                             name="productsListType"
@@ -577,7 +577,7 @@ export const AddCoupon: React.FC = () => {
                           <span className="input font-normal capitalize">{ `${SKU_TYPE.WHITELIST} SKUs` }</span>
                           {selectedProductsListType === SKU_TYPE.WHITELIST ? <div>
                             <input className="mt-2 ml-7" type="file" name="sku" ref={whitelistFile}
-                              onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                              onChange={(e) => handleFileSubmission(e.target.files, 'sku')} />
                             <div className="w-24">
                               <button className="btn btn-primary btn-block mt-3 ml-7"
                                 onClick={() => { clearFile(whitelistFile) }}>Clear File</button>
@@ -587,7 +587,7 @@ export const AddCoupon: React.FC = () => {
 
                         <div>
                           <input
-                            {...register("productsListType")}
+                            {...register('productsListType')}
                             value={ SKU_TYPE.BLACKLIST }
                             type="radio"
                             name="productsListType"
@@ -596,7 +596,7 @@ export const AddCoupon: React.FC = () => {
                           <span className="input font-normal capitalize">{ `${SKU_TYPE.BLACKLIST} SKUs` }</span>
                           {selectedProductsListType === SKU_TYPE.BLACKLIST ? <div>
                             <input className="mt-2 ml-7" type="file" name="sku" ref={blacklistFile}
-                              onChange={(e) => handleFileSubmission(e.target.files, "sku")} />
+                              onChange={(e) => handleFileSubmission(e.target.files, 'sku')} />
                             <div className="w-24">
                               <button className="btn btn-primary btn-block mt-3 ml-7"
                                 onClick={() => { clearFile(blacklistFile) }}>Clear File</button>
@@ -609,7 +609,7 @@ export const AddCoupon: React.FC = () => {
                   {selectedCustomers.length ? (
                     <div className="flex flex-col pb-8">
                       {selectedCustomers.map((sc) => (
-                        <div className="">
+                        <div className="" key={ sc.id }>
                           <span className="badge badge-secondary rounded-none">{`${sc.name} ${sc.phone}`}</span>
                           <button
                             onClick={() => removeCustomer(sc.id)}
@@ -631,9 +631,11 @@ export const AddCoupon: React.FC = () => {
                     </div>
                     <input
                       type="checkbox"
-                      className={`ml-4 toggle toggle-primary ${disabled ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
-                      {...register("disabled")}
-                      onChange={() => setValue("disabled", !disabled)} />
+                      className={
+                        `ml-4 toggle toggle-primary ${disabled ? 'focus:bg-primary' : 'focus:bg-base-300'} bg-base-300`
+                      }
+                      {...register('disabled')}
+                      onChange={() => setValue('disabled', !disabled)} />
                     <p className="input font-normal leading-6">{ FORM_FIELDS.ENABLE }</p>
                   </div>
                   <p className="input font-semibold h-8">
@@ -645,9 +647,13 @@ export const AddCoupon: React.FC = () => {
                     </div>
                     <input
                       type="checkbox"
-                      className={`ml-4 toggle toggle-primary ${hideOnWallet ? "focus:bg-primary" : "focus:bg-base-300"} bg-base-300`}
-                      {...register("hideOnWallet")}
-                      onChange={() => setValue("hideOnWallet", !hideOnWallet)} />
+                      className={
+                        `ml-4 toggle toggle-primary ${
+                          hideOnWallet ? 'focus:bg-primary' : 'focus:bg-base-300'
+                        } bg-base-300`
+                      }
+                      {...register('hideOnWallet')}
+                      onChange={() => setValue('hideOnWallet', !hideOnWallet)} />
                     <p className="input font-normal h-0 leading-6">{ FORM_FIELDS.SHOW }</p>
                   </div>
                   <div className="mt-8 w-40">
@@ -659,7 +665,13 @@ export const AddCoupon: React.FC = () => {
           </div>
         </div>
       </div>
-      {showSelectCustomers ? <SelectCustomers companyId={COMPANY.RETAILO} isOpen={showSelectCustomers} closeModal={() => setShowSelectCustomers(false)} /> : null}
+      { showSelectCustomers ?
+        <SelectCustomers
+          companyId={COMPANY.RETAILO}
+          isOpen={showSelectCustomers}
+          closeModal={() => setShowSelectCustomers(false)}
+        /> : null
+      }
     </>
   );
 };

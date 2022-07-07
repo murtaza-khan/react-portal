@@ -11,11 +11,9 @@ import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 */
 const Auth = () => {
   const loggedIn = useSelector(getIsLoggedIn);
-  return loggedIn ? (
-    <Redirect to={ SIDEBAR_ROUTES.COUPON} />
-  ) : (
-    <PublicRoutes />
-  );
+  return loggedIn ?
+    <Redirect to={ SIDEBAR_ROUTES.COUPON} /> :
+    <PublicRoutes />;
 };
 
 export default memo(Auth);

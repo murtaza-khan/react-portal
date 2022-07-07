@@ -10,6 +10,6 @@ export function useFocusRef<T extends HTMLOrSVGElement>(isSelected: boolean) {
 
   return {
     ref,
-    tabIndex: isSelected ? 0 : -1
+    tabIndex: isSelected ? 0 : -1,
   };
 }

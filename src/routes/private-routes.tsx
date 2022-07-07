@@ -8,7 +8,7 @@ import { useReroute } from 'src/hooks/useReroute';
 import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 
 export function isArrayWithLength(arr: TArrayOfObjects) {
-  return (Array.isArray(arr) && arr.length);
+  return Array.isArray(arr) && arr.length;
 }
 
 export function getAllowedRoutes(routes: TObject, role: string) {

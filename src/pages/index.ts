@@ -1,6 +1,6 @@
 import { AddCoupon } from './addCoupon';
 import { Coupon } from './coupon';
-import { HealthCheck } from "./health-check";
+import { HealthCheck } from './health-check';
 
 export {
   AddCoupon,

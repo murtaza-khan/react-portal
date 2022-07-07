@@ -1,6 +1,11 @@
 /* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllCompanies, fetchBusinessUnits, fetchAllLocations, fetchCustomersByLocation } from 'src/store/thunks';
+import {
+  fetchAllCompanies,
+  fetchBusinessUnits,
+  fetchAllLocations,
+  fetchCustomersByLocation,
+} from 'src/store/thunks';
 
 /**
  * An example of creating entity slices, reducers and INITIAL_STATE.
@@ -74,7 +79,7 @@ export const appEntitySlice = createSlice({
       const { locations } = action.payload;
       if (!state.data) {
         state.data = {
-          locations: []
+          locations: [],
         }
       }
       state.data.locations = locations;

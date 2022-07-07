@@ -18,7 +18,7 @@ export const prepareResponseObject = <T>(
       ...finalResponse,
       data: { message: STATUS_MESSAGES.OFFLINE },
       statusCode: STATUS_CODES.BAD_GATEWAY,
-      statusText: STATUS_MESSAGES.OFFLINE
+      statusText: STATUS_MESSAGES.OFFLINE,
     };
   }
 

@@ -1,9 +1,9 @@
-import { HttpService } from "../http";
-import { prepareErrorResponse, prepareResponseObject } from "../http/response";
-import { RESPONSE_TYPES } from "../../constants/response-types";
-import Cookies from "js-cookie";
-import { getAuthCookieName } from "src/utils/auth";
-import { AxiosResponse } from "axios";
+import { HttpService } from '../http';
+import { prepareErrorResponse, prepareResponseObject } from '../http/response';
+import { RESPONSE_TYPES } from '../../constants/response-types';
+import Cookies from 'js-cookie';
+import { getAuthCookieName } from 'src/utils/auth';
+import { AxiosResponse } from 'axios';
 
 export class AuthService extends HttpService {
   signOut = async (/* _baseAuthUrl: string */): Promise<allAnyTypes> => {
@@ -25,7 +25,7 @@ export class AuthService extends HttpService {
         data,
         undefined
       );
-      
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       return prepareErrorResponse(error);

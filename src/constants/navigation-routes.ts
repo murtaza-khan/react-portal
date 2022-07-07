@@ -11,7 +11,7 @@ export const MAIN_ROUTE = '/couponportal';
 export const ADD_ROUTE = '/add';
 export const LOGIN_ROUTE = '/login';
 
-//Sidebar Route Names
+// Sidebar Route Names
 export enum SIDEBAR_NAMES {
   PRODUCTS = 'Products',
   CATALOGUES = 'Catalogues',

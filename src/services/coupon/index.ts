@@ -1,8 +1,8 @@
 /* eslint-disable padding-line-between-statements */
-import { HttpService } from "../http";
-import { prepareErrorResponse, prepareResponseObject } from "../http/response";
-import { RESPONSE_TYPES } from "../../constants/response-types";
-import { AxiosResponse } from "axios";
+import { HttpService } from '../http';
+import { prepareErrorResponse, prepareResponseObject } from '../http/response';
+import { RESPONSE_TYPES } from '../../constants/response-types';
+import { AxiosResponse } from 'axios';
 
 export class CouponService extends HttpService {
   fetchCoupons = async (

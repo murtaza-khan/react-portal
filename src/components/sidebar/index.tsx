@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaThList, FaShoppingCart, FaTruck, FaListAlt, FaHouzz, FaGift, FaUsers, FaUserAlt,
-  FaBell, FaLocationArrow, FaImage, FaCreditCard, FaRegListAlt, FaCogs
+  FaBell, FaLocationArrow, FaImage, FaCreditCard, FaRegListAlt, FaCogs,
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { SIDEBAR_NAMES, SIDEBAR_ROUTES, ADMIN_PORTAL_URL } from 'src/constants/navigation-routes';
@@ -119,8 +119,7 @@ export const SideBar: React.FC = () => {
               </a>
             }
           </li>
-          )
-        )}
+        ))}
       </ul>
     </div>
   );

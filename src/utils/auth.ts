@@ -1,5 +1,10 @@
-/* eslint-disable keyword-spacing */
-import { AUTH_COOKIE, DEV_AUTH_COOKIE, PROD_AUTH_COOKIE, QA_AUTH_COOKIE, STAGE_AUTH_COOKIE } from 'src/constants/auth';
+import {
+  AUTH_COOKIE,
+  DEV_AUTH_COOKIE,
+  PROD_AUTH_COOKIE,
+  QA_AUTH_COOKIE,
+  STAGE_AUTH_COOKIE,
+} from 'src/constants/auth';
 import { BUILD_ENV } from 'src/constants/build-env';
 import { AUTH_MESSAGES } from 'src/constants/toast-messages';
 
