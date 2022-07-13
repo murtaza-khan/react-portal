@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable padding-line-between-statements */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppService, CouponService } from 'src/services';
+import { CouponService } from 'src/services';
 import {
   getBaseUrl,
   getSearchValue,
@@ -23,8 +23,6 @@ import {
 import { STATUS_MESSAGES } from 'src/constants/response-types';
 
 const couponService = new CouponService();
-const appService = new AppService();
-
 
 export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
   COUPON_FETCH,
@@ -54,7 +52,7 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
         await Promise.all(
           Array.from(uniqueBusinessUnitIds).map(async ([businessUnitId]) => {
             const { data: { name: businessUnitName } } =
-              await appService.fetchBusinessUnitById(baseUrl, businessUnitId);
+              await couponService.fetchBusinessUnitById(baseUrl, businessUnitId);
             uniqueBusinessUnitIds.set(businessUnitId, businessUnitName);
           })
         );
@@ -64,7 +62,7 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
         await Promise.all(
           Array.from(uniqueLocationIds).map(async ([locationId]) => {
             const { data: { name: locationName } } =
-              await appService.fetchLocationById(baseUrl, locationId);
+              await couponService.fetchLocationById(baseUrl, locationId);
             uniqueLocationIds.set(locationId, locationName);
           })
         );
