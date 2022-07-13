@@ -138,11 +138,19 @@ interface IUpdateCouponPayload {
   hideOnWallet: boolean;
 }
 
-interface IFetchCouponsQueryParams {
+interface IFetchCoupons {
   page?: number;
   perPage?: number;
-  businessUnitId?: string;
-  locationId?: string;
   companyId?: string;
   search?: allAnyTypes;
+}
+
+interface IFetchCouponsQueryParams extends IFetchCoupons {
+  selectedbusinessUnitId?: string,
+  selectedlocationId?: string,
+}
+
+interface IFetchCouponsApiData extends IFetchCoupons {
+  businessUnitId?: string,
+  locationId?: string,
 }
