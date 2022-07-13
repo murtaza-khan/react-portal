@@ -54,13 +54,11 @@ export class AppService extends HttpService {
   fetchAllCustomers = async (
     baseAuthUrl: string,
     {
-      companyId,
       perPage,
       pageNo,
       searchOnAttributes,
       searchValue,
     }: {
-      companyId: string;
       perPage: string;
       pageNo: string;
       searchOnAttributes?: string;
@@ -71,7 +69,6 @@ export class AppService extends HttpService {
       const apiResponse = await this.get(
         `${baseAuthUrl}/user/customer/byLocation`,
         {
-          companyId,
           select: 'id,name,phone,email,address',
           ...searchValue && {searchValue, searchOnAttributes},
           limit: perPage,

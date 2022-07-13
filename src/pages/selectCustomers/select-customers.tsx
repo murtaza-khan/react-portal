@@ -37,13 +37,11 @@ const customStyles = {
 export interface Props {
   isOpen: boolean;
   closeModal: () => void;
-  companyId: number | string;
 }
 
 export const SelectCustomers: React.FC<Props> = ({
   isOpen,
   closeModal,
-  companyId,
 }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsCustomerLoading);
@@ -51,7 +49,7 @@ export const SelectCustomers: React.FC<Props> = ({
   useEffect(() => {
     dispatch(updateCustomerCurrentPage(1));
     dispatch(updateCustomerfilter(''));
-    dispatch(fetchCustomersByLocation({ companyId }));
+    dispatch(fetchCustomersByLocation({}));
   }, [dispatch]);
 
   return (
@@ -77,7 +75,7 @@ export const SelectCustomers: React.FC<Props> = ({
               />
             </div>
             <CustomerList onClose={closeModal} />
-            <Pagination companyId={companyId} />
+            <Pagination />
           </div>
         </Modal>
       </div>
