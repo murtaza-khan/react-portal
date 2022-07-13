@@ -5,7 +5,6 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { toast } from 'react-toastify';
 import { NavBar } from 'src/components/navbar';
 import { SideBar } from 'src/components/sidebar';
-import { COMPANY } from 'src/constants/company-ids';
 import { COUPON_TYPES, COUPON_USERS, FORM_FIELDS } from 'src/constants/coupons';
 import { getBusinessUnits, getAllLocations } from 'src/store/selectors/entities/app';
 import { getSkuIds } from 'src/store/selectors/entities/sku';
