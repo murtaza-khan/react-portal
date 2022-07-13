@@ -44,12 +44,12 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
       const uniqueBusinessUnitIds = new Map();
       const uniqueLocationIds = new Map();
       coupons.forEach((coupon: ICoupon) => {
-        uniqueBusinessUnitIds.set(coupon.businessUnitId, coupon.businessUnit);
-        uniqueLocationIds.set(coupon.locationId, coupon.location);
+        uniqueBusinessUnitIds.set(coupon.businessUnitId, coupon.businessUnit || '-');
+        uniqueLocationIds.set(coupon.locationId, coupon.location || '-');
       });
 
       if (uniqueBusinessUnitIds.size !== 0) {
-        await Promise.all(
+        await Promise.allSettled(
           Array.from(uniqueBusinessUnitIds).map(async ([businessUnitId]) => {
             const { data: { name: businessUnitName } } =
               await couponService.fetchBusinessUnitById(baseUrl, businessUnitId);
@@ -59,7 +59,7 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
       }
 
       if (uniqueLocationIds.size !== 0) {
-        await Promise.all(
+        await Promise.allSettled(
           Array.from(uniqueLocationIds).map(async ([locationId]) => {
             const { data: { name: locationName } } =
               await couponService.fetchLocationById(baseUrl, locationId);
