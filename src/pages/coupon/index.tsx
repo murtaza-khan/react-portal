@@ -3,45 +3,25 @@ import React, { useEffect } from 'react';
 import { FiRefreshCw } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import BeatLoader from "react-spinners/BeatLoader";
+import BeatLoader from 'react-spinners/BeatLoader';
 import { Filter } from 'src/components/filter';
 import { NavBar } from 'src/components/navbar';
 import { Pagination } from 'src/components/pagination';
 import { SideBar } from 'src/components/sidebar';
 import { CustomDataGrid } from 'src/components/table/CustomDataGrid';
-import { getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from 'src/store/selectors/features/app';
-import { getCouponsPage, getIsLoading } from 'src/store/selectors/features/coupon';
-import { updateSearchValue, updateSelectedBusinessUnitId, updateSelectedCompanyId, updateSelectedLocationId } from 'src/store/slices/features/app';
-import { updateCurrentPage } from 'src/store/slices/features/coupon';
-import { fetchInitialData } from 'src/store/thunks/app';
-import { checkTokenOnReroute } from 'src/utils/auth';
+import { ADD_ROUTE, SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
+import { getIsLoading } from 'src/store/selectors/features/coupon';
+import { handleRefresh } from 'src/store/thunks';
 
 
 export const Coupon: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector(getIsLoading);
-  const selectedCompanyId = useSelector(getSelectedCompanyId);
-  const selectedBusinessUnitId = useSelector(getSelectedBusinessUnitId);
-  const selectedLocationId = useSelector(getSelectedLocationId);
-  const searchValue = useSelector(getSearchValue);
-  const currentPage = useSelector(getCouponsPage);
-
-  const navigateToAddCoupon = () => history.push('/coupon/add');
-  const handleRefresh = () => {
-    selectedCompanyId && dispatch(updateSelectedCompanyId(''));
-    selectedBusinessUnitId && dispatch(updateSelectedBusinessUnitId(''));
-    selectedLocationId && dispatch(updateSelectedLocationId(''));
-    searchValue && dispatch(updateSearchValue(''));
-    currentPage !== 1 && dispatch(updateCurrentPage(1));
-    dispatch(fetchInitialData());
-  }
+  const navigateToAddCoupon = () => history.push(`${ SIDEBAR_ROUTES.COUPON }${ ADD_ROUTE }`);
 
   useEffect(() => {
-    if (checkTokenOnReroute()) {
-      history.push('/login');
-    }
-    handleRefresh();
+    dispatch(handleRefresh());
   }, [])
 
   return (
@@ -59,7 +39,10 @@ export const Coupon: React.FC = () => {
               <div className="font-normal text-[28px] mr-5	text-black-dark">
                 Coupon Management
               </div>
-              <FiRefreshCw className="text-primary w-[40px] my-auto cursor-pointer" onClick={handleRefresh} />
+              <FiRefreshCw
+                className="text-primary w-[40px] my-auto cursor-pointer"
+                onClick={ () => dispatch(handleRefresh() ) }
+              />
               <button
                 onClick={ navigateToAddCoupon }
                 className="ml-5 px-[30px] leading-9	rounded-sm border-[1px] border-solid border-neutral text-primary
@@ -79,4 +62,5 @@ export const Coupon: React.FC = () => {
         </div>
       </div>
     </>
-)};
+  )
+};

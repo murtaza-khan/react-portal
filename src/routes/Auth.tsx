@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from '../store/selectors/features/auth';
 import PublicRoutes from './public-routes';
+import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 
 /*
 * TODO: when user loggedIn he/she unable to goto public routes
@@ -10,14 +11,9 @@ import PublicRoutes from './public-routes';
 */
 const Auth = () => {
   const loggedIn = useSelector(getIsLoggedIn);
-  // const isAdmin = useSelector(getIsAdmin);
-  // TODO: temp logged-in check, update as per your app logic
-  return loggedIn ? (
-    // <Redirect to={ isAdmin ? '/app/dashboard' : '/app/profile' } />
-    <Redirect to={ '/coupon' } />
-  ) : (
-    <PublicRoutes />
-  );
+  return loggedIn ?
+    <Redirect to={ SIDEBAR_ROUTES.COUPON} /> :
+    <PublicRoutes />;
 };
 
 export default memo(Auth);

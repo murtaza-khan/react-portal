@@ -4,9 +4,11 @@ import { Redirect } from 'react-router-dom';
 import { getIsLoggedIn, getUserRoleId } from '../store/selectors/features/auth';
 import PrivateRoutesConfig from './private-route-config';
 import MapAllowedRoutes from './map-allowed-routes';
+import { useReroute } from 'src/hooks/useReroute';
+import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 
 export function isArrayWithLength(arr: TArrayOfObjects) {
-  return (Array.isArray(arr) && arr.length);
+  return Array.isArray(arr) && arr.length;
 }
 
 export function getAllowedRoutes(routes: TObject, role: string) {
@@ -19,6 +21,7 @@ export function getAllowedRoutes(routes: TObject, role: string) {
 
 const PrivateRoutes = () => {
   let allowedRoutes = [];
+  useReroute();
 
   const isLoggedIn = useSelector(getIsLoggedIn);
   const userRoleId = useSelector(getUserRoleId);
@@ -29,7 +32,7 @@ const PrivateRoutes = () => {
     <Fragment>
       <MapAllowedRoutes
         routes={ allowedRoutes }
-        basePath='/coupon'
+        basePath={ SIDEBAR_ROUTES.COUPON}
         isAddNotFound
       />
     </Fragment>

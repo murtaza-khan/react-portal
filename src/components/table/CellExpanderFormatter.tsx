@@ -1,4 +1,5 @@
-import { useFocusRef } from "src/hooks/useFocusRef";
+import React from 'react';
+import { useFocusRef } from 'src/hooks/useFocusRef';
 
 interface CellExpanderFormatterProps {
   isCellSelected: boolean;
@@ -9,7 +10,7 @@ interface CellExpanderFormatterProps {
 export const CellExpanderFormatter: React.FC<CellExpanderFormatterProps> = ({
   isCellSelected,
   row,
-  onCellExpand
+  onCellExpand,
 }: CellExpanderFormatterProps) => {
   const { ref, tabIndex } = useFocusRef<HTMLSpanElement>(isCellSelected);
 
@@ -19,9 +20,9 @@ export const CellExpanderFormatter: React.FC<CellExpanderFormatterProps> = ({
 
   return (
     <div className='cursor-pointer' onClick={handleClick}>
-        <span ref={ref} tabIndex={tabIndex}>
-          {row.expanded ? '\u25BC' : '\u25B6'}
-        </span>
+      <span ref={ref} tabIndex={tabIndex}>
+        {row.expanded ? '\u25BC' : '\u25B6'}
+      </span>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import get from "lodash.get";
-import { createSelector } from "reselect";
-import { getCustomerPerPage, getCustomerPage } from "../features/app";
+import get from 'lodash.get';
+import { createSelector } from 'reselect';
+import { getCustomerPerPage, getCustomerPage } from '../features/app';
 import { getRowCount } from 'src/utils/common';
 
 /**
@@ -14,19 +14,19 @@ const appEntitiesSelector = (state: TReduxState) => state.entities.app;
 export const getAppData = createSelector(appEntitiesSelector, app => get(app, 'data', null));
 
 export const getAllCompanies = createSelector(getAppData, (appData) =>
-  get(appData, "companies", [])
+  get(appData, 'companies', [])
 );
 
 export const getBusinessUnits = createSelector(getAppData, (appData) =>
-  get(appData, "businessUnits", [])
+  get(appData, 'businessUnits', [])
 );
 
 export const getAllLocations = createSelector(getAppData, (appData) =>
-  get(appData, "locations", [])
+  get(appData, 'locations', [])
 );
 
 export const getCustomersByLocation = createSelector(getAppData, (appData) =>
-  get(appData, "customers", [])
+  get(appData, 'customers', [])
 );
 
 export const getCustomerList = (state: TReduxState) => {
@@ -35,7 +35,7 @@ export const getCustomerList = (state: TReduxState) => {
   const currentPage = getCustomerPage(state);
 
   const updatedCustomerList =
-    customerData?.map((customer: any, index: number) => {
+    customerData?.map((customer: allAnyTypes, index: number) => {
       const rowCount = getRowCount(itemsPerPage, currentPage, index);
       return {
         ...customer,

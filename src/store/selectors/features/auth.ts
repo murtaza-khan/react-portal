@@ -25,4 +25,4 @@ export const getUserRoleId = createSelector(getUserRoleData, userRoleData => get
 
 
 // Need to be Verified, may not work as expected
-export const getIsAdmin = createSelector(getData, (data: any) => data && data?.role === ROLES.ADMIN);
+export const getIsAdmin = createSelector(getData, (data: allAnyTypes) => data && data?.role === ROLES.ADMIN);

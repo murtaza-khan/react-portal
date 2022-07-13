@@ -20,13 +20,11 @@ export const couponEntitySlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchCoupons.fulfilled, (state, action) => {
-      const { coupons } = action.payload;
+      const coupons = action.payload;
       state.data = coupons;
     });
 
   },
 });
-
-// export const { resetBusinessUnits, resetLocations } = couponEntitySlice.actions
 
 export const couponEntityReducer = couponEntitySlice.reducer;

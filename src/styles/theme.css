@@ -95,7 +95,6 @@ p {
 
 input {
 	@apply focus:outline-none;
-	@apply focus:bg-white;
 	@apply focus:ring-opacity-0;
 	@apply ring-opacity-0;
 }
@@ -123,9 +122,6 @@ button:disabled {
 }
 
 .app-wrapper {
-	/* display: grid; */
-	/* grid-template-columns: 320px 1fr; */
-	/* width: 100vw; */
 	height: 100vh;
 }
 .highlighted-view {

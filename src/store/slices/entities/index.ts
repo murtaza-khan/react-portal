@@ -9,7 +9,7 @@ const entitiesReducer = combineReducers({
   app: appEntityReducer,
   coupon: couponEntityReducer,
   sku: skuEntityReducer,
-  customer: customerEntityReducer
+  customer: customerEntityReducer,
   /**
    * More entity reducers will be added here
    */

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout } from '../../thunks';
+import { login, logout } from 'src/store/thunks';
 
 
 /**
@@ -30,7 +30,7 @@ export const authFeatureSlice = createSlice({
     setAuthToken: (state, action) => {
       if (!state.data) {
         state.data = {
-          token: ''
+          token: '',
         };
       }
 

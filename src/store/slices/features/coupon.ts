@@ -32,14 +32,13 @@ export const couponFeatureSlice = createSlice({
       state.validationStates.isLoading = action.payload;
     },
   },
-  // A "builder callback" function used to add more reducers
-  // extraReducers: builder => {
-  //   // builder.addCase(fetchAppData.fulfilled, (state, action) => {
-  //   //   state.data = action.payload;
-  //   // });
-  // },
 });
 
-export const { resetCouponData, updateCurrentPage, setTotalCount, setIsLoading } = couponFeatureSlice.actions
+export const {
+  resetCouponData,
+  updateCurrentPage,
+  setTotalCount,
+  setIsLoading,
+} = couponFeatureSlice.actions
 
 export const couponFeatureReducer = couponFeatureSlice.reducer;

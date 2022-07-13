@@ -19,3 +19,15 @@ export enum STATUS_CODES {
     REQUEST_TIMEOUT = 408,
   }
 
+export enum ERROR_CODES {
+  ECONNABORTED = 'ECONNABORTED'
+}
+
+export enum STATUS_MESSAGES {
+  OFFLINE = 'offline',
+  WENT_WRONG = 'Something Went Wrong!',
+  PROVIDE_JWT = 'jwt must be provided',
+  UNAUTHORIZED = 'Unauthorized!',
+  SEEMS_TO_BE_ERROR = 'Opps there seems to be an error',
+}
+

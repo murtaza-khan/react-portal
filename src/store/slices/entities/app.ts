@@ -1,6 +1,11 @@
 /* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAppData, fetchAllCompanies, fetchBusinessUnits, fetchAllLocations, fetchCustomersByLocation } from 'src/store/thunks/app';
+import {
+  fetchAllCompanies,
+  fetchBusinessUnits,
+  fetchAllLocations,
+  fetchCustomersByLocation,
+} from 'src/store/thunks';
 
 /**
  * An example of creating entity slices, reducers and INITIAL_STATE.
@@ -8,7 +13,7 @@ import { fetchAppData, fetchAllCompanies, fetchBusinessUnits, fetchAllLocations,
 interface IResponse {
   id: number;
   name: string;
-  [key: string] : any;
+  [key: string] : allAnyTypes;
 }
 
 interface IAppData {
@@ -47,10 +52,6 @@ export const appEntitySlice = createSlice({
   },
   // A "builder callback" function used to add more reducers
   extraReducers: builder => {
-    builder.addCase(fetchAppData.fulfilled, (state, action) => {
-      state.data = action.payload;
-    });
-
     builder.addCase(fetchAllCompanies.fulfilled, (state, action) => {
       const { companies } = action.payload;
       if (!state.data) {
@@ -78,7 +79,7 @@ export const appEntitySlice = createSlice({
       const { locations } = action.payload;
       if (!state.data) {
         state.data = {
-          locations: []
+          locations: [],
         }
       }
       state.data.locations = locations;

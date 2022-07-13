@@ -1,13 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-
+import { STATUS_MESSAGES } from 'src/constants/response-types';
 
 export const ErrorScreen: React.FC = () => {
-  const [t] = useTranslation('common');
   return (
     <div className='App'>
       <header className='App-header'>
-        <p>{ t('error.title') }</p>
+        <p>{ STATUS_MESSAGES.WENT_WRONG }</p>
       </header>
     </div>
   );

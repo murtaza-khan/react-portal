@@ -1,16 +1,31 @@
+/* eslint-disable no-console */
 /* eslint-disable padding-line-between-statements */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CouponService } from '../../services/coupon';
-import { getBaseUrl, getSearchValue, getSelectedLocationId, getSelectedBusinessUnitId, getSelectedCompanyId } from '../selectors/features/app';
+import { CouponService } from 'src/services';
+import {
+  getBaseUrl,
+  getSearchValue,
+  getSelectedLocationId,
+  getSelectedBusinessUnitId,
+  getSelectedCompanyId,
+} from '../selectors/features/app';
 import { getCouponPerPage, getCouponsPage } from '../selectors/features/coupon';
 import { setIsLoading, setTotalCount } from '../slices/features/coupon';
 import { toast } from 'react-toastify';
 import history from 'src/utils/history';
+import { MAIN_ROUTE } from 'src/constants/navigation-routes';
+import { COUPON_MESSAGES } from 'src/constants/toast-messages';
+import {
+  COUPON_FETCH,
+  COUPON_CREATE,
+  COUPON_UPDATE,
+} from 'src/store/action-types';
+import { STATUS_MESSAGES } from 'src/constants/response-types';
 
 const couponService = new CouponService();
 
 export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/fetchCoupons',
+  COUPON_FETCH,
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));
@@ -19,19 +34,48 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
       const perPage = getCouponPerPage(thunkAPI.getState());
       const search = getSearchValue(thunkAPI.getState());
       const companyId = getSelectedCompanyId(thunkAPI.getState());
-      const businessUnitId = getSelectedBusinessUnitId(thunkAPI.getState());
-      const locationId = getSelectedLocationId(thunkAPI.getState());
+      const selectedbusinessUnitId = getSelectedBusinessUnitId(thunkAPI.getState());
+      const selectedlocationId = getSelectedLocationId(thunkAPI.getState());
       const apiData = {
-        perPage, page, search, companyId, businessUnitId, locationId,
+        perPage, page, search, companyId, selectedbusinessUnitId, selectedlocationId,
       };
       const { data } = await couponService.fetchCoupons(baseUrl, apiData);
-      const { totalCount } = data;
+      const { coupons, totalCount } = data;
+      const uniqueBusinessUnitIds = new Map();
+      const uniqueLocationIds = new Map();
+      coupons.forEach((coupon: ICoupon) => {
+        uniqueBusinessUnitIds.set(coupon.businessUnitId, '-');
+        uniqueLocationIds.set(coupon.locationId, '-');
+      });
+
+      if (uniqueBusinessUnitIds.size || uniqueLocationIds.size) {
+        await Promise.allSettled([
+          ...Array.from(uniqueBusinessUnitIds).map(async ([businessUnitId]) => {
+            const { data: { name: businessUnitName } } =
+              await couponService.fetchBusinessUnitById(baseUrl, businessUnitId);
+            uniqueBusinessUnitIds.set(businessUnitId, businessUnitName);
+          }),
+          ...Array.from(uniqueLocationIds).map(async ([locationId]) => {
+            const { data: { name: locationName } } =
+              await couponService.fetchLocationById(baseUrl, locationId);
+            uniqueLocationIds.set(locationId, locationName);
+          }),
+        ]);
+      }
+
+      const updatedCouponList = coupons.map((coupon: ICoupon) => {
+        return {
+          ...coupon,
+          businessUnit: uniqueBusinessUnitIds.get(coupon.businessUnitId),
+          location: uniqueLocationIds.get(coupon.locationId),
+        }
+      })
       thunkAPI.dispatch(setTotalCount(totalCount));
       thunkAPI.dispatch(setIsLoading(false));
-      return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue(updatedCouponList);
     } catch ({ statusText }) {
-      if (statusText === 'jwt must be provided') {
-        statusText = 'Unauthorized!';
+      if (statusText === STATUS_MESSAGES.PROVIDE_JWT) {
+        statusText = STATUS_MESSAGES.UNAUTHORIZED;
       }
       toast.error(`${statusText}`);
       thunkAPI.dispatch(setIsLoading(false));
@@ -41,15 +85,15 @@ export const fetchCoupons = createAsyncThunk<TObject, TObject, IActionOptions>(
 );
 
 export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/createCoupons',
+  COUPON_CREATE,
   async (apiData, thunkAPI) => {
     try {
       thunkAPI.dispatch(setIsLoading(true));
       const baseUrl = getBaseUrl(thunkAPI.getState());
       const { data } = await couponService.createCoupon(baseUrl, apiData);
       thunkAPI.dispatch(setIsLoading(false));
-      toast.success('Coupon created successfully');
-      history.push('/couponportal');
+      toast.success(COUPON_MESSAGES.COUPON_CREATED);
+      history.push(MAIN_ROUTE);
       return thunkAPI.fulfillWithValue(data);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
@@ -60,12 +104,12 @@ export const createCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
 );
 
 export const updateCoupon = createAsyncThunk<TObject, TObject, IActionOptions>(
-  'coupon/updateCoupon',
-  async (_requestPayload: Record<string, string>, thunkAPI) => {
+  COUPON_UPDATE,
+  async (_requestPayload: IUpdateCouponPayload, thunkAPI) => {
     try {
       const baseUrl = getBaseUrl(thunkAPI.getState());
-      const response = await couponService.updateCoupon(baseUrl, _requestPayload);
-      toast.success('Coupon updated successfully');
+      await couponService.updateCoupon(baseUrl, _requestPayload);
+      toast.success(COUPON_MESSAGES.COUPON_CREATED);
     } catch ({ statusText }) {
       toast.error(`${statusText}`);
     }

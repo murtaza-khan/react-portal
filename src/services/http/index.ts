@@ -1,6 +1,5 @@
-import axios from "axios";
-import queryString from "query-string";
-import "./interceptors";
+import axios, { AxiosResponse } from 'axios';
+import queryString from 'query-string';
 import Cookies from 'js-cookie';
 import { getAuthCookieName } from 'src/utils/auth';
 
@@ -26,17 +25,17 @@ export class HttpService {
 
     let data = { token: '', user: {} };
     const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
-  
+
     if (stringData && stringData.length > 0) {
       data = JSON.parse(stringData!);
     }
-  
+
     const { token } = data;
-    if (token && typeof token === "string" && !headers.Authorization)
+    if (token && typeof token === 'string' && !headers.Authorization)
       headers.Authorization = token;
 
-    if (!headers["Content-Type"]) {
-      headers["Content-Type"] = "application/json";
+    if (!headers['Content-Type']) {
+      headers['Content-Type'] = 'application/json';
     }
 
     return headers;
@@ -44,10 +43,10 @@ export class HttpService {
 
   async get(
     url: string,
-    queryParams: Record<string, string> | null = null,
+    queryParams: Record<string, allAnyTypes> | null = null,
     options?: IHttpRequestOptions,
     timeOut?: number
-  ): Promise<any> {
+  ): Promise<AxiosResponse> {
     const headers: Record<string, string> = await this.getHeaders(options);
     return axios.get(url, {
       params: queryParams,
@@ -75,7 +74,7 @@ export class HttpService {
   async put(
     url: string,
     postData: unknown,
-    queryParams: Record<string, any> | null = null,
+    queryParams: Record<string, allAnyTypes> | null = null,
     options?: IHttpRequestOptions,
     timeOut?: number
   ): Promise<unknown> {

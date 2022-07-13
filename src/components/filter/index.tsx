@@ -3,10 +3,20 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { GrFormClose } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCompanies, getAllLocations, getBusinessUnits } from 'src/store/selectors/entities/app';
-import { getSearchValue, getSelectedBusinessUnitId, getSelectedCompanyId, getSelectedLocationId } from 'src/store/selectors/features/app';
+import {
+  getSearchValue,
+  getSelectedBusinessUnitId,
+  getSelectedCompanyId,
+  getSelectedLocationId,
+} from 'src/store/selectors/features/app';
 import { getCouponsPage } from 'src/store/selectors/features/coupon';
 import { resetBusinessUnits, resetLocations } from 'src/store/slices/entities/app';
-import { updateSelectedBusinessUnitId, updateSelectedLocationId, updateSearchValue, updateSelectedCompanyId } from 'src/store/slices/features/app';
+import {
+  updateSelectedBusinessUnitId,
+  updateSelectedLocationId,
+  updateSearchValue,
+  updateSelectedCompanyId,
+} from 'src/store/slices/features/app';
 import { updateCurrentPage } from 'src/store/slices/features/coupon';
 import { fetchAllLocations, fetchBusinessUnits, fetchCoupons } from 'src/store/thunks';
 
@@ -43,7 +53,7 @@ export const Filter: React.FC = () => {
     if (e.target.value) {
       dispatch(fetchAllLocations({
         companyId: selectedCompanyId,
-        businessUnitId: e.target.value
+        businessUnitId: e.target.value,
       }));
     }
   }, [dispatch, selectedBusinessUnitId, selectedCompanyId]);
@@ -127,7 +137,9 @@ export const Filter: React.FC = () => {
             onChange={handleBusinessUnitSelection}
           >
             <option value=''>All</option>
-            {businessUnits.map(businessUnit => <option key={businessUnit.id} value={businessUnit.id}>{businessUnit.name}</option>)}
+            { businessUnits.map(
+              businessUnit => <option key={businessUnit.id} value={businessUnit.id}>{businessUnit.name}</option>
+            )}
           </select>
         </div>
         <div className="form-control w-full md:w-1/5 mb-5 md:pr-3">

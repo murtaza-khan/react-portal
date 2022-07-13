@@ -1,7 +1,3 @@
-export enum AUTH_CONSTANTS  {
-    ROLEID = 1,
-  }
-
 export const REFRESH_TOKEN_HEADER = 'x-auth-token';
 
 export const DEV_AUTH_COOKIE = 'dev_auth_data';

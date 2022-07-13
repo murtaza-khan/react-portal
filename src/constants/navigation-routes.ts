@@ -8,7 +8,11 @@ export enum ROUTES  {
 export const ADMIN_PORTAL_URL = process.env.REACT_APP_ADMIN_PORTAL_URL;
 export const LOYALTY_PORTAL_URL = process.env.REACT_APP_LOYALTY_PORTAL_URL;
 
-//Sidebar Route Names
+export const MAIN_ROUTE = '/couponportal';
+export const ADD_ROUTE = '/add';
+export const LOGIN_ROUTE = '/login';
+
+// Sidebar Route Names
 export enum SIDEBAR_NAMES {
   PRODUCTS = 'Products',
   CATALOGUES = 'Catalogues',
@@ -27,4 +31,23 @@ export enum SIDEBAR_NAMES {
   REWARDS = 'Rewards',
   HIERARCHY = 'Hierarchy',
   SETTINGS = 'Settings',
+}
+
+export enum SIDEBAR_ROUTES {
+  PRODUCTS = '/product',
+  CATALOGUES = '/catalogue',
+  ORDERS = '/order',
+  BATCHES = '/order/batch-orders',
+  CATEGORIES = '/product/category',
+  INVENTORY = '/inventory/inventory-management',
+  COUPON = '/coupon',
+  USERS = '/user/edit',
+  CUSTOMERS = '/customers/all-customers',
+  NOTIF_CENTER = '/notifications',
+  LOCATION = '/location/show-location',
+  BANNERS = '/banners',
+  BNPL_TRANSACTIONS = '/bnpl-transactions',
+  MAILING_LISTS = '/mailing-list',
+  HIERARCHY = '/hierarchy/company',
+  SETTINGS = '/settings/app-versions',
 }

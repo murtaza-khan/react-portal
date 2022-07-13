@@ -1,20 +1,12 @@
 import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { LOGIN_ROUTE } from 'src/constants/navigation-routes';
 import Login from '../pages/auth/login';
-// import { Welcome } from '../components/welcome';
-import { Todos } from 'src/pages/Todos';
-import { CreateTodo } from 'src/pages/createTodo';
 
 const PublicRoutes = () => (<Fragment>
   <Switch>
-    <Route path='/login'>
+    <Route path={ LOGIN_ROUTE }>
       <Login />
-    </Route>
-    <Route path='/create'>
-      <CreateTodo />
-    </Route>
-    <Route path='/todos' exact>
-      <Todos />
     </Route>
     <Route path='/' exact>
       <Login />
