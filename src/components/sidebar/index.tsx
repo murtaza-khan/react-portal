@@ -79,7 +79,7 @@ const PROFILE_SIDEBAR = [
   },
   {
     name: SIDEBAR_NAMES.REWARDS,
-    to: `${LOYALTY_PORTAL_URL}/app/loyalty`,
+    to: `${LOYALTY_PORTAL_URL}${ SIDEBAR_ROUTES.REWARDS }`,
     icon: <FaSuperpowers />,
   },
   {

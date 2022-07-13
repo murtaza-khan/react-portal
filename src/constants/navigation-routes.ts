@@ -48,6 +48,7 @@ export enum SIDEBAR_ROUTES {
   BANNERS = '/banners',
   BNPL_TRANSACTIONS = '/bnpl-transactions',
   MAILING_LISTS = '/mailing-list',
+  REWARDS = '/app/loyalty',
   HIERARCHY = '/hierarchy/company',
   SETTINGS = '/settings/app-versions',
 }
