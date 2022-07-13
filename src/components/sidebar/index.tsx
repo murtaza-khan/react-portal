@@ -1,9 +1,9 @@
 import React from 'react';
 import { FaThList, FaShoppingCart, FaTruck, FaListAlt, FaHouzz, FaGift, FaUsers, FaUserAlt,
-  FaBell, FaLocationArrow, FaImage, FaCreditCard, FaRegListAlt, FaCogs,
+  FaBell, FaLocationArrow, FaImage, FaCreditCard, FaRegListAlt, FaCogs, FaSuperpowers,
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import { SIDEBAR_NAMES, SIDEBAR_ROUTES, ADMIN_PORTAL_URL } from 'src/constants/navigation-routes';
+import { SIDEBAR_NAMES, SIDEBAR_ROUTES, ADMIN_PORTAL_URL, LOYALTY_PORTAL_URL } from 'src/constants/navigation-routes';
 import { RetailoLogoSidebar } from 'src/assets';
 
 const PROFILE_SIDEBAR = [
@@ -76,6 +76,11 @@ const PROFILE_SIDEBAR = [
     name: SIDEBAR_NAMES.MAILING_LISTS,
     to: `${ADMIN_PORTAL_URL}${ SIDEBAR_ROUTES.MAILING_LISTS }`,
     icon: <FaRegListAlt />,
+  },
+  {
+    name: SIDEBAR_NAMES.REWARDS,
+    to: `${LOYALTY_PORTAL_URL}${ SIDEBAR_ROUTES.REWARDS }`,
+    icon: <FaSuperpowers />,
   },
   {
     name: SIDEBAR_NAMES.HIERARCHY,

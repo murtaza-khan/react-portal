@@ -95,16 +95,14 @@ export const fetchAllLocations =
 export const fetchCustomersByLocation =
   createAsyncThunk<TObject, TObject, IActionOptions>(
     APP_FETCH_CUSTOMERS_BY_LOCATION,
-    async (_requestPayload: Record<string, string>, thunkAPI) => {
+    async (_, thunkAPI) => {
       try {
         const baseUrl = getBaseUrl(thunkAPI.getState());
         const pageNo = getCustomerPage(thunkAPI.getState());
         const perPage = getCustomerPerPage(thunkAPI.getState());
         const searchValue = getCustomerFilter(thunkAPI.getState());
-        const { companyId } = _requestPayload;
 
         const payload = {
-          companyId,
           perPage,
           pageNo,
           ...searchValue && {searchValue, searchOnAttributes: 'name,phone'},
