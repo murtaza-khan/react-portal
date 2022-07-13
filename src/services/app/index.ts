@@ -32,6 +32,18 @@ export class AppService extends HttpService {
     }
   };
 
+  fetchBusinessUnitById = async (
+    baseAuthUrl: string,
+    businessUnitId: number
+  ): Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.get(`${baseAuthUrl}/config/businessunit/portal/${businessUnitId}`);
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
   fetchAllLocations = async (
     baseAuthUrl: string,
     companyId: string,
@@ -45,6 +57,18 @@ export class AppService extends HttpService {
           businessUnitId,
         }
       );
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  fetchLocationById = async (
+    baseAuthUrl: string,
+    locationId: number
+  ): Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.get(`${baseAuthUrl}/config/location/portal/${locationId}`);
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);

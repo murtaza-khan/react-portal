@@ -9,9 +9,15 @@ export class CouponService extends HttpService {
     baseAuthUrl: string,
     queryParams: IFetchCouponsQueryParams
   ): Promise<IPrepareResponse<AxiosResponse>> => {
-    const { page, perPage, search, companyId, businessUnitId, locationId } =
-      queryParams;
-    const apiData:IFetchCouponsQueryParams = { page, perPage };
+    const {
+      page,
+      perPage,
+      search,
+      companyId,
+      selectedbusinessUnitId: businessUnitId,
+      selectedlocationId: locationId,
+    } = queryParams;
+    const apiData: IFetchCouponsApiData = { page, perPage };
     if (search) {
       apiData.search = search;
     }
