@@ -31,7 +31,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({ onClose }) => {
         checked: selectedCustomerIds.includes(customer.id),
       }))
     );
-  }, [customerList]);
+  }, [customerList, selectedRows]);
 
   const onCheckClicked = useCallback(
     (id: number) => {
@@ -59,7 +59,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({ onClose }) => {
         setSelectedRows(updatedSelectedCustomers);
       }
     },
-    [rows, selectedRows]
+    [customerList, rows, selectedRows]
   );
 
   const columns = useMemo((): readonly Column<ICustomerRow>[] => {

@@ -22,7 +22,7 @@ export const Coupon: React.FC = () => {
 
   useEffect(() => {
     dispatch(handleRefresh());
-  }, [])
+  }, [dispatch])
 
   return (
     <>

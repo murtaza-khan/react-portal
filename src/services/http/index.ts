@@ -24,10 +24,10 @@ export class HttpService {
     }
 
     let data = { token: '', user: {} };
-    const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
+    const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV));
 
     if (stringData && stringData.length > 0) {
-      data = JSON.parse(stringData!);
+      data = JSON.parse(stringData);
     }
 
     const { token } = data;

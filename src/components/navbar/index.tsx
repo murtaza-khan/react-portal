@@ -12,10 +12,10 @@ export const NavBar: React.FC = () => {
 
   useEffect(() => {
     let data = { user: { name: '' } };
-    const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
+    const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV));
 
     if (stringData && stringData.length > 0) {
-      data = JSON.parse(stringData!);
+      data = JSON.parse(stringData);
     }
 
     const { user } = data;

@@ -12,10 +12,10 @@ export const useReroute = () => {
     if (event.persisted || typeof window.performance !== 'undefined' && window.performance.navigation.type === 2) {
 
       let data = { token: '' };
-      const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
+      const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV));
 
       if (stringData && stringData.length > 0) {
-        data = JSON.parse(stringData!);
+        data = JSON.parse(stringData);
       }
 
       const { token } = data;

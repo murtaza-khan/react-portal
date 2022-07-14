@@ -86,7 +86,7 @@ export const Filter: React.FC = () => {
     if (!searchValue && typedSearch) {
       setTypedSearch('');
     }
-  }, [searchValue]);
+  }, [searchValue, typedSearch]);
 
 
   return (
