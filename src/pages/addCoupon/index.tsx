@@ -5,6 +5,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { toast } from 'react-toastify';
 import { NavBar } from 'src/components/navbar';
 import { SideBar } from 'src/components/sidebar';
+import { COMPANY } from 'src/constants/company-ids';
 import { COUPON_TYPES, COUPON_USERS, FORM_FIELDS } from 'src/constants/coupons';
 import { getBusinessUnits, getAllLocations } from 'src/store/selectors/entities/app';
 import { getSkuIds } from 'src/store/selectors/entities/sku';
@@ -74,11 +75,11 @@ export const AddCoupon: React.FC = () => {
     dispatch(resetCustomerData());
     dispatch(resetSkuData());
     resetForm();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setValue('locationId', locations[0] ? locations[0].id : '');
-  }, [locations])
+  }, [setValue, locations])
 
   const handleBusinessUnitSelection = useCallback(async (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (selectedBusinessUnitId === e.target.value) return;
@@ -87,7 +88,7 @@ export const AddCoupon: React.FC = () => {
     await dispatch(fetchAllLocations({
       businessUnitId: e.target.value,
     }));
-  }, [dispatch, selectedBusinessUnitId]);
+  }, [dispatch, setValue, selectedBusinessUnitId]);
 
   const clearFile = (file: React.RefObject<HTMLInputElement>) => {
     if (file.current) {
@@ -188,11 +189,11 @@ export const AddCoupon: React.FC = () => {
     }
 
     if (selectedCouponCustomerOptionId === CUSTOMER_OPTION.FILE) {
-      if (couponCustomers?.length === 0) {
-        return [];
+      if (couponCustomers?.length) {
+        couponCustomerIds = couponCustomers.map(customer => customer.id);
+      } else {
+        couponCustomerIds = [];
       }
-
-      couponCustomerIds = couponCustomers!.map(customer => customer.id);
     }
 
     return couponCustomerIds;
@@ -251,6 +252,7 @@ export const AddCoupon: React.FC = () => {
     data.discountValue = +data.discountValue;
     data.maxUsagePerCustomer = +data.maxUsagePerCustomer;
     data.minCouponLimit = +data.minCouponLimit;
+    data.companyId = COMPANY.RETAILO;
     data.businessUnitId = +data.businessUnitId;
     data.locationId = +data.locationId;
     data.maxDiscountValue = +data.maxDiscountValue;
@@ -275,11 +277,7 @@ export const AddCoupon: React.FC = () => {
     const validate = checkCreateApiData(data);
 
     if (validate.ok) {
-      if (data.couponCustomerOptionId === 2 && !selectedCustomers.length) {
-        toast.error(COUPON_MESSAGES.SELECT_CUSTOMER)
-      } else {
-        dispatch(createCoupon(data));
-      }
+      dispatch(createCoupon(data));
     } else {
       toast.error(validate.error);
     }
@@ -475,6 +473,7 @@ export const AddCoupon: React.FC = () => {
                     {...register('businessUnitId')}
                     onChange={(e) => handleBusinessUnitSelection(e)}
                   >
+                    <option disabled></option>
                     {businessUnits.map(businessUnit =>
                       <option value={businessUnit.id} key={businessUnit.id}>{businessUnit.name}</option>
                     )};
@@ -488,9 +487,9 @@ export const AddCoupon: React.FC = () => {
                   <select
                     className="select select-bordered w-full font-normal"
                     {...register('locationId')}
-                    disabled={!selectedBusinessUnitId}
                     onChange={(e) => setValue('locationId', e.target.value)}
                   >
+                    <option disabled></option>
                     {locations.map(location =>
                       <option value={location.id} key={location.id}>{location.name}</option>
                     )};
@@ -540,7 +539,7 @@ export const AddCoupon: React.FC = () => {
                         <span className="input font-normal">{ FORM_FIELDS.UPLOAD_FILE }</span>
                         {selectedCouponCustomerOptionId === CUSTOMER_OPTION.FILE ? <div>
                           <input className="mt-2 ml-7" type="file" name="customer" ref={customerFile}
-                            onChange={(e) => handleFileSubmission(e.target.files!, 'customer')} />
+                            onChange={(e) => handleFileSubmission(e.target.files, 'customer')} />
                           <div className="w-24">
                             <button className="btn btn-primary btn-block mt-3 ml-7"
                               onClick={() => { clearFile(customerFile) }}>Clear File</button>

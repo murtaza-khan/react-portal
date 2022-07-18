@@ -12,10 +12,10 @@ import { SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
 
 export const RouterComponent: React.FC = () => {
   let data = { token: '', user: {} };
-  const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV))!;
+  const stringData = Cookies.get(getAuthCookieName(process.env.REACT_APP_ENV));
 
   if (stringData && stringData.length > 0) {
-    data = JSON.parse(stringData!);
+    data = JSON.parse(stringData);
   }
 
   const { token, user } = data;
@@ -25,7 +25,7 @@ export const RouterComponent: React.FC = () => {
     dispatch(setAuthToken(token));
     dispatch(setAuthData({ token, user}));
 
-  }, [token, dispatch]);
+  }, [token, user, dispatch]);
 
   return (
     <Router history={history}>
